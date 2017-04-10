@@ -15,7 +15,7 @@ class Sasquatch < Formula
 
   patch do
     url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/sasquatch_patch0.txt"
-    sha256 "276763d01ec675793ddb0ae293fbe82cbf96235ade0258d767b6a225a84bc75f"
+    sha256 "7ce96ec61ec691b208cc5672bfed4a8fa993513d67d0dcecc2ea985134730ff9"
   end
 
   patch do
