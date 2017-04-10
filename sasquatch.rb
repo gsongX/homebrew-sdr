@@ -7,7 +7,7 @@ class Sasquashfs < Formula
 
   depends_on "lzo"
   depends_on "xz"
-  depends_on "lz4" => :optional
+  depends_on "lz4"
 
   # Patch necessary to emulate the sigtimedwait process otherwise we get build failures
   # Also clang fixes, extra endianness knowledge and a bundle of other macOS fixes.
@@ -27,15 +27,15 @@ class Sasquashfs < Formula
       XATTR_SUPPORT=0
       EXTRA_CFLAGS=-std=gnu89
       LZO_SUPPORT=1
+      LZ4_SUPPORT=1
       LZO_DIR=#{Formula["lzo"].opt_prefix}
       XZ_SUPPORT=1
       XZ_DIR=#{Formula["xz"].opt_prefix}
     ]
-    args << "LZ4_SUPPORT=1" if build.with? "lz4"
 
     cd "squashfs-tools" do
       system "make", *args
-      bin.install %w[mksquashfs unsquashfs]
+      bin.install %w[mksquashfs unsquashfs sasquatch]
     end
     doc.install %w[ACKNOWLEDGEMENTS INSTALL OLD-READMEs PERFORMANCE.README README-4.3]
   end
