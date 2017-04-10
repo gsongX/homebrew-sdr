@@ -1,4 +1,4 @@
-class Sasquashfs < Formula
+class Sasquatch < Formula
   desc "Compressed read-only file system for Linux"
   homepage "https://squashfs.sourceforge.io/"
   url "https://downloads.sourceforge.net/project/squashfs/squashfs/squashfs4.3/squashfs4.3.tar.gz"
