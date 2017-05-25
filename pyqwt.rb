@@ -5,10 +5,10 @@ class Pyqwt < Formula
   sha256 "98a8c7e0c76d07701c11dffb77793b05f071b664a8b520d6e97054a98179e70b"
 
   #depends_on :python
-  depends_on "gsong2014/sdr/qt"
+  depends_on "gsong2014/sdr/qt4"
   depends_on "gsong2014/sdr/qwt-qt4"
   depends_on "sip"
-  depends_on "gsong2014/sdr/pyqt"
+  depends_on "gsong2014/sdr/pyqt4"
 
   # Patch to build system to allow for specific installation directories.
   patch :p0, :DATA
