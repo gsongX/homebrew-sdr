@@ -102,7 +102,7 @@ class Qt4 < Formula
 
     system "./configure", *args
     system "make"
-    ENV.j1
+    ENV.deparallelize
     system "make", "install"
 
     # what are these anyway?

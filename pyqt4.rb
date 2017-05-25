@@ -8,7 +8,7 @@ class Pyqt4 < Formula
   depends_on :python3 => :optional
 
   if build.without?("python3") && build.without?("python")
-    odie "pyqt: --with-python3 must be specified when using --without-python"
+    odie "pyqt4: --with-python3 must be specified when using --without-python"
   end
 
   depends_on "gsong2014/sdr/qt4"
@@ -53,8 +53,8 @@ class Pyqt4 < Formula
         cp_r(Dir.glob("*"), dir)
         cd dir do
           system python, "configure.py", *args
-          inreplace "pyqtconfig.py", "#{HOMEBREW_CELLAR}/#{Formula["cartr/qt4/qt"].name}/#{Formula["cartr/qt4/qt"].pkg_version}",
-            Formula["cartr/qt4/qt"].opt_prefix
+          inreplace "pyqtconfig.py", "#{HOMEBREW_CELLAR}/#{Formula["gsong2014/sdr/qt4"].name}/#{Formula["gsong2014/sdr/qt4"].pkg_version}",
+            Formula["gsong2014/sdr/qt4"].opt_prefix
           (lib/"python#{version}/site-packages/PyQt4").install "pyqtconfig.py"
         end
       ensure
