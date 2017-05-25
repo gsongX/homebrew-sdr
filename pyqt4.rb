@@ -1,4 +1,4 @@
-class Pyqt < Formula
+class Pyqt4 < Formula
   desc "Python bindings for Qt"
   homepage "https://www.riverbankcomputing.com/software/pyqt/intro"
   url "https://sourceforge.net/projects/pyqt/files/PyQt4/PyQt-4.12/PyQt4_gpl_mac-4.12.tar.gz/download"
@@ -11,7 +11,7 @@ class Pyqt < Formula
     odie "pyqt: --with-python3 must be specified when using --without-python"
   end
 
-  depends_on "gsong2014/sdr/qt"
+  depends_on "gsong2014/sdr/qt4"
 
   if build.with? "python3"
     depends_on "sip" => "with-python3"
