@@ -13,7 +13,7 @@ class Pyqt4 < Formula
 
   depends_on "gsong2014/sdr/qt4"
 
-  if build.with? "python3"
+  if build.with? "python"
     depends_on "sip" => "with-python3"
   else
     depends_on "sip"
