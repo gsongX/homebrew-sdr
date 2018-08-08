@@ -5,10 +5,10 @@ class Pyqt4 < Formula
   sha256 "19d28b09bfcb384af8c596f3f76beabd0fe4c3a2a55cd35e62402b7c7cd6f660"
 
   option "without-python", "Build without python 2 support"
-  depends_on :python3 => :optional
+  depends_on :python => :optional
 
-  if build.without?("python3") && build.without?("python")
-    odie "pyqt4: --with-python3 must be specified when using --without-python"
+  if build.without?("python") && build.without?("python")
+    odie "pyqt4: --with-python must be specified when using --without-python"
   end
 
   depends_on "gsong2014/sdr/qt4"
