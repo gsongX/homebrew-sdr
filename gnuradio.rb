@@ -3,7 +3,7 @@ class Gnuradio < Formula
   homepage "https://gnuradio.org/"
   url "https://gnuradio.org/releases/gnuradio/gnuradio-3.7.13.5.tar.gz"
   sha256 "f14e1f8efbcbe04336b6981da207ada3306a8f08af2c0b4e9bb6f8b93036bbb9"
-  revision 1
+  revision 2
   head "https://github.com/gnuradio/gnuradio.git"
 
   depends_on "cmake" => :build
@@ -34,10 +34,10 @@ class Gnuradio < Formula
   depends_on "libglade"
 
   # use qt5 patch
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-qt5.patch"
-    sha256 "60398e127ba72e6ccf33e7f8d5da800711e182c7e8d3016b8f9483500e89f321"
-  end
+  #patch do
+  #  url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-qt5.patch"
+  #  sha256 "60398e127ba72e6ccf33e7f8d5da800711e182c7e8d3016b8f9483500e89f321"
+  #end
 
   # cheetah starts here
   resource "Markdown" do
