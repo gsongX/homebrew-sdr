@@ -81,11 +81,13 @@ class Gnuradio < Formula
   end
 
   def install
-    ENV.prepend_path "PATH", "/System/Library/Frameworks/Python.framework/Versions/2.7/bin"
+    #ENV.prepend_path "PATH", "/System/Library/Frameworks/Python.framework/Versions/2.7/bin"
+    ENV.prepend_path "PATH", "/usr/local/opt/python/bin"
 
     ENV["CHEETAH_INSTALL_WITHOUT_SETUPTOOLS"] = "1"
     ENV["XML_CATALOG_FILES"] = etc/"xml/catalog"
-    ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/python2.7/site-packages"
+    #ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/python2.7/site-packages"
+    ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/python3.7/site-packages"
 
     %w[Markdown Cheetah MarkupSafe Mako six].each do |r|
       resource(r).stage do

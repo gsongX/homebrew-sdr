@@ -124,7 +124,7 @@ This setup works on my machine. YMMV...
     brew install -d -v --build-from-source --with-images limesuite
     brew install -d -v --build-from-source --HEAD gsong2014/sdr/volk
     brew install -d -v --build-from-source --HEAD gsong2014/sdr/pothos-lime
-    brew install -d -v --build-from-source gsong2014/sdr/gnuradio
+    brew install -d -v --build-from-source --HEAD gsong2014/sdr/gnuradio
     brew install -d -v --build-from-source librtlsdr
     brew install -d -v --build-from-source --HEAD gsong2014/sdr/gr-osmosdr
  
