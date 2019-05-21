@@ -35,10 +35,10 @@ class Gnuradio < Formula
 
   # cheetah starts here
   resource "Markdown" do
-    #url "https://files.pythonhosted.org/packages/ac/df/0ae25a9fd5bb528fe3c65af7143708160aa3b47970d5272003a1ad5c03c6/Markdown-3.1.1.tar.gz"
-    url "https://files.pythonhosted.org/packages/b3/73/fc5c850f44af5889192dff783b7b0d8f3fe8d30b65c8e3f78f8f0265fecf/Markdown-2.6.11.tar.gz"
-    sha256 "a856869c7ff079ad84a3e19cd87a64998350c2b94e9e08e44270faef33400f81"
-    #sha256 "2e50876bcdd74517e7b71f3e7a76102050edec255b3983403f1a63e7c8a41e7a"
+    url "https://files.pythonhosted.org/packages/ac/df/0ae25a9fd5bb528fe3c65af7143708160aa3b47970d5272003a1ad5c03c6/Markdown-3.1.1.tar.gz"
+    #url "https://files.pythonhosted.org/packages/b3/73/fc5c850f44af5889192dff783b7b0d8f3fe8d30b65c8e3f78f8f0265fecf/Markdown-2.6.11.tar.gz"
+    #sha256 "a856869c7ff079ad84a3e19cd87a64998350c2b94e9e08e44270faef33400f81"
+    sha256 "2e50876bcdd74517e7b71f3e7a76102050edec255b3983403f1a63e7c8a41e7a"
   end
 
   resource "Cheetah" do
@@ -247,32 +247,6 @@ index 3ce49aa..4221310 100644
  )
 
  set(QWT_FOUND FALSE)
-diff --git a/cmake/Modules/GrPython.cmake b/cmake/Modules/GrPython.cmake
-index 06e061e21..ea58db8dd 100644
---- a/cmake/Modules/GrPython.cmake
-+++ b/cmake/Modules/GrPython.cmake
-@@ -106,7 +106,7 @@ endmacro(GR_PYTHON_CHECK_MODULE)
- if(NOT DEFINED GR_PYTHON_DIR)
- execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "
- from distutils import sysconfig
--print sysconfig.get_python_lib(plat_specific=True, prefix='')
-+print sysconfig.get_python_lib(plat_specific=True)
- " OUTPUT_VARIABLE GR_PYTHON_DIR OUTPUT_STRIP_TRAILING_WHITESPACE
- )
- endif()
-diff --git a/gr-utils/python/modtool/gr-newmod/cmake/Modules/GrPython.cmake b/gr-utils/python/modtool/gr-newmod/cmake/Modules/GrPython.cmake
-index c7b402797..108d524aa 100644
---- a/gr-utils/python/modtool/gr-newmod/cmake/Modules/GrPython.cmake
-+++ b/gr-utils/python/modtool/gr-newmod/cmake/Modules/GrPython.cmake
-@@ -107,7 +107,7 @@ endmacro(GR_PYTHON_CHECK_MODULE)
- if(NOT DEFINED GR_PYTHON_DIR)
- execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "
- from distutils import sysconfig
--print sysconfig.get_python_lib(plat_specific=True, prefix='')
-+print sysconfig.get_python_lib(plat_specific=True)
- " OUTPUT_VARIABLE GR_PYTHON_DIR OUTPUT_STRIP_TRAILING_WHITESPACE
- )
- endif()
 diff --git a/grc/CMakeLists.txt b/grc/CMakeLists.txt
 index 4c782a7f7..c352f6d2a 100644
 --- a/grc/CMakeLists.txt
