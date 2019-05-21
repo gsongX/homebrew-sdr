@@ -7,9 +7,9 @@ class Gnuradio < Formula
   head "https://github.com/gnuradio/gnuradio.git"
 
   depends_on "cmake" => :build
-  depends_on "doxygen" => :build
+  #depends_on "doxygen" => :build
   depends_on "pkg-config" => :build
-  depends_on "sphinx-doc" => :build
+  #depends_on "sphinx-doc" => :build
   depends_on "swig" => :build
   depends_on "boost"
   depends_on "fftw"
@@ -119,12 +119,13 @@ class Gnuradio < Formula
     enabled = %w[GR_ANALOG GR_FFT VOLK GR_FILTER GNURADIO_RUNTIME
                  GR_BLOCKS GR_PAGER GR_NOAA GR_CHANNELS GR_AUDIO
                  GR_FCD GR_VOCODER GR_FEC GR_DIGITAL GR_DTV GR_ATSC
-                 GR_TRELLIS GR_ZEROMQ GR_WAVELET GR_UHD DOXYGEN SPHINX
+                 GR_TRELLIS GR_ZEROMQ GR_WAVELET GR_UHD 
                  PYTHON GR_UTILS GR_WXGUI GRC GR_QTGUI]
     enabled.each do |c|
       args << "-DENABLE_#{c}=ON"
     end
     #GR_CTRLPORT
+    #DOXYGEN SPHINX : doc
 
     mkdir "build" do
       system "cmake", "..", *args
