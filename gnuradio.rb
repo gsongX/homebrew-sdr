@@ -30,6 +30,8 @@ class Gnuradio < Formula
   depends_on "cppunit"
   depends_on "qwt"
   depends_on "pyqt"
+  depends_on "wxmac"
+  depends_on "libglade"
 
   # use qt5 patch
   patch do
@@ -75,7 +77,7 @@ class Gnuradio < Formula
 
   resource "cppzmq" do
     url "https://github.com/zeromq/cppzmq/blob/master/zmq.hpp"
-    sha256 "9d75d1f76e5c7e740d7633a8e3c2bda9ee86ae78b3445833f98eabf025a2d227"
+    sha256 "61389f172371e6e5297afe571e1eb1bbd367782963c2361ceca96272518f97e9"
   end
 
   def install
@@ -114,7 +116,7 @@ class Gnuradio < Formula
                  GR_BLOCKS GR_PAGER GR_NOAA GR_CHANNELS GR_AUDIO
                  GR_FCD GR_VOCODER GR_FEC GR_DIGITAL GR_DTV GR_ATSC
                  GR_TRELLIS GR_ZEROMQ GR_WAVELET GR_UHD DOXYGEN SPHINX
-                 PYTHON GR_UTILS GR_WXGUI GRC GR_QTGUI]
+                 PYTHON GR_UTILS GR_WXGUI GRC GR_QTGUI GR_CTRLPORT]
     enabled.each do |c|
       args << "-DENABLE_#{c}=ON"
     end
