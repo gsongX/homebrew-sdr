@@ -117,8 +117,11 @@ python heatmap.py input.csv output_file.png
 
 This setup works on my machine. YMMV...
 
-    brew install -d -v --build-from-source --HEAD --with-python2 soapysdr
-    brew install -d -v --build-from-source --HEAD --with-images limesuite
+	brew install nlohmann-json pygtk
+	pip2 install six
+
+    brew install -d -v --build-from-source --with-python2 soapysdr
+    brew install -d -v --build-from-source --with-images limesuite
     brew install -d -v --build-from-source --HEAD gsong2014/sdr/volk
     brew install -d -v --build-from-source --HEAD gsong2014/sdr/pothos-lime
     brew install -d -v --build-from-source gsong2014/sdr/gnuradio
