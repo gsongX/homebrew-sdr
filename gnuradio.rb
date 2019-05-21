@@ -31,6 +31,8 @@ class Gnuradio < Formula
   depends_on "pyqt"
   depends_on "wxmac"
   depends_on "libglade"
+  depends_on "sdl"
+
 
 
   # cheetah starts here
@@ -120,12 +122,12 @@ class Gnuradio < Formula
     enabled = %w[GR_ANALOG GR_FFT VOLK GR_FILTER GNURADIO_RUNTIME
                  GR_BLOCKS GR_PAGER GR_NOAA GR_CHANNELS GR_AUDIO
                  GR_FCD GR_VOCODER GR_FEC GR_DIGITAL GR_DTV GR_ATSC
-                 GR_TRELLIS GR_ZEROMQ GR_WAVELET GR_UHD 
-                 PYTHON GR_UTILS GR_WXGUI GRC GR_QTGUI]
+                 GR_TRELLIS GR_ZEROMQ GR_WAVELET GR_UHD GR_VIDEO_SDL
+                 PYTHON GR_UTILS GR_WXGUI GRC GR_QTGUI GR_CTRLPORT]
     enabled.each do |c|
       args << "-DENABLE_#{c}=ON"
     end
-    #GR_CTRLPORT
+    
     #DOXYGEN SPHINX : doc
 
     mkdir "build" do
