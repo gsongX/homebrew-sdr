@@ -7,9 +7,9 @@ class Gnuradio < Formula
   head "https://github.com/gnuradio/gnuradio.git"
 
   depends_on "cmake" => :build
-  depends_on "doxygen" => :build
+  #depends_on "doxygen" => :build
   depends_on "pkg-config" => :build
-  depends_on "sphinx-doc" => :build
+  #depends_on "sphinx-doc" => :build
   depends_on "swig" => :build
   depends_on "boost"
   depends_on "fftw"
