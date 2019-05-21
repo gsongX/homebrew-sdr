@@ -217,7 +217,7 @@ index 3ce49aa..4221310 100644
  #   test to make sure it's at least 5.2
 
 +execute_process(
-+  COMMAND /opt/boxen/homebrew/bin/brew --prefix
++  COMMAND brew --prefix
 +  OUTPUT_VARIABLE brew_prefix
 +  OUTPUT_STRIP_TRAILING_WHITESPACE)
 +
