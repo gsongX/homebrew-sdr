@@ -70,8 +70,10 @@ class Gnuradio < Formula
   end
 
   resource "cppzmq" do
-    url "https://github.com/zeromq/cppzmq/blob/master/zmq.hpp"
-    sha256 "61389f172371e6e5297afe571e1eb1bbd367782963c2361ceca96272518f97e9"
+    #url "https://github.com/zeromq/cppzmq/blob/master/zmq.hpp"
+    #sha256 "61389f172371e6e5297afe571e1eb1bbd367782963c2361ceca96272518f97e9"
+    url "https://raw.githubusercontent.com/zeromq/cppzmq/46fc0572c5e9f09a32a23d6f22fd79b841f77e00/zmq.hpp"
+    sha256 "964031c0944f913933f55ad1610938105a6657a69d1ac5a6dd50e16a679104d5"
   end
 
   # use qt5 patch
@@ -118,11 +120,11 @@ class Gnuradio < Formula
                  GR_BLOCKS GR_PAGER GR_NOAA GR_CHANNELS GR_AUDIO
                  GR_FCD GR_VOCODER GR_FEC GR_DIGITAL GR_DTV GR_ATSC
                  GR_TRELLIS GR_ZEROMQ GR_WAVELET GR_UHD DOXYGEN SPHINX
-                 PYTHON GR_UTILS GR_WXGUI GRC GR_CTRLPORT]
+                 PYTHON GR_UTILS GR_WXGUI GRC ]
     enabled.each do |c|
       args << "-DENABLE_#{c}=ON"
     end
-    #GR_QTGUI
+    #GR_QTGUI GR_CTRLPORT
 
     mkdir "build" do
       system "cmake", "..", *args
