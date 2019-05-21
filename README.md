@@ -127,7 +127,9 @@ This setup works on my machine. YMMV...
     brew install -d -v --build-from-source --HEAD gsong2014/sdr/pothos-lime
     brew install -d -v --build-from-source --HEAD gsong2014/sdr/gnuradio
     brew install -d -v --build-from-source librtlsdr
+    brew install -d -v --build-from-source --HEAD gsong2014/sdr/gr-fcdproplus
     brew install -d -v --build-from-source --HEAD gsong2014/sdr/gr-osmosdr
+    
  
 
 Do not forget to define the path to the gnuradio-companion blocks:
