@@ -75,7 +75,7 @@ class Gnuradio < Formula
 
   resource "cppzmq" do
     url "https://github.com/zeromq/cppzmq/blob/master/zmq.hpp"
-    sha256 "964031c0944f913933f55ad1610938105a6657a69d1ac5a6dd50e16a679104d5"
+    sha256 "9d75d1f76e5c7e740d7633a8e3c2bda9ee86ae78b3445833f98eabf025a2d227"
   end
 
   def install
