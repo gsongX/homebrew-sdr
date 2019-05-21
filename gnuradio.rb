@@ -33,11 +33,6 @@ class Gnuradio < Formula
   depends_on "wxmac"
   depends_on "libglade"
 
-  # use qt5 patch
-  #patch do
-  #  url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-qt5.patch"
-  #  sha256 "60398e127ba72e6ccf33e7f8d5da800711e182c7e8d3016b8f9483500e89f321"
-  #end
 
   # cheetah starts here
   resource "Markdown" do
@@ -79,6 +74,14 @@ class Gnuradio < Formula
     url "https://github.com/zeromq/cppzmq/blob/master/zmq.hpp"
     sha256 "61389f172371e6e5297afe571e1eb1bbd367782963c2361ceca96272518f97e9"
   end
+
+  # use qt5 patch
+  patch do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-qt5.patch"
+    sha256 "60398e127ba72e6ccf33e7f8d5da800711e182c7e8d3016b8f9483500e89f321"
+  end
+
+  patch :DATA
 
   def install
     ENV.prepend_path "PATH", "/System/Library/Frameworks/Python.framework/Versions/2.7/bin"
