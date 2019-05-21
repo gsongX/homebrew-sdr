@@ -125,9 +125,9 @@ This setup works on my machine. YMMV...
     brew install -d -v --build-from-source --HEAD gsong2014/sdr/volk
     brew install -d -v --build-from-source --HEAD gsong2014/sdr/pothos-lime
     brew install -d -v --build-from-source gsong2014/sdr/gnuradio
-    brew install -d -v --build-from-source --HEAD librtlsdr
+    brew install -d -v --build-from-source librtlsdr
     brew install -d -v --build-from-source --HEAD gsong2014/sdr/gr-osmosdr
-    brew install -d -v --build-from-source gsong2014/sdr/gr-limesdr
+ 
 
 Do not forget to define the path to the gnuradio-companion blocks:
 
