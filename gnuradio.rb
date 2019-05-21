@@ -26,7 +26,6 @@ class Gnuradio < Formula
   depends_on "log4cpp"
   depends_on "jack"
   depends_on "portaudio"
-  depends_on "libunwind-headers"
   depends_on "cppunit"
   depends_on "qwt"
   depends_on "pyqt"
@@ -243,3 +242,40 @@ index 3ce49aa..4221310 100644
  )
 
  set(QWT_FOUND FALSE)
+diff --git a/cmake/Modules/GrPython.cmake b/cmake/Modules/GrPython.cmake
+index 06e061e21..ea58db8dd 100644
+--- a/cmake/Modules/GrPython.cmake
++++ b/cmake/Modules/GrPython.cmake
+@@ -106,7 +106,7 @@ endmacro(GR_PYTHON_CHECK_MODULE)
+ if(NOT DEFINED GR_PYTHON_DIR)
+ execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "
+ from distutils import sysconfig
+-print sysconfig.get_python_lib(plat_specific=True, prefix='')
++print sysconfig.get_python_lib(plat_specific=True)
+ " OUTPUT_VARIABLE GR_PYTHON_DIR OUTPUT_STRIP_TRAILING_WHITESPACE
+ )
+ endif()
+diff --git a/gr-utils/python/modtool/gr-newmod/cmake/Modules/GrPython.cmake b/gr-utils/python/modtool/gr-newmod/cmake/Modules/GrPython.cmake
+index c7b402797..108d524aa 100644
+--- a/gr-utils/python/modtool/gr-newmod/cmake/Modules/GrPython.cmake
++++ b/gr-utils/python/modtool/gr-newmod/cmake/Modules/GrPython.cmake
+@@ -107,7 +107,7 @@ endmacro(GR_PYTHON_CHECK_MODULE)
+ if(NOT DEFINED GR_PYTHON_DIR)
+ execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "
+ from distutils import sysconfig
+-print sysconfig.get_python_lib(plat_specific=True, prefix='')
++print sysconfig.get_python_lib(plat_specific=True)
+ " OUTPUT_VARIABLE GR_PYTHON_DIR OUTPUT_STRIP_TRAILING_WHITESPACE
+ )
+ endif()
+diff --git a/grc/CMakeLists.txt b/grc/CMakeLists.txt
+index 4c782a7f7..c352f6d2a 100644
+--- a/grc/CMakeLists.txt
++++ b/grc/CMakeLists.txt
+@@ -25,7 +25,7 @@ include(GrPython)
+ GR_PYTHON_CHECK_MODULE("python >= 2.5"     sys          "sys.version.split()[0] >= '2.5'"           PYTHON_MIN_VER_FOUND)
+ GR_PYTHON_CHECK_MODULE("Cheetah >= 2.0.0"  Cheetah      "Cheetah.Version >= '2.0.0'"                CHEETAH_FOUND)
+ GR_PYTHON_CHECK_MODULE("lxml >= 1.3.6"     lxml.etree   "lxml.etree.LXML_VERSION >= (1, 3, 6, 0)"   LXML_FOUND)
+-GR_PYTHON_CHECK_MODULE("pygtk >= 2.10.0"   gtk          "gtk.pygtk_version >= (2, 10, 0)"           PYGTK_FOUND)
++GR_PYTHON_CHECK_MODULE("pygtk >= 2.10.0"   pygtk        True                                        PYGTK_FOUND)
+ GR_PYTHON_CHECK_MODULE("numpy"             numpy        True                                        NUMPY_FOUND)
