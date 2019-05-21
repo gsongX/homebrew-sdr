@@ -75,10 +75,10 @@ class Gnuradio < Formula
   end
 
   # use qt5 patch
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-qt5.patch"
-    sha256 "60398e127ba72e6ccf33e7f8d5da800711e182c7e8d3016b8f9483500e89f321"
-  end
+  #patch do
+  #  url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-qt5.patch"
+  #  sha256 "60398e127ba72e6ccf33e7f8d5da800711e182c7e8d3016b8f9483500e89f321"
+  #end
 
   patch :DATA
 
@@ -118,10 +118,11 @@ class Gnuradio < Formula
                  GR_BLOCKS GR_PAGER GR_NOAA GR_CHANNELS GR_AUDIO
                  GR_FCD GR_VOCODER GR_FEC GR_DIGITAL GR_DTV GR_ATSC
                  GR_TRELLIS GR_ZEROMQ GR_WAVELET GR_UHD DOXYGEN SPHINX
-                 PYTHON GR_UTILS GR_WXGUI GRC GR_QTGUI GR_CTRLPORT]
+                 PYTHON GR_UTILS GR_WXGUI GRC GR_CTRLPORT]
     enabled.each do |c|
       args << "-DENABLE_#{c}=ON"
     end
+    #GR_QTGUI
 
     mkdir "build" do
       system "cmake", "..", *args
