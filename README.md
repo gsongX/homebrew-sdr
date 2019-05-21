@@ -119,6 +119,7 @@ This setup works on my machine. YMMV...
 
 	brew install nlohmann-json pygtk
 	pip2 install six
+	brew install pygobject3 gtk+3
 
     brew install -d -v --build-from-source --with-python2 soapysdr
     brew install -d -v --build-from-source --with-images limesuite
