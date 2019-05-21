@@ -34,7 +34,7 @@ class Gnuradio < Formula
   # use qt5 patch
   patch do
     url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-qt5.patch"
-    sha256 "7ce96ec61ec691b208cc5672bfed4a8fa993513d67d0dcecc2ea985134730ff9"
+    sha256 "60398e127ba72e6ccf33e7f8d5da800711e182c7e8d3016b8f9483500e89f321"
   end
 
   # cheetah starts here
