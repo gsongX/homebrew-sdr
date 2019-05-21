@@ -6058,7 +6058,7 @@ index 1c20033db2..7e2d0321c4 100644
 +	set(PY_QT_IMPORT "from PyQt5 import Qt, QtCore, QtWidgets")
 +endif()
 +
-+configure_file(range.py.cmakein "${CMAKE_CURRENT_BINARY_DIR}/range.py" @ONLY)
++configure_file(range.py "${CMAKE_CURRENT_BINARY_DIR}/range.py" @ONLY)
 +
  GR_PYTHON_INSTALL(
      FILES __init__.py
