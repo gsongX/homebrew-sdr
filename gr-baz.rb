@@ -5,13 +5,14 @@ class GrBaz < Formula
   head 'https://github.com/balint256/gr-baz.git'
 
   depends_on 'cmake' => :build
-  depends_on 'gnuradio'
+  depends_on "ninja" => :build
+  depends_on 'gsong2014/sdr/gnuradio'
 
   def install
     mkdir 'build' do
-      system 'cmake', '..', '-DPYTHON_LIBRARY=/usr/local/Frameworks/Python.framework/Versions/2.7/Python ', *std_cmake_args
-      system 'make'
-      system 'make install'
+      system 'cmake', '..', "-G", "Ninja", '-DPYTHON_LIBRARY=/usr/local/Frameworks/Python.framework/Versions/2.7/Python ', *std_cmake_args
+      system 'ninja'
+      system 'ninja install'
     end
   end
 end

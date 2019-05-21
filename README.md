@@ -113,8 +113,19 @@ After recording data, use the ```heatmap.py``` file to generate an high resoluti
 python heatmap.py input.csv output_file.png
 ```
 
-### Thanks
+## LimeSDR
 
-Many thanks to [titanous](https://github.com/titanous/homebrew-gnuradio), [metacollin](https://github.com/metacollin/homebrew-gnuradio), [dholm](https://github.com/dholm/homebrew-sdr),[keenerd](https://github.com/keenerd/rtl-sdr-misc/tree/master/heatmap) and [chleggett](https://github.com/chleggett/homebrew-gqrx) from whom I compiled this code.
+This setup works on my machine. YMMV...
 
-More to come...
+    brew install -d -v --build-from-source --HEAD --with-python2 soapysdr
+    brew install -d -v --build-from-source --HEAD --with-images limesuite
+    brew install -d -v --build-from-source --HEAD gsong2014/sdr/volk
+    brew install -d -v --build-from-source --HEAD gsong2014/sdr/pothos-lime
+    brew install -d -v --build-from-source gsong2014/sdr/gnuradio
+    brew install -d -v --build-from-source --HEAD librtlsdr
+    brew install -d -v --build-from-source --HEAD gsong2014/sdr/gr-osmosdr
+    brew install -d -v --build-from-source gsong2014/sdr/gr-limesdr
+
+Do not forget to define the path to the gnuradio-companion blocks:
+
+    export GRC_BLOCKS_PATH=$(ls -d /usr/local/opt/*/share/gnuradio/grc/blocks | tr '$\n' :)

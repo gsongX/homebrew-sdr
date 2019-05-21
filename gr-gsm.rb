@@ -7,8 +7,8 @@ class GrGsm < Formula
   depends_on "graphviz" => :build
   depends_on "swig" => :build
   depends_on "boost"
-  depends_on "gnuradio"
-  depends_on "libosmocore"
+  depends_on "gsong2014/sdr/gnuradio"
+  depends_on "gsong2014/sdr/libosmocore"
 
   def install
     mkdir "build" do
@@ -20,8 +20,8 @@ class GrGsm < Formula
       ] + std_cmake_args
 
       ENV.deparallelize
-      system "cmake", "..", *args
-      system "make", "install"
+      system "cmake", "-G", "Ninja", "..", *args
+      system "nina", "install"
     end
   end
 end
