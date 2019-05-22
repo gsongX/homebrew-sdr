@@ -100,7 +100,7 @@ class Gnuradio < Formula
 
   patch do
     url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-cmake-expand.release.diff"
-    sha256 "b267903f7ecb5cba27ffcc650b08ba013744ef454a15978c09d4399ce020c6"
+    sha256 "20b267903f7ecb5cba27ffcc650b08ba013744ef454a15978c09d4399ce020c6"
   end
 
   patch do
