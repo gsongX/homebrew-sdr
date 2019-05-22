@@ -89,7 +89,7 @@ class Gnuradio < Formula
   end
 
   patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-C_CXX_STANDARD.release.diff"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-C_CXX_STANDARD.next.diff"
     sha256 "69f2e25f0c688122e2ba97bc957a84480814d683607d5f78b9137aee46f7b49d"
   end
 
