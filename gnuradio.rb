@@ -27,8 +27,8 @@ class Gnuradio < Formula
   depends_on "jack"
   depends_on "portaudio"
   depends_on "cppunit"
-  depends_on "qwt"
-  depends_on "pyqt"
+  depends_on "cartr/qt4/qwt-qt4"
+  depends_on "cartr/qt4/pyqt@4"
   depends_on "wxmac"
   depends_on "libglade"
   depends_on "sdl"
@@ -170,10 +170,10 @@ class Gnuradio < Formula
   # end
 
   # use qt5 patch
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-qt5.patch"
-    sha256 "60398e127ba72e6ccf33e7f8d5da800711e182c7e8d3016b8f9483500e89f321"
-  end
+  #patch do
+  #  url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-qt5.patch"
+  #  sha256 "60398e127ba72e6ccf33e7f8d5da800711e182c7e8d3016b8f9483500e89f321"
+  #end
 
   patch :DATA
 
@@ -207,6 +207,7 @@ class Gnuradio < Formula
       -DGR_PKG_CONF_DIR=#{etc}/gnuradio/conf.d
       -DGR_PREFSDIR=#{etc}/gnuradio/conf.d
       -DENABLE_DEFAULT=OFF
+      -DENABLE_DOXYGEN=Off
     ]
 
     enabled = %w[GR_ANALOG GR_FFT VOLK GR_FILTER GNURADIO_RUNTIME
@@ -327,7 +328,7 @@ index 3ce49aa..4221310 100644
    /opt/local/include/qwt
    /sw/include/qwt
    /usr/local/lib/qwt.framework/Headers
-+  ${brew_prefix}/opt/qwt/lib/qwt.framework/Headers
++  ${brew_prefix}/opt/qwt-qt4/lib/qwt.framework/Headers
  )
 
  find_library (QWT_LIBRARIES
@@ -335,7 +336,7 @@ index 3ce49aa..4221310 100644
    /opt/local/lib
    /sw/lib
    /usr/local/lib/qwt.framework
-+  ${brew_prefix}/opt/qwt/lib/qwt.framework
++  ${brew_prefix}/opt/qwt-qt4/lib/qwt.framework/qwt
  )
 
  set(QWT_FOUND FALSE)

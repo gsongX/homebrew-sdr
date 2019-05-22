@@ -129,6 +129,7 @@ This setup works on my machine. YMMV...
     brew install -d -v --build-from-source librtlsdr
     brew install -d -v --build-from-source --HEAD gsong2014/sdr/gr-fcdproplus
     brew install -d -v --build-from-source --HEAD gsong2014/sdr/gr-osmosdr
+    brew install -d -v --build-from-source gsong2014/sdr/gr-limesdr
     
  
 
