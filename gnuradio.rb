@@ -32,7 +32,7 @@ class Gnuradio < Formula
   depends_on "wxmac"
   depends_on "libglade"
   depends_on "sdl"
-
+  depends_on "thrift"
 
 
   # cheetah starts here
