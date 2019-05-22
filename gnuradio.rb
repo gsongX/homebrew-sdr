@@ -109,7 +109,7 @@ class Gnuradio < Formula
   end
 
   patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-fix_ctrlport_test.devel.diff"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-fix-FindLog4cpp.devel.diff"
     sha256 "5bb21fcb01f66de680a656c0f791542007628805872a87b35af972a2279fdd8d"
   end
 
