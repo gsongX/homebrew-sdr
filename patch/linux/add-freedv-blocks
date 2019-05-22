@@ -1,0 +1,923 @@
+From 2be47d8d73e750f6410d8585f75d192d56653750 Mon Sep 17 00:00:00 2001
+From: "A. Maitland Bottoms" <bottoms@debian.org>
+Date: Sun, 26 Jun 2016 21:47:47 -0400
+Subject: [PATCH 14/27] add freedv blocks
+
+---
+ gr-vocoder/CMakeLists.txt                          |   1 +
+ gr-vocoder/grc/CMakeLists.txt                      |   9 ++
+ gr-vocoder/grc/vocoder_block_tree.xml              |   2 +
+ gr-vocoder/grc/vocoder_freedv_rx_ss.xml            |  58 ++++++++
+ gr-vocoder/grc/vocoder_freedv_tx_ss.xml            |  57 ++++++++
+ gr-vocoder/include/gnuradio/vocoder/CMakeLists.txt |   9 ++
+ gr-vocoder/include/gnuradio/vocoder/freedv_api.h   |  68 +++++++++
+ gr-vocoder/include/gnuradio/vocoder/freedv_rx_ss.h |  63 +++++++++
+ gr-vocoder/include/gnuradio/vocoder/freedv_tx_ss.h |  59 ++++++++
+ gr-vocoder/lib/CMakeLists.txt                      |   7 +
+ gr-vocoder/lib/freedv_api.cc                       |  33 +++++
+ gr-vocoder/lib/freedv_rx_ss_impl.cc                | 155 +++++++++++++++++++++
+ gr-vocoder/lib/freedv_rx_ss_impl.h                 |  81 +++++++++++
+ gr-vocoder/lib/freedv_tx_ss_impl.cc                |  98 +++++++++++++
+ gr-vocoder/lib/freedv_tx_ss_impl.h                 |  72 ++++++++++
+ gr-vocoder/swig/CMakeLists.txt                     |   4 +
+ gr-vocoder/swig/vocoder_swig.i                     |  19 +++
+ 17 files changed, 795 insertions(+)
+ create mode 100644 gr-vocoder/grc/vocoder_freedv_rx_ss.xml
+ create mode 100644 gr-vocoder/grc/vocoder_freedv_tx_ss.xml
+ create mode 100644 gr-vocoder/include/gnuradio/vocoder/freedv_api.h
+ create mode 100644 gr-vocoder/include/gnuradio/vocoder/freedv_rx_ss.h
+ create mode 100644 gr-vocoder/include/gnuradio/vocoder/freedv_tx_ss.h
+ create mode 100644 gr-vocoder/lib/freedv_api.cc
+ create mode 100644 gr-vocoder/lib/freedv_rx_ss_impl.cc
+ create mode 100644 gr-vocoder/lib/freedv_rx_ss_impl.h
+ create mode 100644 gr-vocoder/lib/freedv_tx_ss_impl.cc
+ create mode 100644 gr-vocoder/lib/freedv_tx_ss_impl.h
+
+--- a/gr-vocoder/CMakeLists.txt
++++ b/gr-vocoder/CMakeLists.txt
+@@ -99,6 +99,7 @@
+     #message(STATUS "libcodec2 has 700bps mode")
+   endif()
+   if (LIBCODEC2_HAS_FREEDV_API)
++    GR_APPEND_SUBCOMPONENT("freedv")
+     #message(STATUS "libcodec2 had FreeDV api modes: ${FREEDV_MODES}")
+   endif()
+ endif(LIBCODEC2_FOUND)
+--- a/gr-vocoder/grc/CMakeLists.txt
++++ b/gr-vocoder/grc/CMakeLists.txt
+@@ -46,6 +46,15 @@
+     )
+ endif(LIBCODEC2_FOUND)
+ 
++if(LIBCODEC2_HAS_FREEDV_API)
++  install(FILES
++    vocoder_freedv_rx_ss.xml
++    vocoder_freedv_tx_ss.xml
++    DESTINATION ${GRC_BLOCKS_DIR}
++    COMPONENT "vocoder_python"
++    )
++endif(LIBCODEC2_HAS_FREEDV_API)
++
+ if(LIBGSM_FOUND)
+   install(FILES
+     vocoder_gsm_fr_decode_ps.xml
+--- a/gr-vocoder/grc/vocoder_block_tree.xml
++++ b/gr-vocoder/grc/vocoder_block_tree.xml
+@@ -38,6 +38,8 @@
+ 		<block>vocoder_cvsd_encode_sb</block>
+ 		<block>vocoder_cvsd_decode_bf</block>
+ 		<block>vocoder_cvsd_encode_fb</block>
++		<block>vocoder_freedv_tx_ss</block>
++		<block>vocoder_freedv_rx_ss</block>
+ 		<block>vocoder_g721_decode_bs</block>
+ 		<block>vocoder_g721_encode_sb</block>
+ 		<block>vocoder_g723_24_decode_bs</block>
+--- /dev/null
++++ b/gr-vocoder/grc/vocoder_freedv_rx_ss.xml
+@@ -0,0 +1,58 @@
++<?xml version="1.0"?>
++<!--
++###################################################
++## FreeDV audio modem demodulator
++###################################################
++ -->
++<block>
++  <name>FreeDV demodulator</name>
++  <key>vocoder_freedv_rx_ss</key>
++  <import>from gnuradio import vocoder</import>
++  <import>from gnuradio.vocoder import freedv_api</import>
++  <make>vocoder.freedv_rx_ss($mode,$squelch_thresh)</make>
++  <callback>set_squelch_thresh($squelch_thresh)</callback>
++  <param>
++    <name>Operating Mode</name>
++    <key>mode</key>
++    <value>freedv_api.MODE_1600</value>
++    <type>int</type>
++    <option>
++      <name>1600</name>
++      <key>freedv_api.MODE_1600</key>
++    </option>
++    <option>
++      <name>700</name>
++      <key>freedv_api.MODE_700</key>
++    </option>
++    <option>
++      <name>700B</name>
++      <key>freedv_api.MODE_700B</key>
++    </option>
++    <option>
++      <name>2400A</name>
++      <key>freedv_api.MODE_2400A</key>
++    </option>
++    <option>
++      <name>2400B</name>
++      <key>freedv_api.MODE_2400B</key>
++    </option>
++    <option>
++      <name>800XA</name>
++      <key>freedv_api.MODE_800XA</key>
++    </option>
++  </param>
++  <param>
++    <name>Squelch Threshold</name>
++    <key>squelch_thresh</key>
++    <value>-100.0</value>
++    <type>float</type>
++  </param>
++  <sink>
++    <name>in</name>
++    <type>short</type>
++  </sink>
++  <source>
++    <name>out</name>
++    <type>short</type>
++  </source>
++</block>
+--- /dev/null
++++ b/gr-vocoder/grc/vocoder_freedv_tx_ss.xml
+@@ -0,0 +1,57 @@
++<?xml version="1.0"?>
++<!--
++###################################################
++## FreeDV audio modem modulator
++###################################################
++ -->
++<block>
++  <name>FreeDV modulator</name>
++  <key>vocoder_freedv_tx_ss</key>
++  <import>from gnuradio import vocoder</import>
++  <import>from gnuradio.vocoder import freedv_api</import>
++  <make>vocoder.freedv_tx_ss($mode,$txt_msg)</make>
++  <param>
++    <name>Operating Mode</name>
++    <key>mode</key>
++    <value>freedv_api.MODE_1600</value>
++    <type>int</type>
++    <option>
++      <name>1600</name>
++      <key>freedv_api.MODE_1600</key>
++    </option>
++    <option>
++      <name>700</name>
++      <key>freedv_api.MODE_700</key>
++    </option>
++    <option>
++      <name>700B</name>
++      <key>freedv_api.MODE_700B</key>
++    </option>
++    <option>
++      <name>2400A</name>
++      <key>freedv_api.MODE_2400A</key>
++    </option>
++    <option>
++      <name>2400B</name>
++      <key>freedv_api.MODE_2400B</key>
++    </option>
++    <option>
++      <name>800XA</name>
++      <key>freedv_api.MODE_800XA</key>
++    </option>
++  </param>
++  <param>
++    <name>Text Message</name>
++    <key>txt_msg</key>
++    <value>'GNU Radio'</value>
++    <type>string</type>
++  </param>
++  <sink>
++    <name>in</name>
++    <type>short</type>
++  </sink>
++  <source>
++    <name>out</name>
++    <type>short</type>
++  </source>
++</block>
+--- a/gr-vocoder/include/gnuradio/vocoder/CMakeLists.txt
++++ b/gr-vocoder/include/gnuradio/vocoder/CMakeLists.txt
+@@ -46,6 +46,15 @@
+     COMPONENT "vocoder_devel"
+ )
+ endif(LIBCODEC2_FOUND)
++if(LIBCODEC2_HAS_FREEDV_API)
++install(FILES
++    freedv_api.h
++    freedv_rx_ss.h
++    freedv_tx_ss.h
++    DESTINATION ${GR_INCLUDE_DIR}/gnuradio/vocoder
++    COMPONENT "vocoder_devel"
++)
++endif(LIBCODEC2_HAS_FREEDV_API)
+ if(LIBGSM_FOUND)
+ install(FILES
+     gsm_fr_decode_ps.h
+--- /dev/null
++++ b/gr-vocoder/include/gnuradio/vocoder/freedv_api.h
+@@ -0,0 +1,68 @@
++/* -*- c++ -*- */
++/*
++ * Copyright 2016 Free Software Foundation, Inc.
++ *
++ * This file is part of GNU Radio
++ *
++ * GNU Radio is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 3, or (at your option)
++ * any later version.
++ *
++ * GNU Radio is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with GNU Radio; see the file COPYING.  If not, write to
++ * the Free Software Foundation, Inc., 51 Franklin Street,
++ * Boston, MA 02110-1301, USA.
++ */
++
++#ifndef _VOCODER_FREEDV_H_
++#define _VOCODER_FREEDV_H_
++
++#include <gnuradio/vocoder/api.h>
++
++extern "C" {
++#include <codec2/codec2.h>
++#include <codec2/freedv_api.h>
++#include <codec2/modem_stats.h>
++}
++
++namespace gr {
++  namespace vocoder {
++
++    class VOCODER_API freedv_api {
++    public:
++
++      enum freedv_modes {
++#ifdef FREEDV_MODE_1600
++	MODE_1600 = FREEDV_MODE_1600,
++#endif
++#ifdef FREEDV_MODE_700
++	MODE_700 = FREEDV_MODE_700,
++#endif
++#ifdef FREEDV_MODE_700B
++	MODE_700B = FREEDV_MODE_700B,
++#endif
++#ifdef FREEDV_MODE_2400A
++	MODE_2400A = FREEDV_MODE_2400A,
++#endif
++#ifdef FREEDV_MODE_2400B
++	MODE_2400B = FREEDV_MODE_2400B,
++#endif
++#ifdef FREEDV_MODE_800XA
++	MODE_800XA = FREEDV_MODE_800XA,
++#endif
++      };
++
++    private:
++
++    };
++
++  } /* namespace vocoder */
++} /* namespace gr */
++
++#endif /* _VOCODER_FREEDV_H_ */
+--- /dev/null
++++ b/gr-vocoder/include/gnuradio/vocoder/freedv_rx_ss.h
+@@ -0,0 +1,63 @@
++/* -*- c++ -*- */
++/*
++ * Copyright 2016 Free Software Foundation, Inc.
++ *
++ * This file is part of GNU Radio
++ *
++ * GNU Radio is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 3, or (at your option)
++ * any later version.
++ *
++ * GNU Radio is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with GNU Radio; see the file COPYING.  If not, write to
++ * the Free Software Foundation, Inc., 51 Franklin Street,
++ * Boston, MA 02110-1301, USA.
++ */
++
++#ifndef INCLUDED_VOCODER_FREEDV_RX_H
++#define INCLUDED_VOCODER_FREEDV_RX_H
++
++#include <gnuradio/vocoder/api.h>
++#include <gnuradio/vocoder/freedv_api.h>
++#include <gnuradio/block.h>
++
++namespace gr {
++  namespace vocoder {
++
++    /*!
++     * \brief FreeDV demodulator
++     * \ingroup audio_blk
++     *
++     * Input: 16-bit short values of an audio signal with sampling rate 8 kHz.
++     *
++     * Output: 16-bit short values of an audio signal with sampling rate 8 kHz.
++     *
++     * See also gr::vocoder::freedv_tx_ss.
++     */
++    class VOCODER_API freedv_rx_ss : virtual public gr::block
++    {
++    public:
++      typedef boost::shared_ptr<freedv_rx_ss> sptr;
++
++      /*!
++       * \brief Make FreeDV modem demodulator block.
++       *
++       * \param mode Operating Mode designation
++       * \param squelch_thresh FreeDV modem squelch threshold value
++       */
++      static sptr make(int mode=freedv_api::MODE_1600, float squelch_thresh=-100.0);
++
++      virtual void set_squelch_thresh(float squelch_thresh) = 0;
++      virtual float squelch_thresh() = 0;
++    };
++
++  } /* namespace vocoder */
++} /* namespace gr */
++
++#endif /* INCLUDED_VOCODER_FREEDV_RX_H */
+--- /dev/null
++++ b/gr-vocoder/include/gnuradio/vocoder/freedv_tx_ss.h
+@@ -0,0 +1,59 @@
++/* -*- c++ -*- */
++/*
++ * Copyright 2016 Free Software Foundation, Inc.
++ *
++ * This file is part of GNU Radio
++ *
++ * GNU Radio is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 3, or (at your option)
++ * any later version.
++ *
++ * GNU Radio is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with GNU Radio; see the file COPYING.  If not, write to
++ * the Free Software Foundation, Inc., 51 Franklin Street,
++ * Boston, MA 02110-1301, USA.
++ */
++
++#ifndef INCLUDED_VOCODER_FREEDV_TX_H
++#define INCLUDED_VOCODER_FREEDV_TX_H
++
++#include <gnuradio/vocoder/api.h>
++#include <gnuradio/vocoder/freedv_api.h>
++#include <gnuradio/sync_block.h>
++
++namespace gr {
++  namespace vocoder {
++
++    /*!
++     * \brief FreeDV modulator
++     * \ingroup audio_blk
++     *
++     * Input: Speech (audio) signal as 16-bit shorts, sampling rate 8 kHz.
++     *
++     * Output: Signal (audio) as 16-bit shorts, sampling rate 8 kHz.
++     *
++     */
++    class VOCODER_API freedv_tx_ss : virtual public gr::sync_block
++    {
++    public:
++      typedef boost::shared_ptr<freedv_tx_ss> sptr;
++
++      /*!
++       * \brief Make FreeDV Modem modulator block.
++       *
++       * \param mode Operating Mode designation
++       * \param msg_txt Low Rate message text (callsign, location)
++       */
++      static sptr make(int mode=freedv_api::MODE_1600,const std::string msg_txt="GNU Radio");
++    };
++
++  } /* namespace vocoder */
++} /* namespace gr */
++
++#endif /* INCLUDED_VOCODER_FREEDV_TX_H */
+--- a/gr-vocoder/lib/CMakeLists.txt
++++ b/gr-vocoder/lib/CMakeLists.txt
+@@ -56,6 +56,13 @@
+     codec2_encode_sp_impl.cc
+     )
+ endif(LIBCODEC2_FOUND)
++if(LIBCODEC2_HAS_FREEDV_API)
++  list(APPEND gr_vocoder_sources
++    freedv_api.cc
++    freedv_rx_ss_impl.cc
++    freedv_tx_ss_impl.cc
++    )
++endif(LIBCODEC2_HAS_FREEDV_API)
+ if(LIBGSM_FOUND)
+   list(APPEND gr_vocoder_sources
+     gsm_fr_decode_ps_impl.cc
+--- /dev/null
++++ b/gr-vocoder/lib/freedv_api.cc
+@@ -0,0 +1,33 @@
++/* -*- c++ -*- */
++/*
++ * Copyright 2016 Free Software Foundation, Inc.
++ *
++ * This file is part of GNU Radio
++ *
++ * GNU Radio is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 3, or (at your option)
++ * any later version.
++ *
++ * GNU Radio is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with GNU Radio; see the file COPYING.  If not, write to
++ * the Free Software Foundation, Inc., 51 Franklin Street,
++ * Boston, MA 02110-1301, USA.
++ */
++
++#ifdef HAVE_CONFIG_H
++#include <config.h>
++#endif
++
++#include <gnuradio/vocoder/freedv_api.h>
++
++namespace gr {
++  namespace vocoder {
++
++  } /* namespace vocoder */
++} /* namespace gr */
+--- /dev/null
++++ b/gr-vocoder/lib/freedv_rx_ss_impl.cc
+@@ -0,0 +1,155 @@
++/* -*- c++ -*- */
++/*
++ * Copyright 2016 Free Software Foundation, Inc.
++ *
++ * This file is part of GNU Radio
++ *
++ * GNU Radio is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 3, or (at your option)
++ * any later version.
++ *
++ * GNU Radio is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with GNU Radio; see the file COPYING.  If not, write to
++ * the Free Software Foundation, Inc., 51 Franklin Street,
++ * Boston, MA 02110-1301, USA.
++ */
++
++#ifdef HAVE_CONFIG_H
++#include "config.h"
++#endif
++
++#include "freedv_rx_ss_impl.h"
++
++#include <gnuradio/io_signature.h>
++#include <stdexcept>
++#include <assert.h>
++
++extern "C" {
++    void put_next_rx_char(void *callback_state, char c) {
++      struct freedv_rx_callback_state* pstate;
++
++      pstate = (struct freedv_rx_callback_state*) callback_state;
++      if (pstate->ftxt != NULL) {
++        //fprintf(pstate->ftxt, "%c\n", c);
++      }
++      return;
++    }
++}
++
++
++namespace gr {
++  namespace vocoder {
++
++    freedv_rx_ss::sptr
++    freedv_rx_ss::make(int mode, float squelch_thresh)
++    {
++      return gnuradio::get_initial_sptr
++	(new freedv_rx_ss_impl(mode, squelch_thresh));
++    }
++
++    freedv_rx_ss_impl::freedv_rx_ss_impl (int mode, float squelch_thresh)
++      : gr::block("vocoder_freedv_rx_ss",
++	      io_signature::make(1, 1, sizeof(short)),
++	      io_signature::make(1, 1, sizeof(short))),
++	d_mode(mode), d_squelch_thresh(squelch_thresh)
++    {
++      if((d_freedv = freedv_open(mode)) == NULL)
++	throw std::runtime_error("freedv_rx_ss_impl: freedv_open failed");
++      freedv_set_snr_squelch_thresh(d_freedv, d_squelch_thresh);
++      freedv_set_squelch_en(d_freedv, 0);
++      freedv_set_callback_txt(d_freedv, put_next_rx_char, NULL, (void *) &d_cb_state);
++      d_speech_samples = freedv_get_n_speech_samples(d_freedv);
++      d_max_modem_samples = freedv_get_n_max_modem_samples(d_freedv);
++      d_nin = freedv_nin(d_freedv);
++      //set_output_multiple(d_max_modem_samples);
++    }
++
++    freedv_rx_ss_impl::~freedv_rx_ss_impl()
++    {
++      int total_bits;
++      int total_bit_errors;
++
++      if (freedv_get_test_frames(d_freedv)) {
++        total_bits = freedv_get_total_bits(d_freedv);
++        total_bit_errors = freedv_get_total_bit_errors(d_freedv);
++        fprintf(stderr, "bits: %d errors: %d BER: %3.2f\n", total_bits, total_bit_errors, (1.0*total_bit_errors)/total_bits);
++      }
++      freedv_close(d_freedv);
++    }
++
++    void
++    freedv_rx_ss_impl::forecast(int noutput_items,
++				gr_vector_int &ninput_items_required)
++    {
++      unsigned ninputs = ninput_items_required.size();
++      for(unsigned i = 0; i < ninputs; i++)
++	ninput_items_required[i] = noutput_items;
++    }
++
++    int
++    freedv_rx_ss_impl::general_work(int noutput_items,
++				    gr_vector_int &ninput_items,
++				    gr_vector_const_void_star &input_items,
++				    gr_vector_void_star &output_items)
++    {
++      short *in = (short *) input_items[0];
++      short *out = (short *) output_items[0];
++      int i,n;
++
++      d_nin = freedv_nin(d_freedv);
++      if (ninput_items[0] < d_nin) {
++	consume_each(0);
++	return(0);
++      }
++      for (i=0,n=0; ((n+d_nin) <= noutput_items)&&(i <= ninput_items[0]);) {
++	d_nout = freedv_rx(d_freedv, out, in);
++	i += d_nin;
++	n += d_nout;
++	out = &(out[d_nout]);
++	in = &(in[d_nin]);
++	d_nin = freedv_nin(d_freedv);
++      }
++      if ((i > ninput_items[0])||((n+d_nin) > noutput_items)) {
++	i -= d_nin;
++	n -= d_nout;
++      } // back up to where we left off processing freedv_rx
++
++      freedv_get_modem_stats(d_freedv, &d_sync, &d_snr_est);
++      freedv_get_modem_extended_stats(d_freedv, &d_stats);
++      d_total_bit_errors = freedv_get_total_bit_errors(d_freedv);
++
++      consume_each(i);
++      return(n);
++    }
++
++    void put_next_rx_proto(void *callback_state,char *proto_bits) {
++      return;
++    }
++
++    void datarx(void *callback_state, unsigned char *packet, size_t size) {
++      return;
++    }
++
++    void datatx(void *callback_state, unsigned char *packet, size_t *size) {
++      return;
++    }
++
++    void freedv_rx_ss_impl::set_squelch_thresh(float squelch_thresh)
++    {
++      gr::thread::scoped_lock l(d_setlock);
++      d_squelch_thresh = squelch_thresh;
++      freedv_set_snr_squelch_thresh(d_freedv, d_squelch_thresh);
++    }
++
++    float freedv_rx_ss_impl::squelch_thresh() {
++      return(d_squelch_thresh);
++    }
++
++  } /* namespace vocoder */
++} /* namespace gr */
+--- /dev/null
++++ b/gr-vocoder/lib/freedv_rx_ss_impl.h
+@@ -0,0 +1,81 @@
++/* -*- c++ -*- */
++/*
++ * Copyright 2016 Free Software Foundation, Inc.
++ *
++ * This file is part of GNU Radio
++ *
++ * GNU Radio is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 3, or (at your option)
++ * any later version.
++ *
++ * GNU Radio is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with GNU Radio; see the file COPYING.  If not, write to
++ * the Free Software Foundation, Inc., 51 Franklin Street,
++ * Boston, MA 02110-1301, USA.
++ */
++
++#ifndef INCLUDED_VOCODER_FREEDV_RX_SS_IMPL_H
++#define INCLUDED_VOCODER_FREEDV_RX_SS_IMPL_H
++
++#include <gnuradio/vocoder/freedv_rx_ss.h>
++
++extern "C" {
++  struct freedv_rx_callback_state {
++    FILE *ftxt;
++  };
++  static void put_next_rx_char(void *callback_state, char c);
++  void put_next_rx_proto(void *callback_state,char *proto_bits);
++  void datarx(void *callback_state, unsigned char *packet, size_t size);
++  void datatx(void *callback_state, unsigned char *packet, size_t *size);
++}
++
++namespace gr {
++  namespace vocoder {
++
++    class freedv_rx_ss_impl : public freedv_rx_ss
++    {
++    private:
++      short *d_speech_out;
++      short *d_demod_in;
++      struct freedv *d_freedv;
++      int d_nin, d_nout, d_frame;
++      struct freedv_rx_callback_state d_cb_state;
++      struct MODEM_STATS d_stats;
++      int d_mode;
++      int d_sync;
++      int d_total_bits;
++      int d_total_bit_errors;
++      float d_snr_est;
++      float d_squelch_thresh;
++      int d_speech_samples;
++      int d_max_modem_samples;
++      float d_clock_offset;
++      int d_use_codecrx;
++      struct CODEC2 *d_c2 = NULL;
++
++    public:
++      freedv_rx_ss_impl(int mode, float squelch_thresh);
++      ~freedv_rx_ss_impl();
++
++      void set_squelch_thresh(float squelch_thresh);
++      float squelch_thresh();
++
++      // Where all the action really happens
++      void forecast(int noutput_items, gr_vector_int &ninput_items_required);
++
++      int general_work(int noutput_items,
++		       gr_vector_int &ninput_items,
++		       gr_vector_const_void_star &input_items,
++		       gr_vector_void_star &output_items);
++    };
++
++  } /* namespace vocoder */
++} /* namespace gr */
++
++#endif /* INCLUDED_VOCODER_FREEDV_RX_SS_IMPL_H */
+--- /dev/null
++++ b/gr-vocoder/lib/freedv_tx_ss_impl.cc
+@@ -0,0 +1,98 @@
++/* -*- c++ -*- */
++/*
++ * Copyright 2016 Free Software Foundation, Inc.
++ *
++ * This file is part of GNU Radio
++ *
++ * GNU Radio is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 3, or (at your option)
++ * any later version.
++ *
++ * GNU Radio is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with GNU Radio; see the file COPYING.  If not, write to
++ * the Free Software Foundation, Inc., 51 Franklin Street,
++ * Boston, MA 02110-1301, USA.
++ */
++
++#ifdef HAVE_CONFIG_H
++#include "config.h"
++#endif
++
++#include "freedv_tx_ss_impl.h"
++
++#include <gnuradio/io_signature.h>
++#include <stdexcept>
++#include <iostream>
++#include <iomanip>
++
++extern "C" {
++  char
++  get_next_tx_char(void *callback_state)
++  {
++    char c;
++    struct freedv_tx_callback_state* pstate;
++
++    pstate = (struct freedv_tx_callback_state*)callback_state;
++    c = *pstate->ptx_str++;
++
++    if (*pstate->ptx_str == 0) {
++      pstate->ptx_str = pstate->tx_str;
++      c = 0x0d; // FreeDV uses Carriage Return termination
++    }
++
++    return c;
++  }
++}
++
++namespace gr {
++  namespace vocoder {
++
++    freedv_tx_ss::sptr
++    freedv_tx_ss::make(int mode, const std::string msg_txt)
++    {
++      return gnuradio::get_initial_sptr
++	(new freedv_tx_ss_impl(mode, msg_txt));
++    }
++
++    freedv_tx_ss_impl::freedv_tx_ss_impl(int mode, const std::string msg_txt)
++      : sync_block("vocoder_freedv_tx_ss",
++		   io_signature::make(1, 1, sizeof(short)),
++		   io_signature::make(1, 1, sizeof(short))),
++	d_mode(mode), d_msg_text(msg_txt)
++    {
++      if((d_freedv = freedv_open(mode)) == NULL)
++	throw std::runtime_error("freedv_tx_ss_impl: freedv_open failed");
++      snprintf(d_cb_state.tx_str,79,"%s",d_msg_text.c_str());
++      d_cb_state.ptx_str = d_cb_state.tx_str;
++      freedv_set_callback_txt(d_freedv, NULL, get_next_tx_char, (void *) &d_cb_state);
++      d_nom_modem_samples = freedv_get_n_nom_modem_samples(d_freedv);
++      set_output_multiple(d_nom_modem_samples);
++    }
++
++    freedv_tx_ss_impl::~freedv_tx_ss_impl()
++    {
++      freedv_close(d_freedv);
++    }
++
++    int
++    freedv_tx_ss_impl::work(int noutput_items,
++			    gr_vector_const_void_star &input_items,
++			    gr_vector_void_star &output_items)
++    {
++      short *in = (short*)input_items[0];
++      short *out = (short*)output_items[0];
++      int i;
++
++      for(i=0;i<(noutput_items/d_nom_modem_samples);i++)
++	freedv_tx(d_freedv, &(out[i*d_nom_modem_samples]), &(in[i*d_nom_modem_samples]));
++      return noutput_items;
++    }
++
++  } /* namespace vocoder */
++} /* namespace gr */
+--- /dev/null
++++ b/gr-vocoder/lib/freedv_tx_ss_impl.h
+@@ -0,0 +1,72 @@
++/* -*- c++ -*- */
++/*
++ * Copyright 2016 Free Software Foundation, Inc.
++ *
++ * This file is part of GNU Radio
++ *
++ * GNU Radio is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 3, or (at your option)
++ * any later version.
++ *
++ * GNU Radio is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with GNU Radio; see the file COPYING.  If not, write to
++ * the Free Software Foundation, Inc., 51 Franklin Street,
++ * Boston, MA 02110-1301, USA.
++ */
++
++#ifndef INCLUDED_VOCODER_FREEDV_TX_SS_IMPL_H
++#define INCLUDED_VOCODER_FREEDV_TX_SS_IMPL_H
++
++#include <gnuradio/vocoder/freedv_tx_ss.h>
++
++extern "C" {
++  struct freedv_tx_callback_state {
++    char  tx_str[80];
++    char *ptx_str;
++    int calls;
++  };
++  char get_next_tx_char(void *callback_state);
++  void get_next_proto(void *callback_state,char *proto_bits);
++  void datarx(void *callback_state, unsigned char *packet, size_t size);
++  void datatx(void *callback_state, unsigned char *packet, size_t *size);
++}
++
++namespace gr {
++  namespace vocoder {
++
++    class freedv_tx_ss_impl : public freedv_tx_ss
++    {
++    private:
++      short *d_speech_in;
++      short *d_mod_out;
++      struct freedv_tx_callback_state d_cb_state;
++      struct freedv *d_freedv;
++      int d_mode;
++      float d_squelch_thresh;
++      int d_speech_samples;
++      int d_nom_modem_samples;
++      int d_use_codectx;
++      int d_use_datatx;
++      std::string d_msg_text;
++      struct CODEC2 *d_c2;
++
++    public:
++      freedv_tx_ss_impl(int mode, const std::string txt_msg);
++      ~freedv_tx_ss_impl();
++
++      // Where all the action really happens
++      int work(int noutput_items,
++	       gr_vector_const_void_star &input_items,
++	       gr_vector_void_star &output_items);
++    };
++
++  } /* namespace vocoder */
++} /* namespace gr */
++
++#endif /* INCLUDED_VOCODER_FREEDV_TX_SS_IMPL_H */
+--- a/gr-vocoder/swig/CMakeLists.txt
++++ b/gr-vocoder/swig/CMakeLists.txt
+@@ -37,6 +37,10 @@
+   list(APPEND GR_SWIG_FLAGS "-DLIBCODEC2_FOUND")
+ endif(LIBCODEC2_FOUND)
+ 
++if(LIBCODEC2_HAS_FREEDV_API)
++  list(APPEND GR_SWIG_FLAGS "-DLIBCODEC2_HAS_FREEDV_API")
++endif(LIBCODEC2_HAS_FREEDV_API)
++
+ if(LIBGSM_FOUND)
+   list(APPEND GR_SWIG_FLAGS "-DLIBGSM_FOUND")
+ endif(LIBGSM_FOUND)
+--- a/gr-vocoder/swig/vocoder_swig.i
++++ b/gr-vocoder/swig/vocoder_swig.i
+@@ -85,6 +85,25 @@
+ GR_SWIG_BLOCK_MAGIC2(vocoder, codec2_encode_sp);
+ #endif
+ 
++#ifdef LIBCODEC2_HAS_FREEDV_API
++%{
++#include <codec2/freedv_api.h>
++#include "gnuradio/vocoder/freedv_api.h"
++#include "gnuradio/vocoder/freedv_rx_ss.h"
++#include "gnuradio/vocoder/freedv_tx_ss.h"
++%}
++
++%ignore freedv_set_smooth_symbols;
++%ignore freedv_set_clip;
++%include <codec2/freedv_api.h>
++%include "gnuradio/vocoder/freedv_api.h"
++%include "gnuradio/vocoder/freedv_rx_ss.h"
++%include "gnuradio/vocoder/freedv_tx_ss.h"
++
++GR_SWIG_BLOCK_MAGIC2(vocoder, freedv_rx_ss);
++GR_SWIG_BLOCK_MAGIC2(vocoder, freedv_tx_ss);
++#endif
++
+ #ifdef LIBGSM_FOUND
+ %{
+ #include "gnuradio/vocoder/gsm_fr_decode_ps.h"

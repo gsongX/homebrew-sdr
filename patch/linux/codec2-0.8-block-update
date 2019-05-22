@@ -1,0 +1,668 @@
+From 8921bbe2bc43942b9d233e4acbdb5a79dc05de3c Mon Sep 17 00:00:00 2001
+From: "A. Maitland Bottoms" <bottoms@debian.org>
+Date: Tue, 5 Jun 2018 15:28:30 -0400
+Subject: [PATCH] codec2 0.8 block update
+
+Update gr-vocoder codec2 and freedv blocks to support new modes
+(700C, wb, 700D) available as of codec2 release 0.8 if found at
+compile time.
+---
+ gr-vocoder/examples/grfreedv.grc                   | 40 +++++++++++++---
+ gr-vocoder/grc/vocoder_codec2_decode_ps.xml        | 10 +++-
+ gr-vocoder/grc/vocoder_codec2_encode_sp.xml        | 11 ++++-
+ gr-vocoder/grc/vocoder_freedv_rx_ss.xml            | 33 +++++++++++++-
+ gr-vocoder/grc/vocoder_freedv_tx_ss.xml            | 40 +++++++++++++++-
+ gr-vocoder/include/gnuradio/vocoder/freedv_api.h   | 11 ++++-
+ gr-vocoder/include/gnuradio/vocoder/freedv_rx_ss.h |  6 ++-
+ gr-vocoder/include/gnuradio/vocoder/freedv_tx_ss.h |  5 +-
+ gr-vocoder/lib/freedv_rx_ss_impl.cc                | 31 +++++++++++--
+ gr-vocoder/lib/freedv_rx_ss_impl.h                 | 10 +++-
+ gr-vocoder/lib/freedv_tx_ss_impl.cc                | 53 ++++++++++++++++++++--
+ gr-vocoder/lib/freedv_tx_ss_impl.h                 | 17 +++++--
+ gr-vocoder/swig/vocoder_swig.i                     |  6 ++-
+ 13 files changed, 241 insertions(+), 32 deletions(-)
+
+--- a/gr-vocoder/examples/grfreedv.grc
++++ b/gr-vocoder/examples/grfreedv.grc
+@@ -1,12 +1,12 @@
+ <?xml version='1.0' encoding='utf-8'?>
+-<?grc format='1' created='3.7.9'?>
++<?grc format='1' created='3.7.13'?>
+ <flow_graph>
+   <timestamp>Wed Jun 29 19:22:27 2016</timestamp>
+   <block>
+     <key>options</key>
+     <param>
+       <key>author</key>
+-      <value>A. MAitland Bottoms</value>
++      <value>A. Maitland Bottoms</value>
+     </param>
+     <param>
+       <key>window_size</key>
+@@ -73,6 +73,10 @@
+       <value>True</value>
+     </param>
+     <param>
++      <key>sizing_mode</key>
++      <value>fixed</value>
++    </param>
++    <param>
+       <key>thread_safe_setters</key>
+       <value></value>
+     </param>
+@@ -80,6 +84,10 @@
+       <key>title</key>
+       <value>GNU Radio FreeDV</value>
+     </param>
++    <param>
++      <key>placement</key>
++      <value>(0,0)</value>
++    </param>
+   </block>
+   <block>
+     <key>variable</key>
+@@ -120,7 +128,7 @@
+     </param>
+     <param>
+       <key>_enabled</key>
+-      <value>True</value>
++      <value>1</value>
+     </param>
+     <param>
+       <key>_coordinate</key>
+@@ -187,7 +195,7 @@
+     </param>
+     <param>
+       <key>device_name</key>
+-      <value></value>
++      <value>default</value>
+     </param>
+     <param>
+       <key>_enabled</key>
+@@ -195,7 +203,7 @@
+     </param>
+     <param>
+       <key>_coordinate</key>
+-      <value>(920, 228)</value>
++      <value>(888, 220)</value>
+     </param>
+     <param>
+       <key>_rotation</key>
+@@ -508,6 +516,10 @@
+       <value>vocoder_freedv_rx_ss_0</value>
+     </param>
+     <param>
++      <key>interleave_frames</key>
++      <value>1</value>
++    </param>
++    <param>
+       <key>maxoutbuf</key>
+       <value>0</value>
+     </param>
+@@ -520,6 +532,10 @@
+       <value>freedv_api.MODE_1600</value>
+     </param>
+     <param>
++      <key>squelch_enable</key>
++      <value>True</value>
++    </param>
++    <param>
+       <key>squelch_thresh</key>
+       <value>squelch</value>
+     </param>
+@@ -531,6 +547,10 @@
+       <value></value>
+     </param>
+     <param>
++      <key>clip_val</key>
++      <value>False</value>
++    </param>
++    <param>
+       <key>comment</key>
+       <value></value>
+     </param>
+@@ -544,7 +564,7 @@
+     </param>
+     <param>
+       <key>_coordinate</key>
+-      <value>(424, 221)</value>
++      <value>(424, 196)</value>
+     </param>
+     <param>
+       <key>_rotation</key>
+@@ -555,6 +575,10 @@
+       <value>vocoder_freedv_tx_ss_0</value>
+     </param>
+     <param>
++      <key>interleave_frames</key>
++      <value>1</value>
++    </param>
++    <param>
+       <key>maxoutbuf</key>
+       <value>0</value>
+     </param>
+@@ -570,6 +594,10 @@
+       <key>txt_msg</key>
+       <value>'GNU Radio'</value>
+     </param>
++    <param>
++      <key>tx_bpf_val</key>
++      <value>True</value>
++    </param>
+   </block>
+   <connection>
+     <source_block_id>audio_source_0</source_block_id>
+--- a/gr-vocoder/grc/vocoder_codec2_decode_ps.xml
++++ b/gr-vocoder/grc/vocoder_codec2_decode_ps.xml
+@@ -47,11 +47,19 @@
+ 			<name>700B bps</name>
+ 			<key>codec2.MODE_700B</key>
+ 		</option>
++		<option>
++			<name>700C bps</name>
++			<key>codec2.MODE_700C</key>
++		</option>
++		<option>
++			<name>Wideband</name>
++			<key>codec2.MODE_WB</key>
++		</option>
+ 	</param>
+ 	<sink>
+ 		<name>in</name>
+ 		<type>byte</type>
+-		<vlen>{ 0: 64, 1: 48, 2: 64, 3: 56, 4: 52, 5: 48, 6: 28, 7: 28 }[$mode]</vlen>
++		<vlen>{ 0: 64, 1: 48, 2: 64, 3: 56, 4: 52, 5: 48, 6: 28, 7: 28, 8: 28, 9: 64 }[$mode]</vlen>
+ 	</sink>
+ 	<source>
+ 		<name>out</name>
+--- a/gr-vocoder/grc/vocoder_codec2_encode_sp.xml
++++ b/gr-vocoder/grc/vocoder_codec2_encode_sp.xml
+@@ -47,6 +47,14 @@
+ 			<name>700B bps</name>
+ 			<key>codec2.MODE_700B</key>
+ 		</option>
++		<option>
++			<name>700C bps</name>
++			<key>codec2.MODE_700C</key>
++		</option>
++		<option>
++			<name>Wideband</name>
++			<key>codec2.MODE_WB</key>
++		</option>
+ 	</param>
+ 	<sink>
+ 		<name>in</name>
+@@ -55,7 +63,6 @@
+ 	<source>
+ 		<name>out</name>
+ 		<type>byte</type>
+-		<vlen>{ 0: 64, 1: 48, 2: 64, 3: 56, 4: 52, 5: 48, 6: 28, 7: 28 }[$mode]</vlen>
++		<vlen>{ 0: 64, 1: 48, 2: 64, 3: 56, 4: 52, 5: 48, 6: 28, 7: 28, 8: 28, 9: 64 }[$mode]</vlen>
+ 	</source>
+ </block>
+-
+--- a/gr-vocoder/grc/vocoder_freedv_rx_ss.xml
++++ b/gr-vocoder/grc/vocoder_freedv_rx_ss.xml
+@@ -9,7 +9,8 @@
+   <key>vocoder_freedv_rx_ss</key>
+   <import>from gnuradio import vocoder</import>
+   <import>from gnuradio.vocoder import freedv_api</import>
+-  <make>vocoder.freedv_rx_ss($mode,$squelch_thresh)</make>
++  <make>vocoder.freedv_rx_ss($mode,$squelch_thresh,$interleave_frames)</make>
++  <callback>set_squelch_en($squelch_enable)</callback>
+   <callback>set_squelch_thresh($squelch_thresh)</callback>
+   <param>
+     <name>Operating Mode</name>
+@@ -40,6 +41,20 @@
+       <name>800XA</name>
+       <key>freedv_api.MODE_800XA</key>
+     </option>
++    <option>
++      <name>700C</name>
++      <key>freedv_api.MODE_700C</key>
++    </option>
++    <option>
++      <name>700D</name>
++      <key>freedv_api.MODE_700D</key>
++    </option>
++  </param>
++  <param>
++    <name>Interleave Frames</name>
++    <key>interleave_frames</key>
++    <value>1</value>
++    <type>int</type>
+   </param>
+   <param>
+     <name>Squelch Threshold</name>
+@@ -47,6 +62,12 @@
+     <value>-100.0</value>
+     <type>float</type>
+   </param>
++  <param>
++    <name>Squelch Enable</name>
++    <key>squelch_enable</key>
++    <value>True</value>
++    <type>bool</type>
++  </param>
+   <sink>
+     <name>in</name>
+     <type>short</type>
+@@ -55,4 +76,14 @@
+     <name>out</name>
+     <type>short</type>
+   </source>
++  <doc>
++Not all modes may be supported by the underlying codec2 library.
++
++interleave_frames is an integer between 1 and 32, and is only used in the 700D mode.
++(must be set the same on both transmitter and receiver)
++
++Squelch Enable defaults to On
++
++Squelch Threshold - cutoff level for receiver
++  </doc>
+ </block>
+--- a/gr-vocoder/grc/vocoder_freedv_tx_ss.xml
++++ b/gr-vocoder/grc/vocoder_freedv_tx_ss.xml
+@@ -9,7 +9,9 @@
+   <key>vocoder_freedv_tx_ss</key>
+   <import>from gnuradio import vocoder</import>
+   <import>from gnuradio.vocoder import freedv_api</import>
+-  <make>vocoder.freedv_tx_ss($mode,$txt_msg)</make>
++  <make>vocoder.freedv_tx_ss($mode,$txt_msg,$interleave_frames)</make>
++  <callback>set_clip($clip_val)</callback>
++  <callback>set_tx_bpf($tx_bpf_val)</callback>
+   <param>
+     <name>Operating Mode</name>
+     <key>mode</key>
+@@ -39,6 +41,14 @@
+       <name>800XA</name>
+       <key>freedv_api.MODE_800XA</key>
+     </option>
++    <option>
++      <name>700C</name>
++      <key>freedv_api.MODE_700C</key>
++    </option>
++    <option>
++      <name>700D</name>
++      <key>freedv_api.MODE_700D</key>
++    </option>
+   </param>
+   <param>
+     <name>Text Message</name>
+@@ -46,6 +56,24 @@
+     <value>'GNU Radio'</value>
+     <type>string</type>
+   </param>
++  <param>
++    <name>Interleave Frames</name>
++    <key>interleave_frames</key>
++    <value>1</value>
++    <type>int</type>
++  </param>
++  <param>
++    <name>Clip</name>
++    <key>clip_val</key>
++    <value>False</value>
++    <type>bool</type>
++  </param>
++  <param>
++    <name>Tx BPF</name>
++    <key>tx_bpf_val</key>
++    <value>True</value>
++    <type>bool</type>
++  </param>
+   <sink>
+     <name>in</name>
+     <type>short</type>
+@@ -54,4 +82,14 @@
+     <name>out</name>
+     <type>short</type>
+   </source>
++  <doc>
++Not all modes may be supported by the underlying codec2 library.
++
++interleave_frames is an integer between 1 and 32, and is only used in the 700D mode.
++(must be set the same on both transmitter and receiver)
++
++Clip reduces the Peak/Average Power Ratio from 12dB to 8dB by clipping.
++
++Tx BPF: enable a bandpass filter
++  </doc>
+ </block>
+--- a/gr-vocoder/include/gnuradio/vocoder/freedv_api.h
++++ b/gr-vocoder/include/gnuradio/vocoder/freedv_api.h
+@@ -1,6 +1,6 @@
+ /* -*- c++ -*- */
+ /*
+- * Copyright 2016 Free Software Foundation, Inc.
++ * Copyright 2016-2018 Free Software Foundation, Inc.
+  *
+  * This file is part of GNU Radio
+  *
+@@ -56,6 +56,15 @@
+ #ifdef FREEDV_MODE_800XA
+         MODE_800XA = FREEDV_MODE_800XA,
+ #endif
++#ifdef FREEDV_MODE_700C
++        MODE_700C = FREEDV_MODE_700C,
++#endif
++#ifdef FREEDV_MODE_700D
++        MODE_700D = FREEDV_MODE_700D,
++	SYNC_UNSYNC = FREEDV_SYNC_UNSYNC,
++	SYNC_AUTO = FREEDV_SYNC_AUTO,
++	SYNC_MANUAL = FREEDV_SYNC_MANUAL,
++#endif
+       };
+ 
+     private:
+--- a/gr-vocoder/include/gnuradio/vocoder/freedv_rx_ss.h
++++ b/gr-vocoder/include/gnuradio/vocoder/freedv_rx_ss.h
+@@ -1,6 +1,6 @@
+ /* -*- c++ -*- */
+ /*
+- * Copyright 2016 Free Software Foundation, Inc.
++ * Copyright 2016-2018 Free Software Foundation, Inc.
+  *
+  * This file is part of GNU Radio
+  *
+@@ -50,11 +50,13 @@
+        *
+        * \param mode Operating Mode designation
+        * \param squelch_thresh FreeDV modem squelch threshold value
++       * \param interleave_frames FreeDV 700D mode number of frames to average error
+        */
+-      static sptr make(int mode=freedv_api::MODE_1600, float squelch_thresh=-100.0);
++      static sptr make(int mode=freedv_api::MODE_1600, float squelch_thresh=-100.0, int interleave_frames=1);
+ 
+       virtual void set_squelch_thresh(float squelch_thresh) = 0;
+       virtual float squelch_thresh() = 0;
++      virtual void set_squelch_en(bool squelch_enable) = 0;
+     };
+ 
+   } /* namespace vocoder */
+--- a/gr-vocoder/include/gnuradio/vocoder/freedv_tx_ss.h
++++ b/gr-vocoder/include/gnuradio/vocoder/freedv_tx_ss.h
+@@ -1,6 +1,6 @@
+ /* -*- c++ -*- */
+ /*
+- * Copyright 2016 Free Software Foundation, Inc.
++ * Copyright 2016-2018 Free Software Foundation, Inc.
+  *
+  * This file is part of GNU Radio
+  *
+@@ -49,8 +49,9 @@
+        *
+        * \param mode Operating Mode designation
+        * \param msg_txt Low Rate message text (callsign, location)
++       * \param interleave_frames FreeDV 700D mode number of frames to average error
+        */
+-      static sptr make(int mode=freedv_api::MODE_1600,const std::string msg_txt="GNU Radio");
++      static sptr make(int mode=freedv_api::MODE_1600,const std::string msg_txt="GNU Radio",int interleave_frames=1);
+     };
+ 
+   } /* namespace vocoder */
+--- a/gr-vocoder/lib/freedv_rx_ss_impl.cc
++++ b/gr-vocoder/lib/freedv_rx_ss_impl.cc
+@@ -1,6 +1,6 @@
+ /* -*- c++ -*- */
+ /*
+- * Copyright 2016 Free Software Foundation, Inc.
++ * Copyright 2016-2018 Free Software Foundation, Inc.
+  *
+  * This file is part of GNU Radio
+  *
+@@ -47,20 +47,31 @@
+   namespace vocoder {
+ 
+     freedv_rx_ss::sptr
+-    freedv_rx_ss::make(int mode, float squelch_thresh)
++    freedv_rx_ss::make(int mode, float squelch_thresh, int interleave_frames)
+     {
+       return gnuradio::get_initial_sptr
+-        (new freedv_rx_ss_impl(mode, squelch_thresh));
++        (new freedv_rx_ss_impl(mode, squelch_thresh, interleave_frames));
+     }
+ 
+-    freedv_rx_ss_impl::freedv_rx_ss_impl (int mode, float squelch_thresh)
++    freedv_rx_ss_impl::freedv_rx_ss_impl (int mode, float squelch_thresh, int interleave_frames)
+       : gr::block("vocoder_freedv_rx_ss",
+               io_signature::make(1, 1, sizeof(short)),
+               io_signature::make(1, 1, sizeof(short))),
+-        d_mode(mode), d_squelch_thresh(squelch_thresh)
++        d_mode(mode), d_squelch_thresh(squelch_thresh), d_interleave_frames(interleave_frames)
+     {
++#ifdef FREEDV_MODE_700D
++      if (mode == FREEDV_MODE_700D) {
++      d_adv.interleave_frames = interleave_frames;
++      if((d_freedv = freedv_open_advanced(mode, &d_adv)) ==NULL)
++	throw std::runtime_error("freedv_tx_ss_impl: freedv_open_advanced failed");
++      } else {
++	if((d_freedv = freedv_open(mode)) == NULL)
++	  throw std::runtime_error("freedv_tx_ss_impl: freedv_open failed");
++      }
++#else
+       if((d_freedv = freedv_open(mode)) == NULL)
+         throw std::runtime_error("freedv_rx_ss_impl: freedv_open failed");
++#endif
+       freedv_set_snr_squelch_thresh(d_freedv, d_squelch_thresh);
+       freedv_set_squelch_en(d_freedv, 0);
+       freedv_set_callback_txt(d_freedv, put_next_rx_char, NULL, (void *) &d_cb_state);
+@@ -138,6 +149,16 @@
+       freedv_set_snr_squelch_thresh(d_freedv, d_squelch_thresh);
+     }
+ 
++    void freedv_rx_ss_impl::set_squelch_en(bool squelch_enabled)
++    {
++      gr::thread::scoped_lock l(d_setlock);
++      d_squelch_en = squelch_enabled;
++      if (squelch_enabled)
++	freedv_set_squelch_en(d_freedv, 1);
++      else
++	freedv_set_squelch_en(d_freedv, 0);
++    }
++
+     float freedv_rx_ss_impl::squelch_thresh() {
+       return(d_squelch_thresh);
+     }
+--- a/gr-vocoder/lib/freedv_rx_ss_impl.h
++++ b/gr-vocoder/lib/freedv_rx_ss_impl.h
+@@ -1,6 +1,6 @@
+ /* -*- c++ -*- */
+ /*
+- * Copyright 2016 Free Software Foundation, Inc.
++ * Copyright 2016-2018 Free Software Foundation, Inc.
+  *
+  * This file is part of GNU Radio
+  *
+@@ -53,18 +53,24 @@
+       int d_total_bit_errors;
+       float d_snr_est;
+       float d_squelch_thresh;
++      bool d_squelch_en;
+       int d_speech_samples;
+       int d_max_modem_samples;
+       float d_clock_offset;
+       int d_use_codecrx;
++      int d_interleave_frames;
++#ifdef FREEDV_MODE_700D
++      struct freedv_advanced d_adv;
++#endif
+       struct CODEC2 *d_c2 = NULL;
+ 
+     public:
+-      freedv_rx_ss_impl(int mode, float squelch_thresh);
++      freedv_rx_ss_impl(int mode, float squelch_thresh, int interleave_frames);
+       ~freedv_rx_ss_impl();
+ 
+       void set_squelch_thresh(float squelch_thresh);
+       float squelch_thresh();
++      void set_squelch_en(bool squelch_enabled);
+ 
+       // Where all the action really happens
+       void forecast(int noutput_items, gr_vector_int &ninput_items_required);
+--- a/gr-vocoder/lib/freedv_tx_ss_impl.cc
++++ b/gr-vocoder/lib/freedv_tx_ss_impl.cc
+@@ -1,6 +1,6 @@
+ /* -*- c++ -*- */
+ /*
+- * Copyright 2016 Free Software Foundation, Inc.
++ * Copyright 2016-2018 Free Software Foundation, Inc.
+  *
+  * This file is part of GNU Radio
+  *
+@@ -54,20 +54,31 @@
+   namespace vocoder {
+ 
+     freedv_tx_ss::sptr
+-    freedv_tx_ss::make(int mode, const std::string msg_txt)
++    freedv_tx_ss::make(int mode, const std::string msg_txt, int interleave_frames)
+     {
+       return gnuradio::get_initial_sptr
+-        (new freedv_tx_ss_impl(mode, msg_txt));
++        (new freedv_tx_ss_impl(mode, msg_txt, interleave_frames));
+     }
+ 
+-    freedv_tx_ss_impl::freedv_tx_ss_impl(int mode, const std::string msg_txt)
++    freedv_tx_ss_impl::freedv_tx_ss_impl(int mode, const std::string msg_txt, int interleave_frames)
+       : sync_block("vocoder_freedv_tx_ss",
+                    io_signature::make(1, 1, sizeof(short)),
+                    io_signature::make(1, 1, sizeof(short))),
+-        d_mode(mode), d_msg_text(msg_txt)
++        d_mode(mode), d_msg_text(msg_txt), d_interleave_frames(interleave_frames)
+     {
++#ifdef FREEDV_MODE_700D
++      if (mode == FREEDV_MODE_700D) {
++      d_adv.interleave_frames = interleave_frames;
++      if((d_freedv = freedv_open_advanced(mode, &d_adv)) ==NULL)
++	throw std::runtime_error("freedv_tx_ss_impl: freedv_open_advanced failed");
++      } else {
++	if((d_freedv = freedv_open(mode)) == NULL)
++	  throw std::runtime_error("freedv_tx_ss_impl: freedv_open failed");
++      }
++#else
+       if((d_freedv = freedv_open(mode)) == NULL)
+         throw std::runtime_error("freedv_tx_ss_impl: freedv_open failed");
++#endif
+       snprintf(d_cb_state.tx_str,79,"%s",d_msg_text.c_str());
+       d_cb_state.ptx_str = d_cb_state.tx_str;
+       freedv_set_callback_txt(d_freedv, NULL, get_next_tx_char, (void *) &d_cb_state);
+@@ -80,6 +91,38 @@
+       freedv_close(d_freedv);
+     }
+ 
++    void freedv_tx_ss_impl::set_clip(int val)
++    {
++      d_clip = val;
++#if defined(FREEDV_MODE_700C) || defined(FREEDV_MODE_700D)
++      freedv_set_clip(d_freedv, d_clip);
++#endif
++    }
++
++    void freedv_tx_ss_impl::set_clip(bool val)
++    {
++      if (val)
++	freedv_tx_ss_impl::set_clip(1);
++      else
++	freedv_tx_ss_impl::set_clip(0);
++    }
++
++    void freedv_tx_ss_impl::set_tx_bpf(int val)
++    {
++      d_tx_bpf = val;
++#ifdef FREEDV_MODE_700D
++      freedv_set_tx_bpf(d_freedv, d_tx_bpf);
++#endif
++    }
++
++    void freedv_tx_ss_impl::set_tx_bpf(bool val)
++    {
++      if (val)
++	freedv_tx_ss_impl::set_tx_bpf(1);
++      else
++	freedv_tx_ss_impl::set_tx_bpf(0);
++    }
++
+     int
+     freedv_tx_ss_impl::work(int noutput_items,
+                             gr_vector_const_void_star &input_items,
+--- a/gr-vocoder/lib/freedv_tx_ss_impl.h
++++ b/gr-vocoder/lib/freedv_tx_ss_impl.h
+@@ -1,6 +1,6 @@
+ /* -*- c++ -*- */
+ /*
+- * Copyright 2016 Free Software Foundation, Inc.
++ * Copyright 2016-2018 Free Software Foundation, Inc.
+  *
+  * This file is part of GNU Radio
+  *
+@@ -48,18 +48,29 @@
+       struct freedv_tx_callback_state d_cb_state;
+       struct freedv *d_freedv;
+       int d_mode;
++      std::string d_msg_text;
++      int d_interleave_frames;
+       float d_squelch_thresh;
+       int d_speech_samples;
+       int d_nom_modem_samples;
+       int d_use_codectx;
+       int d_use_datatx;
+-      std::string d_msg_text;
++      int d_clip;
++      int d_tx_bpf;
++#ifdef FREEDV_MODE_700D
++      struct freedv_advanced d_adv;
++#endif
+       struct CODEC2 *d_c2;
+ 
+     public:
+-      freedv_tx_ss_impl(int mode, const std::string txt_msg);
++      freedv_tx_ss_impl(int mode, const std::string txt_msg, int interleave_frames);
+       ~freedv_tx_ss_impl();
+ 
++      void set_clip(bool val);
++      void set_clip(int val);
++      void set_tx_bpf(bool val);
++      void set_tx_bpf(int val);
++
+       // Where all the action really happens
+       int work(int noutput_items,
+                gr_vector_const_void_star &input_items,
+--- a/gr-vocoder/swig/vocoder_swig.i
++++ b/gr-vocoder/swig/vocoder_swig.i
+@@ -1,6 +1,6 @@
+ /* -*- c++ -*- */
+ /*
+- * Copyright 2011,2013,2016 Free Software Foundation, Inc.
++ * Copyright 2011,2013,2016,2018 Free Software Foundation, Inc.
+  *
+  * This file is part of GNU Radio
+  *
+@@ -93,8 +93,12 @@
+ #include "gnuradio/vocoder/freedv_tx_ss.h"
+ %}
+ 
++#ifdef FREEDV_MODE_700D
++#else
+ %ignore freedv_set_smooth_symbols;
+ %ignore freedv_set_clip;
++#endif
++
+ %include <codec2/freedv_api.h>
+ %include "gnuradio/vocoder/freedv_api.h"
+ %include "gnuradio/vocoder/freedv_rx_ss.h"
+--- a/gr-vocoder/include/gnuradio/vocoder/codec2.h
++++ b/gr-vocoder/include/gnuradio/vocoder/codec2.h
+@@ -48,6 +48,12 @@
+ #ifdef CODEC2_MODE_700B
+ 	MODE_700B = CODEC2_MODE_700B,
+ #endif
++#ifdef CODEC2_MODE_700C
++	MODE_700C = CODEC2_MODE_700C,
++#endif
++#ifdef CODEC2_MODE_WB
++	MODE_WB = CODEC2_MODE_WB,
++#endif
+       };
+ 
+     private:

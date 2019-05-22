@@ -1,0 +1,11 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -27,7 +27,7 @@
+ ########################################################################
+ # Make sure this version matches ${GR_CMAKE_MIN_VERSION} (a variable can't be
+ # used here).
+-cmake_minimum_required(VERSION 2.8.12)
++cmake_minimum_required(VERSION 3.10)
+ # use cmake_policy to silence warnings without updating code
+ cmake_policy(SET CMP0026 OLD)
+ cmake_policy(SET CMP0045 OLD)

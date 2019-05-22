@@ -1,0 +1,65 @@
+From c3b31d7493096163a83fbbcd19ce3c003e40c0dd Mon Sep 17 00:00:00 2001
+From: "A. Maitland Bottoms" <bottoms@debian.org>
+Date: Sat, 10 Feb 2018 20:14:18 -0500
+Subject: [PATCH 07/27] wxpy3.0 compat
+
+Update for wxPython 3.0
+wx.InitAllImageHandlers() issues a deprecation warning with wxPython 3.0
+and is a no-op with wxPython 2.8.
+Deprecated constants like wxSAVE are gone from the C++ API, so wx.SAVE, etc
+are also likely to go from wxPython soon.
+The alias "wx.Color" is gone in wxPython 3.0 - only "wx.Colour" is now
+supported, so update docstring to use the correct class name.
+Author: Olly Betts <olly@survex.com>
+Last-Update: 2014-08-21
+---
+ gr-wxgui/python/wxgui/plot.py           | 3 +--
+ gr-wxgui/python/wxgui/plotter/gltext.py | 4 ++--
+ 2 files changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/gr-wxgui/python/wxgui/plot.py b/gr-wxgui/python/wxgui/plot.py
+index 041a2a7a50..ebc35ff7e7 100644
+--- a/gr-wxgui/python/wxgui/plot.py
++++ b/gr-wxgui/python/wxgui/plot.py
+@@ -522,7 +522,7 @@ class PlotCanvas(wx.Window):
+                     self,
+                     "Choose a file with extension bmp, gif, xbm, xpm, png, or jpg", ".", "",
+                     "BMP files (*.bmp)|*.bmp|XBM files (*.xbm)|*.xbm|XPM file (*.xpm)|*.xpm|PNG files (*.png)|*.png|JPG files (*.jpg)|*.jpg",
+-                    wx.SAVE|wx.OVERWRITE_PROMPT
++                    wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT
+                     )
+             try:
+                 while 1:
+@@ -1820,7 +1820,6 @@ def __test():
+ 
+     class MyApp(wx.App):
+         def OnInit(self):
+-            wx.InitAllImageHandlers()
+             frame = TestFrame(None, -1, "PlotCanvas")
+             #frame.Show(True)
+             self.SetTopWindow(frame)
+diff --git a/gr-wxgui/python/wxgui/plotter/gltext.py b/gr-wxgui/python/wxgui/plotter/gltext.py
+index 55627bceb1..588f67ec2c 100644
+--- a/gr-wxgui/python/wxgui/plotter/gltext.py
++++ b/gr-wxgui/python/wxgui/plotter/gltext.py
+@@ -50,7 +50,7 @@ class TextElement(object):
+         """
+         text (String)         - Text
+         font (wx.Font)        - Font to draw with (None = System default)
+-        foreground (wx.Color) - Color of the text
++        foreground (wx.Colour)- Color of the text
+                 or (wx.Bitmap)- Bitmap to overlay the text with
+         centered (bool)       - Center the text
+ 
+@@ -317,7 +317,7 @@ class Text(object):
+             text (string)           - displayed text
+             font (wx.Font)          - if None, system default font will be used with font_size
+             font_size (int)         - font size in points
+-            foreground (wx.Color)   - Color of the text
++            foreground (wx.Colour)  - Color of the text
+                     or (wx.Bitmap)  - Bitmap to overlay the text with
+             centered (bool)         - should the text drawn centered towards position?
+ 
+-- 
+2.11.0
+

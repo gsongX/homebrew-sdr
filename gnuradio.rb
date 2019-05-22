@@ -3,7 +3,7 @@ class Gnuradio < Formula
   homepage "https://gnuradio.org/"
   url "https://gnuradio.org/releases/gnuradio/gnuradio-3.7.13.5.tar.gz"
   sha256 "f14e1f8efbcbe04336b6981da207ada3306a8f08af2c0b4e9bb6f8b93036bbb9"
-  revision 2
+  revision 3
   head "https://github.com/gnuradio/gnuradio.git"
 
   depends_on "cmake" => :build
@@ -21,18 +21,18 @@ class Gnuradio < Formula
   depends_on "python@2"
   depends_on "uhd"
   depends_on "zeromq"
-  depends_on "wxpython"
   depends_on "freeglut"
   depends_on "log4cpp"
   depends_on "jack"
   depends_on "portaudio"
   depends_on "cppunit"
-  depends_on "cartr/qt4/qwt-qt4"
-  depends_on "cartr/qt4/pyqt@4"
+  #depends_on "cartr/qt4/qwt-qt4"
+  #depends_on "cartr/qt4/pyqt@4"
+  #depends_on "wxpython"
   depends_on "wxmac"
-  depends_on "libglade"
   depends_on "sdl"
   depends_on "thrift"
+  depends_on "codec2"
 
 
   # cheetah starts here
@@ -159,11 +159,6 @@ class Gnuradio < Formula
   #  sha256 "4406148772dd2c656c18e4959728b9ff8c1a8e4c9e63560a45d88e9eeb493e4f"
   #end
 
-  #patch do
-  #  url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-fix_ctrlport_test.next.diff"
-  #  sha256 "de60572388cc9aaa3c9401c125be6e8fa44b45861a3aba92ba61e3e2a9c7dad5"
-  #end
-
   # patch do
   #  url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-C_CXX_STANDARD.next.diff"
   #  sha256 "69f2e25f0c688122e2ba97bc957a84480814d683607d5f78b9137aee46f7b49d"
@@ -175,6 +170,207 @@ class Gnuradio < Formula
   #  sha256 "60398e127ba72e6ccf33e7f8d5da800711e182c7e8d3016b8f9483500e89f321"
   #end
 
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/0001-Fixed-out-of-bound-vector-acces-in-PMT-maint-3.7-edi.patch"
+    sha256 "733ea19d169e2adc3c5f6f867b8cf8884e04735e08071eac1d73d6068bc1b283"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/0002-polar_decoder_sc_systematic.cc-Fix-memory-leak.patch"
+    sha256 "f9022aaf82ae38ad9605a9a32c556c7576f68d0f81d6a6f73314b8831de023a2"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/0003-modified-gen_uhd_usrp_blocks.py.patch"
+    sha256 "c4fea8d1420194843e6e5bfed79861518565342e601844e4d65dce09ef2d0e9f"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/0004-qtgui-Fix-compiler-warnings-Wreorder.patch"
+    sha256 "a3a184a3bfcaac4cbf549c973497d3cfc55771cb19b387a79ed9ebf8e564cfd9"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/0005-blocks-fix-the-udp_source_sink-test-flakiness.patch"
+    sha256 "879514df13304347a39d5cb7a23b7df5bbff63c62bcc39aa9abf13eaf0b9a9b1"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0001-CMake-Update-required-minimum-version-to-2.8.12.patch"
+    sha256 "bf453a6587a8c56f4d41d76d6f2ba4b00283b22b6aca624e6cfa87bc24445d09"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0002-CMake-FindQwt-Find-the-Qt5-version-of-QWT-instead-of.patch"
+    sha256 "7d14eb7fca36977dc1be2fb1136f5f072fc1e53b0e786945f58d7dfc87bc83dc"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0003-gr-qtgui-update-for-Qt5.patch"
+    sha256 "c665c77b172af344f1d3afd68aadfd484a66b1cb54449d540bbd2d58224aee6d"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0004-grc-Generate-Python-scripts-that-use-PyQt5.patch"
+    sha256 "03db3d9da992d609b915bf29a1acc970ecd3ed7f11c0be9125384f5065c6dfde"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0005-gr-qtgui-Add-a-workaround-for-an-upstream-bug-of-uic.patch"
+    sha256 "126352577fd08da245c093518ac462d6cb6fa6b6d84b89ca3b03d98f3929cbf0"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0006-qtgui-fixed-examples-for-Qt5-compatibility.patch"
+    sha256 "041533767cbbdea495176025deae568a6bda2babff3b83b83bffd1239669ac40"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0007-qtgui-Fixes-for-edit_box_msg-to-work-with-QT5.patch"
+    sha256 "8730b027a109e221ae38b65ccd5c2c9674d6fb43239a93ddcfceab5bba8973ae"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0008-gr-qtgui-Allow-build-with-Qt4-or-Qt5-default.patch"
+    sha256 "4f1ff930d7bfa2fbad4f9e1d76835738b784718ad1c7e62cc344f70d2f11f141"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0009-gr-qtgui-Fix-PyQt-4-5-include-in-XMLs-for-GRC.patch"
+    sha256 "5a8c25df0c7c3f8f7dc830a441fbdbcbdf0b63c779ea3815c8a1b75934523522"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0010-gr-qtgui-Fix-range.py-to-work-with-both-Qt4-and-Qt5.patch"
+    sha256 "e134ec2f8177c75d241b88d0be66d45007c4a111f08595a67eff79b5c1375f79"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0011-gr-qtgui-Re-introduce-some-Qt4-specific-code.patch"
+    sha256 "2c5455da361ab1a60692105d6abdcac17e54d09b162de97e190f072f6d908079"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0012-grc-Fix-generation-of-Python-code-for-Qt4-and-Qt5.patch"
+    sha256 "5ee8ad63d6fd2913dcda4d6e45f09882998e2290932d908c867a3a7908eb0f8b"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0013-grc-replace-templated-xml-files-with-search-and-repl.patch"
+    sha256 "896ded49f14dd630923fcd4d020c560988f1e5ac18d4a0caba1a83c00ba3898b"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0014-qtgui-replace-templated-xml-files-with-search-and-re.patch"
+    sha256 "a82f5115ef4395b94f399f6027359e3b5c51b285e10812a865a88432c0320c7a"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0015-fixed-the-FindQwt-to-prefer-pkgconfig-for-qt5-qwt.patch"
+    sha256 "bb915edfc97413cb6235b4435e7143aefb22dadda0e906c5d90d344cce0fb050"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0016-Revert-fixed-the-FindQwt-to-prefer-pkgconfig-for-qt5.patch"
+    sha256 "9f7691c824170be455c526fbba56e29004c7c5d302476593e3222e56518707f5"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0017-qtgui-fix-stylesheet-for-qt5.patch"
+    sha256 "9059074320f8db5b17c7330fd30bf78e3e950b347cbe3291bd5f93654034f3ab"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0019-qtgui-fixed-apps-for-Qt5-compatibility.patch"
+    sha256 "71ecbcacbbefbcfd15d28b55091343fbe3b065b159cd5e5b681302bc9a665859"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0021-gnuradio-runtime-ctrlport-qt5.patch"
+    sha256 "3e88a7fe12137cb3056657f115995bdce9191c1ae77658db6e6916368b1c333b"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0022-gr-uhd-qt5.patch"
+    sha256 "71220d3f8469b0307721b9bd22da9fdbdfa094fef2102898462e2a10090f55b5"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0023-gr-qtgui-util.patch"
+    sha256 "0b73e607e6ab1cacd51913288ae39d89667e7134e203e2daeb70a046f8ab935d"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0024-gr-qtgui-restoreGeometry.patch"
+    sha256 "83c88277ef5e0f77c89c4db8d262722bdd314ad8aac0c9e89a8598c8400a560f"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/usr-bin-examples"
+    sha256 "157f6015f2bbfd63be07d9cbb6bc3bfdb967a8646115e0ef7845064d223d77a9"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/wxpy3"
+    sha256 "bfc85156896bf55911297a15e5003c8eb9fc22b47292a485191e0c403e518018"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/cmake-policies"
+    sha256 "f2d956cc629272a8847bbb592b766862723f075e83db070f9ff221d9942d49bc"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/gr-vocoder-codec2-subcomponent-using-external-codec2"
+    sha256 "6e7b725d105e4ccff408c66f2f88c2b91ac184757587e14900df260a1ab5113a"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/gr-vocoder-gsm-subcomponent-using-external-gsm-libra"
+    sha256 "525064e51ad77c2a905e6af0750ba17daa582daae9d9f873cae26b4bc8c087dd"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/fix-vocoder-test"
+    sha256 "3e2c40b0a0daf001d5fb9df6dc1af9fe73377fd5780225ba403959fbe710acec"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/add-freedv-blocks"
+    sha256 "4ea80bc4d449633fdc4ee44a124497083844634d01404257ffafc9239d2120f5"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/provide-example-grfreedv"
+    sha256 "9f9c32a4d0d5693c46ea852cdc717367548167594e4a03b631c9c08f4609f5c1"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/Convert-tabs-to-spaces"
+    sha256 "767752bb2d5bb5a5fba3fd49dffc3a210e489b93ee861482cee31429b16bdfcc"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/Get-the-FreeDV-demodulator-working"
+    sha256 "0612f725b48808f38e2983cb66295d60a12a0468fad6eff0738b6f528d7a424e"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/codec2-0.8-block-update"
+    sha256 "e027aa6caa77a22eabb0bc16fa579d96987c8a8fa7ddb1f47814c2048b0e3dd7"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/runtime-replace-std-auto_ptr-usage-with-std-unique_p"
+    sha256 "c400936cebdf06ccdb88d3259c7ed63094764e96d8505845935fe0d4847af0c8"
+  end
+
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/use-recent-cmake-features"
+    sha256 "b61f9bbde868a21ec24230740aaa93160fe23593a1c893f8b238a0e86db0c4cc"
+  end
+
+  
   patch :DATA
 
   def install

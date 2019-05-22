@@ -1,0 +1,452 @@
+From 66300b7abfb32dda70cd7bba3b96f60c2080bcdd Mon Sep 17 00:00:00 2001
+From: "A. Maitland Bottoms" <bottoms@debian.org>
+Date: Sat, 25 Jun 2016 18:08:44 -0400
+Subject: [PATCH 12/27] gr-vocoder: gsm subcomponent using external gsm library
+
+---
+ cmake/Modules/FindGSM.cmake                        | 52 ++++++++++++++
+ gr-vocoder/CMakeLists.txt                          | 10 ++-
+ gr-vocoder/examples/CMakeLists.txt                 | 11 ++-
+ gr-vocoder/grc/CMakeLists.txt                      | 13 +++-
+ gr-vocoder/include/gnuradio/vocoder/CMakeLists.txt | 13 ++--
+ gr-vocoder/lib/CMakeLists.txt                      | 82 +++-------------------
+ gr-vocoder/lib/gsm_fr_decode_ps_impl.cc            |  3 +-
+ gr-vocoder/lib/gsm_fr_encode_sp_impl.cc            |  3 +-
+ gr-vocoder/python/vocoder/CMakeLists.txt           |  8 ++-
+ gr-vocoder/swig/CMakeLists.txt                     |  6 +-
+ gr-vocoder/swig/vocoder_swig.i                     | 21 ++++--
+ 11 files changed, 127 insertions(+), 95 deletions(-)
+ create mode 100644 cmake/Modules/FindGSM.cmake
+
+--- /dev/null
++++ b/cmake/Modules/FindGSM.cmake
+@@ -0,0 +1,52 @@
++# Copyright 2016 Free Software Foundation, Inc.
++#
++# This file is part of GNU Radio
++#
++# GNU Radio is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 3, or (at your option)
++# any later version.
++#
++# GNU Radio is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with GNU Radio; see the file COPYING.  If not, write to
++# the Free Software Foundation, Inc., 51 Franklin Street,
++# Boston, MA 02110-1301, USA.
++
++###########################
++# Check for system libgsm #
++###########################
++
++INCLUDE(FindPkgConfig)
++INCLUDE(FindPackageHandleStandardArgs)
++
++pkg_check_modules(LIBGSM_PKG QUIET gsm)
++
++find_path(LIBGSM_INCLUDE_DIR NAMES gsm.h
++  PATHS
++  ${LIBGSM_PKG_INCLUDE_DIRS}
++  /usr/local/include/gsm
++  /usr/local/include
++  /usr/include/gsm
++  /usr/include
++  )
++
++find_library(LIBGSM_LIBRARIES NAMES gsm
++  PATHS
++  ${LIBGSM_PKG_LIBRARY_DIRS}
++  /usr/local/lib
++  /usr/lib
++  )
++
++if(LIBGSM_INCLUDE_DIR AND LIBGSM_LIBRARIES)
++  set(LIBGSM_FOUND TRUE)
++  set(LIBGSM_INCLUDE_DIRS ${LIBGSM_INCLUDE_DIR})
++  set(LIBGSM_LIBRARIES ${LIBGSM_LIBRARIES} ${LIBGSM_LIBRARY})
++endif(LIBGSM_INCLUDE_DIR AND LIBGSM_LIBRARIES)
++
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(LIBGSM DEFAULT_MSG LIBGSM_LIBRARIES LIBGSM_INCLUDE_DIRS)
++mark_as_advanced(LIBGSM_INCLUDE_DIR LIBGSM_LIBRARIES)
+--- a/gr-vocoder/CMakeLists.txt
++++ b/gr-vocoder/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-# Copyright 2011 Free Software Foundation, Inc.
++# Copyright 2011,2016 Free Software Foundation, Inc.
+ #
+ # This file is part of GNU Radio
+ #
+@@ -104,6 +104,14 @@
+ endif(LIBCODEC2_FOUND)
+ 
+ ########################################################################
++## GSM Support
++########################################################################
++find_package(GSM)
++if(LIBGSM_FOUND)
++  GR_APPEND_SUBCOMPONENT("gsm")
++endif(LIBGSM_FOUND)
++
++########################################################################
+ # Add subdirectories
+ ########################################################################
+ add_subdirectory(include/gnuradio/vocoder)
+--- a/gr-vocoder/examples/CMakeLists.txt
++++ b/gr-vocoder/examples/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-# Copyright 2011 Free Software Foundation, Inc.
++# Copyright 2011,2016 Free Software Foundation, Inc.
+ #
+ # This file is part of GNU Radio
+ #
+@@ -29,7 +29,6 @@
+     g721_audio_loopback.py
+     g723_24_audio_loopback.py
+     g723_40_audio_loopback.py
+-    gsm_audio_loopback.py
+     ulaw_audio_loopback.py
+     DESTINATION ${GR_PKG_VOCODER_EXAMPLES_DIR}
+     COMPONENT "vocoder_examples"
+@@ -42,3 +41,11 @@
+     COMPONENT "vocoder_examples"
+     )
+ endif(LIBCODEC2_FOUND)
++if(LIBGSM_FOUND)
++  GR_PYTHON_INSTALL(
++    PROGRAMS
++    gsm_audio_loopback.py
++    DESTINATION ${GR_PKG_VOCODER_EXAMPLES_DIR}
++    COMPONENT "vocoder_examples"
++    )
++endif(LIBGSM_FOUND)
+--- a/gr-vocoder/grc/CMakeLists.txt
++++ b/gr-vocoder/grc/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-# Copyright 2011 Free Software Foundation, Inc.
++# Copyright 2011,2016 Free Software Foundation, Inc.
+ #
+ # This file is part of GNU Radio
+ #
+@@ -31,8 +31,6 @@
+     vocoder_g723_24_encode_sb.xml
+     vocoder_g723_40_decode_bs.xml
+     vocoder_g723_40_encode_sb.xml
+-    vocoder_gsm_fr_decode_ps.xml
+-    vocoder_gsm_fr_encode_sp.xml
+     vocoder_ulaw_decode_bs.xml
+     vocoder_ulaw_encode_sb.xml
+     DESTINATION ${GRC_BLOCKS_DIR}
+@@ -47,3 +45,12 @@
+     COMPONENT "vocoder_python"
+     )
+ endif(LIBCODEC2_FOUND)
++
++if(LIBGSM_FOUND)
++  install(FILES
++    vocoder_gsm_fr_decode_ps.xml
++    vocoder_gsm_fr_encode_sp.xml
++    DESTINATION ${GRC_BLOCKS_DIR}
++    COMPONENT "vocoder_python"
++    )
++endif(LIBGSM_FOUND)
+--- a/gr-vocoder/include/gnuradio/vocoder/CMakeLists.txt
++++ b/gr-vocoder/include/gnuradio/vocoder/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-# Copyright 2012,2013 Free Software Foundation, Inc.
++# Copyright 2012,2013,2016 Free Software Foundation, Inc.
+ #
+ # This file is part of GNU Radio
+ #
+@@ -32,14 +32,11 @@
+     g723_24_encode_sb.h
+     g723_40_decode_bs.h
+     g723_40_encode_sb.h
+-    gsm_fr_decode_ps.h
+-    gsm_fr_encode_sp.h
+     ulaw_decode_bs.h
+     ulaw_encode_sb.h
+     DESTINATION ${GR_INCLUDE_DIR}/gnuradio/vocoder
+     COMPONENT "vocoder_devel"
+ )
+-
+ if(LIBCODEC2_FOUND)
+ install(FILES
+     codec2.h
+@@ -49,3 +46,11 @@
+     COMPONENT "vocoder_devel"
+ )
+ endif(LIBCODEC2_FOUND)
++if(LIBGSM_FOUND)
++install(FILES
++    gsm_fr_decode_ps.h
++    gsm_fr_encode_sp.h
++    DESTINATION ${GR_INCLUDE_DIR}/gnuradio/vocoder
++    COMPONENT "vocoder_devel"
++)
++endif(LIBGSM_FOUND)
+--- a/gr-vocoder/lib/CMakeLists.txt
++++ b/gr-vocoder/lib/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-# Copyright 2011,2013 Free Software Foundation, Inc.
++# Copyright 2011,2013,2016 Free Software Foundation, Inc.
+ #
+ # This file is part of GNU Radio
+ #
+@@ -18,70 +18,6 @@
+ # Boston, MA 02110-1301, USA.
+ 
+ ########################################################################
+-# Check for system libgsm via CMake variable GR_USE_SYSTEM_LIBGSM ....
+-#  if undefined, try to find system libgsm library,
+-#    but if there is no system library use a local copy.
+-#  if defined True, use system libgsm if found, otherwise do not
+-#     use a local copy.
+-#  if defined False, use the local copy
+-########################################################################
+-if (NOT DEFINED GR_USE_SYSTEM_LIBGSM)
+-   find_path(LIBGSM_INCLUDE_DIR NAMES gsm.h
+-    PATHS
+-    ${LIBGSM_PKG_INCLUDE_DIRS}
+-    /usr/include/gsm
+-    /usr/include
+-  )
+-
+-  find_library(LIBGSM_LIBRARIES NAMES gsm
+-    PATHS
+-    ${LIBGSM_PKG_LIBRARY_DIRS}
+-    /usr/lib
+-  )
+-
+- if(LIBGSM_INCLUDE_DIR AND LIBGSM_LIBRARIES)
+-   set(GR_USE_SYSTEM_LIBGSM TRUE CACHE INTERNAL "System libgsm found")
+-   message(STATUS "Found libgsm: ${LIBGSM_INCLUDE_DIR}, ${LIBGSM_LIBRARIES}")
+-   set(GR_USE_LOCAL_LIBGSM FALSE)
+-   set(GR_USE_SYSTEM_LIBGSM TRUE)
+- else(LIBGSM_INCLUDE_DIR AND LIBGSM_LIBRARIES)
+-   set(GR_USE_SYSTEM_LIBGSM FALSE CACHE INTERNAL "System libgsm found")
+-   message(STATUS "System libgsm not found.")
+-   set(GR_USE_LOCAL_LIBGSM TRUE)
+- endif(LIBGSM_INCLUDE_DIR AND LIBGSM_LIBRARIES)
+-else (NOT DEFINED GR_USE_SYSTEM_LIBGSM)
+- if (GR_USE_SYSTEM_LIBGSM)
+-    find_path(LIBGSM_INCLUDE_DIR NAMES gsm.h
+-    PATHS
+-    ${LIBGSM_PKG_INCLUDE_DIRS}
+-    /usr/include/gsm
+-    /usr/include
+-  )
+-
+-  find_library(LIBGSM_LIBRARIES NAMES gsm
+-    PATHS
+-    ${LIBGSM_PKG_LIBRARY_DIRS}
+-    /usr/lib
+-  )
+-
+-  if(LIBGSM_INCLUDE_DIR AND LIBGSM_LIBRARIES)
+-    set(GR_USE_SYSTEM_LIBGSM TRUE CACHE INTERNAL "System libgsm found")
+-    message(STATUS "Found libgsm: ${LIBGSM_INCLUDE_DIR}, ${LIBGSM_LIBRARIES}")
+-    set(GR_USE_LOCAL_LIBGSM FALSE)
+-  else(LIBGSM_INCLUDE_DIR AND LIBGSM_LIBRARIES)
+-    set(GR_USE_SYSTEM_LIBGSM FALSE CACHE INTERNAL "System libgsm found")
+-    message(STATUS "System libgsm not found.")
+-    set(GR_USE_LOCAL_LIBGSM FALSE)
+-   endif(LIBGSM_INCLUDE_DIR AND LIBGSM_LIBRARIES)
+- else (GR_USE_SYSTEM_LIBGSM)
+-    set(GR_USE_LOCAL_LIBGSM TRUE)
+-    message(STATUS "Using gnuradio local copy of libgsm.")
+- endif (GR_USE_SYSTEM_LIBGSM)
+-endif (NOT DEFINED GR_USE_SYSTEM_LIBGSM)
+-
+-mark_as_advanced(LIBGSM_INCLUDE_DIR LIBGSM_LIBRARIES)
+-
+-########################################################################
+ # Setup the include and linker paths
+ ########################################################################
+ include_directories(
+@@ -110,8 +46,6 @@
+     g723_24_encode_sb_impl.cc
+     g723_40_decode_bs_impl.cc
+     g723_40_encode_sb_impl.cc
+-    gsm_fr_decode_ps_impl.cc
+-    gsm_fr_encode_sp_impl.cc
+     ulaw_decode_bs_impl.cc
+     ulaw_encode_sb_impl.cc
+ )
+@@ -122,6 +56,12 @@
+     codec2_encode_sp_impl.cc
+     )
+ endif(LIBCODEC2_FOUND)
++if(LIBGSM_FOUND)
++  list(APPEND gr_vocoder_sources
++    gsm_fr_decode_ps_impl.cc
++    gsm_fr_encode_sp_impl.cc
++    )
++endif(LIBGSM_FOUND)
+ 
+ #Add Windows DLL resource file if using MSVC
+ if(MSVC)
+@@ -142,10 +82,6 @@
+ ########################################################################
+ GR_INCLUDE_SUBDIRECTORY(g7xx)
+ 
+-if(GR_USE_LOCAL_LIBGSM)
+- GR_INCLUDE_SUBDIRECTORY(gsm)
+-endif(GR_USE_LOCAL_LIBGSM)
+-
+ list(APPEND vocoder_libs
+     gnuradio-runtime
+     ${Boost_LIBRARIES}
+@@ -155,9 +91,9 @@
+   list(APPEND vocoder_libs ${LIBCODEC2_LIBRARIES})
+ endif(LIBCODEC2_LIBRARIES)
+ 
+-if(GR_USE_SYSTEM_LIBGSM)
++if(LIBGSM_LIBRARIES)
+   list(APPEND vocoder_libs ${LIBGSM_LIBRARIES})
+-endif(GR_USE_SYSTEM_LIBGSM)
++endif(LIBGSM_LIBRARIES)
+ 
+ add_library(gnuradio-vocoder SHARED ${gr_vocoder_sources})
+ target_link_libraries(gnuradio-vocoder ${vocoder_libs})
+--- a/gr-vocoder/lib/gsm_fr_decode_ps_impl.cc
++++ b/gr-vocoder/lib/gsm_fr_decode_ps_impl.cc
+@@ -1,6 +1,6 @@
+ /* -*- c++ -*- */
+ /*
+- * Copyright 2005,2010,2013 Free Software Foundation, Inc.
++ * Copyright 2005,2010,2013,2016 Free Software Foundation, Inc.
+  *
+  * This file is part of GNU Radio
+  *
+@@ -24,6 +24,7 @@
+ #include "config.h"
+ #endif
+ 
++#define GSM_SAMPLES_PER_FRAME  160
+ #include "gsm_fr_decode_ps_impl.h"
+ #include <gnuradio/io_signature.h>
+ #include <stdexcept>
+--- a/gr-vocoder/lib/gsm_fr_encode_sp_impl.cc
++++ b/gr-vocoder/lib/gsm_fr_encode_sp_impl.cc
+@@ -1,6 +1,6 @@
+ /* -*- c++ -*- */
+ /*
+- * Copyright 2005,2010,2013 Free Software Foundation, Inc.
++ * Copyright 2005,2010,2013,2016 Free Software Foundation, Inc.
+  *
+  * This file is part of GNU Radio
+  *
+@@ -24,6 +24,7 @@
+ #include "config.h"
+ #endif
+ 
++#define GSM_SAMPLES_PER_FRAME  160
+ #include "gsm_fr_encode_sp_impl.h"
+ #include <gnuradio/io_signature.h>
+ #include <stdexcept>
+--- a/gr-vocoder/python/vocoder/CMakeLists.txt
++++ b/gr-vocoder/python/vocoder/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-# Copyright 2011 Free Software Foundation, Inc.
++# Copyright 2011,2016 Free Software Foundation, Inc.
+ #
+ # This file is part of GNU Radio
+ #
+@@ -53,7 +53,6 @@
+     qa_g721_vocoder.py
+     qa_g723_24_vocoder.py
+     qa_g723_40_vocoder.py
+-    qa_gsm_full_rate.py
+     qa_ulaw_vocoder.py
+     )
+   if(LIBCODEC2_FOUND)
+@@ -61,6 +60,11 @@
+       qa_codec2_vocoder.py
+       )
+   endif()
++  if(LIBGSM_FOUND)
++    list(APPEND py_qa_test_files
++      qa_gsm_full_rate.py
++      )
++  endif()
+   foreach(py_qa_test_file ${py_qa_test_files})
+     get_filename_component(py_qa_test_name ${py_qa_test_file} NAME_WE)
+     GR_ADD_TEST(${py_qa_test_name} ${QA_PYTHON_EXECUTABLE} ${PYTHON_DASH_B} ${py_qa_test_file})
+--- a/gr-vocoder/swig/CMakeLists.txt
++++ b/gr-vocoder/swig/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-# Copyright 2011 Free Software Foundation, Inc.
++# Copyright 2011,2016 Free Software Foundation, Inc.
+ #
+ # This file is part of GNU Radio
+ #
+@@ -37,6 +37,10 @@
+   list(APPEND GR_SWIG_FLAGS "-DLIBCODEC2_FOUND")
+ endif(LIBCODEC2_FOUND)
+ 
++if(LIBGSM_FOUND)
++  list(APPEND GR_SWIG_FLAGS "-DLIBGSM_FOUND")
++endif(LIBGSM_FOUND)
++
+ set(GR_SWIG_DOC_FILE ${CMAKE_CURRENT_BINARY_DIR}/vocoder_swig_doc.i)
+ set(GR_SWIG_DOC_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../include/gnuradio/vocoder)
+ set(GR_SWIG_DOCS_TARGET_DEPS runtime_swig_swig_doc)
+--- a/gr-vocoder/swig/vocoder_swig.i
++++ b/gr-vocoder/swig/vocoder_swig.i
+@@ -1,6 +1,6 @@
+ /* -*- c++ -*- */
+ /*
+- * Copyright 2011,2013 Free Software Foundation, Inc.
++ * Copyright 2011,2013,2016 Free Software Foundation, Inc.
+  *
+  * This file is part of GNU Radio
+  *
+@@ -38,8 +38,6 @@
+ #include "gnuradio/vocoder/g723_24_encode_sb.h"
+ #include "gnuradio/vocoder/g723_40_decode_bs.h"
+ #include "gnuradio/vocoder/g723_40_encode_sb.h"
+-#include "gnuradio/vocoder/gsm_fr_decode_ps.h"
+-#include "gnuradio/vocoder/gsm_fr_encode_sp.h"
+ #include "gnuradio/vocoder/ulaw_decode_bs.h"
+ #include "gnuradio/vocoder/ulaw_encode_sb.h"
+ %}
+@@ -54,8 +52,6 @@
+ %include "gnuradio/vocoder/g723_24_encode_sb.h"
+ %include "gnuradio/vocoder/g723_40_decode_bs.h"
+ %include "gnuradio/vocoder/g723_40_encode_sb.h"
+-%include "gnuradio/vocoder/gsm_fr_decode_ps.h"
+-%include "gnuradio/vocoder/gsm_fr_encode_sp.h"
+ %include "gnuradio/vocoder/ulaw_decode_bs.h"
+ %include "gnuradio/vocoder/ulaw_encode_sb.h"
+ 
+@@ -69,8 +65,6 @@
+ GR_SWIG_BLOCK_MAGIC2(vocoder, g723_24_encode_sb);
+ GR_SWIG_BLOCK_MAGIC2(vocoder, g723_40_decode_bs);
+ GR_SWIG_BLOCK_MAGIC2(vocoder, g723_40_encode_sb);
+-GR_SWIG_BLOCK_MAGIC2(vocoder, gsm_fr_decode_ps);
+-GR_SWIG_BLOCK_MAGIC2(vocoder, gsm_fr_encode_sp);
+ GR_SWIG_BLOCK_MAGIC2(vocoder, ulaw_decode_bs);
+ GR_SWIG_BLOCK_MAGIC2(vocoder, ulaw_encode_sb);
+ 
+@@ -90,3 +84,16 @@
+ GR_SWIG_BLOCK_MAGIC2(vocoder, codec2_decode_ps);
+ GR_SWIG_BLOCK_MAGIC2(vocoder, codec2_encode_sp);
+ #endif
++
++#ifdef LIBGSM_FOUND
++%{
++#include "gnuradio/vocoder/gsm_fr_decode_ps.h"
++#include "gnuradio/vocoder/gsm_fr_encode_sp.h"
++%}
++
++%include "gnuradio/vocoder/gsm_fr_decode_ps.h"
++%include "gnuradio/vocoder/gsm_fr_encode_sp.h"
++
++GR_SWIG_BLOCK_MAGIC2(vocoder, gsm_fr_decode_ps);
++GR_SWIG_BLOCK_MAGIC2(vocoder, gsm_fr_encode_sp);
++#endif

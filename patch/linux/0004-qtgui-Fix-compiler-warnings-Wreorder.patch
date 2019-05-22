@@ -1,0 +1,44 @@
+From 5308023db4cd0f997ee637f4d614fb43970e905a Mon Sep 17 00:00:00 2001
+From: Martin Braun <martin.braun@ettus.com>
+Date: Tue, 11 Dec 2018 14:16:08 -0800
+Subject: [PATCH 4/5] qtgui: Fix compiler warnings (-Wreorder)
+
+---
+ gr-qtgui/lib/freq_sink_f_impl.cc   | 5 +++--
+ gr-qtgui/lib/vector_sink_f_impl.cc | 4 ++--
+ 2 files changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/gr-qtgui/lib/freq_sink_f_impl.cc b/gr-qtgui/lib/freq_sink_f_impl.cc
+index 831df49ef4..5ed0bd393b 100644
+--- a/gr-qtgui/lib/freq_sink_f_impl.cc
++++ b/gr-qtgui/lib/freq_sink_f_impl.cc
+@@ -59,8 +59,9 @@ namespace gr {
+ 	d_fftsize(fftsize), d_fftavg(1.0),
+ 	d_wintype((filter::firdes::win_type)(wintype)),
+ 	d_center_freq(fc), d_bandwidth(bw), d_name(name),
+-  d_nconnections(nconnections), d_parent(parent),
+-  d_port(pmt::mp("freq"))
++  d_nconnections(nconnections),
++  d_port(pmt::mp("freq")),
++  d_parent(parent)
+     {
+       // Required now for Qt; argc must be greater than 0 and argv
+       // must have at least one valid character. Must be valid through
+diff --git a/gr-qtgui/lib/vector_sink_f_impl.cc b/gr-qtgui/lib/vector_sink_f_impl.cc
+index a10ce18e77..7d9792ef1f 100644
+--- a/gr-qtgui/lib/vector_sink_f_impl.cc
++++ b/gr-qtgui/lib/vector_sink_f_impl.cc
+@@ -78,8 +78,8 @@ namespace gr {
+         d_name(name),
+         d_nconnections(nconnections),
+         d_msg(pmt::mp("x")),
+-        d_parent(parent),
+-        d_port(pmt::mp(MSG_PORT_OUT_XVAL))
++        d_port(pmt::mp(MSG_PORT_OUT_XVAL)),
++        d_parent(parent)
+     {
+       // Required now for Qt; argc must be greater than 0 and argv
+       // must have at least one valid character. Must be valid through
+-- 
+2.11.0
+

@@ -1,0 +1,43 @@
+From 0642d8150c8e7c8668382b2159abad3da8b38bd8 Mon Sep 17 00:00:00 2001
+From: "A. Maitland Bottoms" <bottoms@debian.org>
+Date: Sat, 10 Feb 2018 20:52:32 -0500
+Subject: [PATCH 13/27] fix vocoder test
+
+Replacing file(GLOB... with list(APPEND... needs the
+full path of referenced files.
+---
+ gr-vocoder/python/vocoder/CMakeLists.txt | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+--- a/gr-vocoder/python/vocoder/CMakeLists.txt
++++ b/gr-vocoder/python/vocoder/CMakeLists.txt
+@@ -48,21 +48,21 @@
+ 
+   include(GrTest)
+   list(APPEND py_qa_test_files
+-    qa_alaw_vocoder.py
+-    qa_cvsd_vocoder.py
+-    qa_g721_vocoder.py
+-    qa_g723_24_vocoder.py
+-    qa_g723_40_vocoder.py
+-    qa_ulaw_vocoder.py
++    ${CMAKE_CURRENT_SOURCE_DIR}/qa_alaw_vocoder.py
++    ${CMAKE_CURRENT_SOURCE_DIR}/qa_cvsd_vocoder.py
++    ${CMAKE_CURRENT_SOURCE_DIR}/qa_g721_vocoder.py
++    ${CMAKE_CURRENT_SOURCE_DIR}/qa_g723_24_vocoder.py
++    ${CMAKE_CURRENT_SOURCE_DIR}/qa_g723_40_vocoder.py
++    ${CMAKE_CURRENT_SOURCE_DIR}/qa_ulaw_vocoder.py
+     )
+   if(LIBCODEC2_FOUND)
+     list(APPEND py_qa_test_files
+-      qa_codec2_vocoder.py
++      ${CMAKE_CURRENT_SOURCE_DIR}/qa_codec2_vocoder.py
+       )
+   endif()
+   if(LIBGSM_FOUND)
+     list(APPEND py_qa_test_files
+-      qa_gsm_full_rate.py
++      ${CMAKE_CURRENT_SOURCE_DIR}/qa_gsm_full_rate.py
+       )
+   endif()
+   foreach(py_qa_test_file ${py_qa_test_files})
