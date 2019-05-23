@@ -624,28 +624,6 @@ diff -uNrp a/gr-qtgui/grc/qtgui_chooser.xml b/gr-qtgui/grc/qtgui_chooser.xml
  	<import>from PyQt5 import Qt</import>
  	<import>from PyQt5.QtCore import QObject, pyqtSlot</import>
  	<var_make>self.$(id) = $(id) = $value</var_make>
-diff -uNrp a/gr-qtgui/grc/qtgui_const_sink_x.xml b/gr-qtgui/grc/qtgui_const_sink_x.xml
---- a/gr-qtgui/grc/qtgui_const_sink_x.xml	2019-05-23 10:45:01.000000000 +0700
-+++ b/gr-qtgui/grc/qtgui_const_sink_x.xml	2019-05-23 11:51:16.000000000 +0700
-@@ -7,6 +7,7 @@
- <block>
-   <name>QT GUI Constellation Sink</name>
-   <key>qtgui_const_sink_x</key>
-+  <import>import sip</import>
-   <import>from PyQt5 import Qt</import>
-   <import>from gnuradio import qtgui</import>
-   <import>import sip</import>
-diff -uNrp a/gr-qtgui/grc/qtgui_edit_box_msg.xml b/gr-qtgui/grc/qtgui_edit_box_msg.xml
---- a/gr-qtgui/grc/qtgui_edit_box_msg.xml	2019-05-23 10:45:01.000000000 +0700
-+++ b/gr-qtgui/grc/qtgui_edit_box_msg.xml	2019-05-23 11:51:23.000000000 +0700
-@@ -7,6 +7,7 @@
- <block>
-   <name>QT GUI Message Edit Box</name>
-   <key>qtgui_edit_box_msg</key>
-+  <import>import sip</import>
-   <import>from PyQt5 import Qt</import>
-   <import>from gnuradio import qtgui</import>
-   <import>import sip</import>
 diff -uNrp a/gr-qtgui/grc/qtgui_entry.xml b/gr-qtgui/grc/qtgui_entry.xml
 --- a/gr-qtgui/grc/qtgui_entry.xml	2019-05-23 10:45:01.000000000 +0700
 +++ b/gr-qtgui/grc/qtgui_entry.xml	2019-05-23 11:51:34.000000000 +0700
@@ -668,17 +646,6 @@ diff -uNrp a/gr-qtgui/grc/qtgui_freq_sink_x.xml b/gr-qtgui/grc/qtgui_freq_sink_x
    <import>from PyQt5 import Qt</import>
    <import>from gnuradio import qtgui</import>
    <import>from gnuradio.filter import firdes</import>
-diff -uNrp a/gr-qtgui/grc/qtgui_histogram_sink_x.xml b/gr-qtgui/grc/qtgui_histogram_sink_x.xml
---- a/gr-qtgui/grc/qtgui_histogram_sink_x.xml	2019-05-23 10:45:01.000000000 +0700
-+++ b/gr-qtgui/grc/qtgui_histogram_sink_x.xml	2019-05-23 11:48:09.000000000 +0700
-@@ -7,6 +7,7 @@
- <block>
-   <name>QT GUI Histogram Sink</name>
-   <key>qtgui_histogram_sink_x</key>
-+  <import>import sip</import>
-   <import>from PyQt5 import Qt</import>
-   <import>from gnuradio import qtgui</import>
-   <import>import sip</import>
 diff -uNrp a/gr-qtgui/grc/qtgui_label.xml b/gr-qtgui/grc/qtgui_label.xml
 --- a/gr-qtgui/grc/qtgui_label.xml	2019-05-23 10:45:01.000000000 +0700
 +++ b/gr-qtgui/grc/qtgui_label.xml	2019-05-23 11:51:05.000000000 +0700
@@ -1163,3 +1130,16 @@ diff -uNrp a/gr-qtgui/python/qtgui/range.py.cmakein b/gr-qtgui/python/qtgui/rang
 +    app.exec_()
 +
 +    widget = None
+diff -uNrp a/grc/core/Platform.py b/grc/core/Platform.py
+--- a/grc/core/Platform.py    2019-04-20 16:58:09.000000000 +0700
++++ b/grc/core/Platform.py    2019-05-23 13:20:56.000000000 +0700
+@@ -194,7 +194,8 @@ class Platform(Element):
+         block = self.Block(self._flow_graph, n)
+         key = block.get_key()
+         if key in self.blocks:
+-            print >> sys.stderr, 'Warning: Block with key "{0}" already exists.\n\tIgnoring: {1}'.format(key, xml_file)
++            #print >> sys.stderr, 'Warning: Block with key "{0}" already exists.\n\tIgnoring: {1}'.format(key, xml_file)
++            pass
+         else:  # Store the block
+             self.blocks[key] = block
+             self._blocks_n[key] = n
