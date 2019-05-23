@@ -389,6 +389,7 @@ index 4c782a7f7..c352f6d2a 100644
 -GR_PYTHON_CHECK_MODULE("pygtk >= 2.10.0"   gtk          "gtk.pygtk_version >= (2, 10, 0)"           PYGTK_FOUND)
 +GR_PYTHON_CHECK_MODULE("pygtk >= 2.10.0"   pygtk        True                                        PYGTK_FOUND)
  GR_PYTHON_CHECK_MODULE("numpy"             numpy        True                                        NUMPY_FOUND)
+
 diff --git a/gr-uhd/apps/uhd_fft b/gr-uhd/apps/uhd_fft
 index 777461fd6..4731589be 100755
 --- a/gr-uhd/apps/uhd_fft
