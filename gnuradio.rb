@@ -378,6 +378,233 @@ index 3ce49aa..4221310 100644
  )
 
  set(QWT_FOUND FALSE)
+diff -uNrp a/gr-filter/examples/gr_filtdes_callback.py b/gr-filter/examples/gr_filtdes_callback.py
+--- a/gr-filter/examples/gr_filtdes_callback.py 2019-04-20 16:58:09.000000000 +0700
++++ b/gr-filter/examples/gr_filtdes_callback.py 2019-05-23 11:37:06.000000000 +0700
+@@ -23,9 +23,9 @@
+ from gnuradio.filter import filter_design
+ import sys
+ try:
+-    from PyQt4 import Qt, QtCore, QtGui
++    from PyQt5 import Qt, QtCore, QtGui
+ except ImportError:
+-    print "Please install PyQt4 to run this script (http://www.riverbankcomputing.co.uk/software/pyqt/download)"
++    print "Please install PyQt5 to run this script (http://www.riverbankcomputing.co.uk/software/pyqt/download)"
+     raise SystemExit, 1
+ 
+ '''
+diff -uNrp a/gr-filter/examples/gr_filtdes_live_upd.py b/gr-filter/examples/gr_filtdes_live_upd.py
+--- a/gr-filter/examples/gr_filtdes_live_upd.py 2019-04-20 16:58:09.000000000 +0700
++++ b/gr-filter/examples/gr_filtdes_live_upd.py 2019-05-23 11:37:06.000000000 +0700
+@@ -27,10 +27,10 @@ import sys
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    sys.stderr.write("Error: Program requires PyQt4 and gr-qtgui.\n")
++    sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+     sys.exit(1)
+ 
+ 
+@@ -84,7 +84,7 @@ class my_top_block(gr.top_block):
+         pyQt  = self.snk1.pyqwidget()
+ 
+         # Wrap the pointer as a PyQt SIP object
+-        # This can now be manipulated as a PyQt4.QtGui.QWidget
++        # This can now be manipulated as a PyQt5.QtGui.QWidget
+         pyWin = sip.wrapinstance(pyQt, QtGui.QWidget)
+         pyWin.show()
+ 
+diff -uNrp a/gr-filter/examples/gr_filtdes_restrict.py b/gr-filter/examples/gr_filtdes_restrict.py
+--- a/gr-filter/examples/gr_filtdes_restrict.py 2019-04-20 16:58:09.000000000 +0700
++++ b/gr-filter/examples/gr_filtdes_restrict.py 2019-05-23 11:37:06.000000000 +0700
+@@ -23,9 +23,9 @@
+ from gnuradio.filter import filter_design
+ import sys
+ try:
+-    from PyQt4 import Qt, QtCore, QtGui
++    from PyQt5 import Qt, QtCore, QtGui
+ except ImportError:
+-    print "Please install PyQt4 to run this script (http://www.riverbankcomputing.co.uk/software/pyqt/download)"
++    print "Please install PyQt5 to run this script (http://www.riverbankcomputing.co.uk/software/pyqt/download)"
+     raise SystemExit, 1
+ 
+ 
+diff -uNrp a/gr-filter/python/filter/design/filter_design.py b/gr-filter/python/filter/design/filter_design.py
+--- a/gr-filter/python/filter/design/filter_design.py 2019-04-20 16:58:09.000000000 +0700
++++ b/gr-filter/python/filter/design/filter_design.py 2019-05-23 11:37:05.000000000 +0700
+@@ -31,13 +31,14 @@ except ImportError:
+     raise SystemExit, 1
+ 
+ try:
+-    from PyQt4 import Qt, QtCore, QtGui
++    from PyQt5 import Qt, QtCore, QtGui
+ except ImportError:
+-    print "Please install PyQt4 to run this script (http://www.riverbankcomputing.co.uk/software/pyqt/download)"
++    print "Please install PyQt5 to run this script (http://www.riverbankcomputing.co.uk/software/pyqt/download)"
+     raise SystemExit, 1
+ 
+ try:
+-    import PyQt4.Qwt5 as Qwt
++    import sip
++    import PyQt5.Qwt5 as Qwt
+ except ImportError:
+     print "Please install PyQwt5 to run this script (http://pyqwt.sourceforge.net/)"
+     raise SystemExit, 1
+diff -uNrp a/gr-filter/python/filter/design/fir_design.py b/gr-filter/python/filter/design/fir_design.py
+--- a/gr-filter/python/filter/design/fir_design.py  2019-04-20 16:58:09.000000000 +0700
++++ b/gr-filter/python/filter/design/fir_design.py  2019-05-23 11:37:05.000000000 +0700
+@@ -20,7 +20,7 @@
+ 
+ import scipy
+ from gnuradio import filter
+-from PyQt4 import QtGui
++from PyQt5 import QtGui
+ 
+ # Filter design functions using a window
+ def design_win_lpf(fs, gain, wintype, mainwin):
+diff -uNrp a/gr-filter/python/filter/gui/bandgraphicsview.py b/gr-filter/python/filter/gui/bandgraphicsview.py
+--- a/gr-filter/python/filter/gui/bandgraphicsview.py 2019-04-20 16:58:09.000000000 +0700
++++ b/gr-filter/python/filter/gui/bandgraphicsview.py 2019-05-23 11:37:05.000000000 +0700
+@@ -18,7 +18,7 @@
+ # Boston, MA 02110-1301, USA.
+ #
+ 
+-from PyQt4 import QtGui, QtCore, Qt
++from PyQt5 import QtGui, QtCore, Qt
+ 
+ class BandGraphicsView(QtGui.QGraphicsView):
+     def resizeEvent(self, event):
+diff -uNrp a/gr-filter/python/filter/gui/banditems.py b/gr-filter/python/filter/gui/banditems.py
+--- a/gr-filter/python/filter/gui/banditems.py  2019-04-20 16:58:09.000000000 +0700
++++ b/gr-filter/python/filter/gui/banditems.py  2019-05-23 11:37:05.000000000 +0700
+@@ -19,9 +19,9 @@
+ #
+ 
+ try:
+-    from PyQt4 import Qt, QtCore, QtGui
++    from PyQt5 import Qt, QtCore, QtGui
+ except ImportError:
+-    print "Please install PyQt4 to run this script (http://www.riverbankcomputing.co.uk/software/pyqt/download)"
++    print "Please install PyQt5 to run this script (http://www.riverbankcomputing.co.uk/software/pyqt/download)"
+     raise SystemExit, 1
+ 
+ #Movable solid line for filter ideal-band diagram
+diff -uNrp a/gr-filter/python/filter/gui/icons_rc.py b/gr-filter/python/filter/gui/icons_rc.py
+--- a/gr-filter/python/filter/gui/icons_rc.py 2019-04-20 16:58:09.000000000 +0700
++++ b/gr-filter/python/filter/gui/icons_rc.py 2019-05-23 11:37:05.000000000 +0700
+@@ -7,7 +7,7 @@
+ #
+ # WARNING! All changes made in this file will be lost!
+ 
+-from PyQt4 import QtCore
++from PyQt5 import QtCore
+ 
+ qt_resource_data = "\
+ \x00\x00\x08\x4a\
+diff -uNrp a/gr-filter/python/filter/gui/idealbanditems.py b/gr-filter/python/filter/gui/idealbanditems.py
+--- a/gr-filter/python/filter/gui/idealbanditems.py 2019-04-20 16:58:09.000000000 +0700
++++ b/gr-filter/python/filter/gui/idealbanditems.py 2019-05-23 11:37:05.000000000 +0700
+@@ -18,8 +18,8 @@
+ # Boston, MA 02110-1301, USA.
+ #
+ 
+-from PyQt4 import QtGui, QtCore, Qt
+-import PyQt4.Qwt5 as Qwt
++from PyQt5 import QtGui, QtCore, Qt
++import PyQt5.Qwt5 as Qwt
+ import scipy
+ 
+ class IdealBandItems():
+diff -uNrp a/gr-filter/python/filter/gui/polezero_plot.py b/gr-filter/python/filter/gui/polezero_plot.py
+--- a/gr-filter/python/filter/gui/polezero_plot.py  2019-04-20 16:58:09.000000000 +0700
++++ b/gr-filter/python/filter/gui/polezero_plot.py  2019-05-23 11:37:05.000000000 +0700
+@@ -19,9 +19,9 @@
+ #
+ 
+ import sys
+-from PyQt4 import Qt, QtCore
++from PyQt5 import Qt, QtCore
+ from math import sin, cos, pi
+-import PyQt4.Qwt5 as Qwt
++import PyQt5.Qwt5 as Qwt
+ from numpy import zeros
+ from numpy import float as Float
+ from numpy import vectorize
+diff -uNrp a/gr-filter/python/filter/gui/pyqt_filter_stacked.py b/gr-filter/python/filter/gui/pyqt_filter_stacked.py
+--- a/gr-filter/python/filter/gui/pyqt_filter_stacked.py  2019-04-20 16:58:09.000000000 +0700
++++ b/gr-filter/python/filter/gui/pyqt_filter_stacked.py  2019-05-23 11:37:05.000000000 +0700
+@@ -3,11 +3,11 @@
+ # Form implementation generated from reading ui file 'pyqt_filter_stacked.ui'
+ #
+ # Created: Wed Aug  8 11:42:47 2012
+-#      by: PyQt4 UI code generator 4.9.1
++#      by: PyQt5 UI code generator 4.9.1
+ #
+ # WARNING! All changes made in this file will be lost!
+ 
+-from PyQt4 import QtCore, QtGui
++from PyQt5 import QtCore, QtGui
+ 
+ try:
+     _fromUtf8 = QtCore.QString.fromUtf8
+@@ -1414,7 +1414,7 @@ class Ui_MainWindow(object):
+         self.actionCheck.setText(QtGui.QApplication.translate("MainWindow", "check", None, QtGui.QApplication.UnicodeUTF8))
+         self.actionPlot_FFT_points.setText(QtGui.QApplication.translate("MainWindow", "Plot FFT points", None, QtGui.QApplication.UnicodeUTF8))
+ 
+-from PyQt4 import Qwt5
++from PyQt5 import Qwt5
+ from bandgraphicsview import BandGraphicsView
+ from polezero_plot import PzPlot
+ import icons_rc
+diff -uNrp a/gr-qtgui/docs/qtgui.dox b/gr-qtgui/docs/qtgui.dox
+--- a/gr-qtgui/docs/qtgui.dox 2019-04-20 16:58:09.000000000 +0700
++++ b/gr-qtgui/docs/qtgui.dox 2019-05-23 11:07:11.000000000 +0700
+@@ -129,7 +129,7 @@ The QT GUI blocks require the following 
+ \li QtCore (version >= 4.4)
+ \li QtGui (version >= 4.4)
+ \li QtOpenGL (version >= 4.4)
+-\li PyQt4 for Qt4 (version >= 4.4)
++\li PyQt5 for Qt5 (version >= 4.4)
+ \li Qwt (version >= 5.2)
+ 
+ \section qtgui_usage Usage
+@@ -148,7 +148,7 @@ qapp's "exec_()" function is called. Thi
+ while the GUI is alive.
+ 
+ \code
+-from PyQt4 import Qt
++from PyQt5 import Qt
+ from gnuradio import qtgui
+ import sys, sip
+ 
+diff -uNrp a/gr-qtgui/examples/pyqt_waterfall_c.py b/gr-qtgui/examples/pyqt_waterfall_c.py
+--- a/gr-qtgui/examples/pyqt_waterfall_c.py 2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/examples/pyqt_waterfall_c.py 2019-05-23 11:24:36.000000000 +0700
+@@ -29,7 +29,7 @@ try:
+     from PyQt5 import QtWidgets, Qt
+     import sip
+ except ImportError:
+-    sys.stderr.write("Error: Program requires PyQt4 and gr-qtgui.\n")
++    sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+     sys.exit(1)
+ 
+ try:
+diff -uNrp a/gr-qtgui/python/qtgui/range.py b/gr-qtgui/python/qtgui/range.py
+--- a/gr-qtgui/python/qtgui/range.py  2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/python/qtgui/range.py  2019-05-23 11:00:41.000000000 +0700
+@@ -244,7 +244,7 @@ class RangeWidget(QtWidgets.QWidget):
+ 
+ 
+ if __name__ == "__main__":
+-    from PyQt4 import Qt
++    from PyQt5 import Qt
+     import sys
+ 
+     def valueChanged(frequency):
 diff -uNrp a/gr-uhd/apps/uhd_fft b/gr-uhd/apps/uhd_fft
 --- a/gr-uhd/apps/uhd_fft 2019-05-23 10:45:01.000000000 +0700
 +++ b/gr-uhd/apps/uhd_fft 2019-05-23 10:47:33.000000000 +0700
@@ -417,6 +644,106 @@ diff -uNrp a/gr-uhd/apps/uhd_fft b/gr-uhd/apps/uhd_fft
          self.qtgui_time_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
          self.qtgui_time_sink_x_0.enable_autoscale(True)
          self.qtgui_time_sink_x_0.enable_grid(False)
+diff -uNrp a/gr-utils/python/utils/gr_plot_qt b/gr-utils/python/utils/gr_plot_qt
+--- a/gr-utils/python/utils/gr_plot_qt  2019-04-20 16:58:09.000000000 +0700
++++ b/gr-utils/python/utils/gr_plot_qt  2019-05-23 11:02:54.000000000 +0700
+@@ -14,13 +14,13 @@ except ImportError:
+     raise SystemExit, 1
+ 
+ try:
+-    from PyQt4 import Qt, QtCore, QtGui
++    from PyQt5 import Qt, QtCore, QtGui
+ except ImportError:
+-    print "Please install PyQt4 to run this script (http://www.riverbankcomputing.co.uk/software/pyqt/download)"
++    print "Please install PyQt5 to run this script (http://www.riverbankcomputing.co.uk/software/pyqt/download)"
+     raise SystemExit, 1
+ 
+ try:
+-    import PyQt4.Qwt5 as Qwt
++    import PyQt5.Qwt5 as Qwt
+ except ImportError:
+     print "Please install PyQwt5 to run this script (http://pyqwt.sourceforge.net/)"
+     raise SystemExit, 1
+diff -uNrp a/gr-utils/python/utils/pyqt_filter.py b/gr-utils/python/utils/pyqt_filter.py
+--- a/gr-utils/python/utils/pyqt_filter.py  2019-04-20 16:58:09.000000000 +0700
++++ b/gr-utils/python/utils/pyqt_filter.py  2019-05-23 11:31:35.000000000 +0700
+@@ -3,11 +3,11 @@
+ # Form implementation generated from reading ui file 'pyqt_filter.ui'
+ #
+ # Created: Thu Mar 17 10:51:17 2011
+-#      by: PyQt4 UI code generator 4.7.4
++#      by: PyQt5 UI code generator 4.7.4
+ #
+ # WARNING! All changes made in this file will be lost!
+ 
+-from PyQt4 import QtCore, QtGui
++from PyQt5 import QtCore, QtGui
+ 
+ class Ui_MainWindow(object):
+     def setupUi(self, MainWindow):
+@@ -431,5 +431,5 @@ class Ui_MainWindow(object):
+         self.action_open.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+O", None, QtGui.QApplication.UnicodeUTF8))
+ 
+ #from qwt_plot import QwtPlot
+-from PyQt4.Qwt5 import QwtPlot
++from PyQt5.Qwt5 import QwtPlot
+ 
+diff -uNrp a/gr-utils/python/utils/pyqt_plot.py b/gr-utils/python/utils/pyqt_plot.py
+--- a/gr-utils/python/utils/pyqt_plot.py  2019-04-20 16:58:09.000000000 +0700
++++ b/gr-utils/python/utils/pyqt_plot.py  2019-05-23 11:08:21.000000000 +0700
+@@ -3,11 +3,11 @@
+ # Form implementation generated from reading ui file 'pyqt_plot.ui'
+ #
+ # Created: Tue Oct  6 10:39:58 2009
+-#      by: PyQt4 UI code generator 4.4.4
++#      by: PyQt5 UI code generator 4.4.4
+ #
+ # WARNING! All changes made in this file will be lost!
+ 
+-from PyQt4 import QtCore, QtGui
++from PyQt5 import QtCore, QtGui
+ 
+ class Ui_MainWindow(object):
+     def setupUi(self, MainWindow):
+@@ -208,4 +208,4 @@ class Ui_MainWindow(object):
+         self.action_reload.setText(QtGui.QApplication.translate("MainWindow", "&Reload", None, QtGui.QApplication.UnicodeUTF8))
+         self.action_reload.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+R", None, QtGui.QApplication.UnicodeUTF8))
+ 
+-from PyQt4 import Qwt5
++from PyQt5 import Qwt5
+diff -uNrp a/gr-zeromq/examples/python/fixui4py.sh b/gr-zeromq/examples/python/fixui4py.sh
+--- a/gr-zeromq/examples/python/fixui4py.sh 2019-04-20 16:58:09.000000000 +0700
++++ b/gr-zeromq/examples/python/fixui4py.sh 2019-05-23 11:30:28.000000000 +0700
+@@ -1,2 +1,2 @@
+ #!/bin/bash
+-sed -i 's/qwt_plot.h/PyQt4.Qwt5.Qwt/' $1
++sed -i 's/qwt_plot.h/PyQt5.Qwt5.Qwt/' $1
+diff -uNrp a/gr-zeromq/examples/python/gui.py b/gr-zeromq/examples/python/gui.py
+--- a/gr-zeromq/examples/python/gui.py  2019-04-20 16:58:09.000000000 +0700
++++ b/gr-zeromq/examples/python/gui.py  2019-05-23 11:30:05.000000000 +0700
+@@ -27,8 +27,8 @@ from gnuradio.eng_option import eng_opti
+ import gui
+ import sys
+ import os
+-from PyQt4 import Qt, QtGui, QtCore, uic
+-import PyQt4.Qwt5 as Qwt
++from PyQt5 import Qt, QtGui, QtCore, uic
++import PyQt5.Qwt5 as Qwt
+ from gnuradio import zeromq
+ import signal
+ 
+diff -uNrp a/gr-zeromq/examples/python/main_window.ui b/gr-zeromq/examples/python/main_window.ui
+--- a/gr-zeromq/examples/python/main_window.ui  2019-04-20 16:58:09.000000000 +0700
++++ b/gr-zeromq/examples/python/main_window.ui  2019-05-23 11:30:58.000000000 +0700
+@@ -191,7 +191,7 @@
+   <customwidget>
+    <class>QwtPlot</class>
+    <extends>QFrame</extends>
+-   <header>PyQt4.Qwt5.Qwt</header>
++   <header>PyQt5.Qwt5.Qwt</header>
+   </customwidget>
+  </customwidgets>
+  <resources/>
 diff --git a/grc/CMakeLists.txt b/grc/CMakeLists.txt
 index 4c782a7f7..c352f6d2a 100644
 --- a/grc/CMakeLists.txt
@@ -428,267 +755,4 @@ index 4c782a7f7..c352f6d2a 100644
 -GR_PYTHON_CHECK_MODULE("pygtk >= 2.10.0"   gtk          "gtk.pygtk_version >= (2, 10, 0)"           PYGTK_FOUND)
 +GR_PYTHON_CHECK_MODULE("pygtk >= 2.10.0"   pygtk        True                                        PYGTK_FOUND)
  GR_PYTHON_CHECK_MODULE("numpy"             numpy        True                                        NUMPY_FOUND)
-diff -uNrp a/gr-qtgui/python/qtgui/range.py.cmakein b/gr-qtgui/python/qtgui/range.py.cmakein
---- a/gr-qtgui/python/qtgui/range.py.cmakein  1970-01-01 07:00:00.000000000 +0700
-+++ b/gr-qtgui/python/qtgui/range.py.cmakein  2019-05-23 10:45:01.000000000 +0700
-@@ -0,0 +1,260 @@
-+#!/usr/bin/env python
-+# -*- coding: utf-8 -*-
-+#
-+# Copyright 2015 Free Software Foundation, Inc.
-+#
-+# This file is part of GNU Radio
-+#
-+# GNU Radio is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 3, or (at your option)
-+# any later version.
-+#
-+# GNU Radio is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with GNU Radio; see the file COPYING.  If not, write to
-+# the Free Software Foundation, Inc., 51 Franklin Street,
-+# Boston, MA 02110-1301, USA.
-+#
-+
-+@PY_QT_IMPORT@
-+import util
-+
-+class Range(object):
-+    def __init__(self, minv, maxv, step, default, min_length):
-+        self.min = float(minv)
-+        self.max = float(maxv)
-+        self.step = float(step)
-+        self.default = float(default)
-+        self.min_length = min_length
-+        self.find_precision()
-+        self.find_nsteps()
-+        util.check_set_qss()
-+
-+    def find_precision(self):
-+        # Get the decimal part of the step
-+        temp = str(float(self.step) - int(self.step))[2:]
-+        precision = len(temp) if temp is not '0' else 0
-+        precision = min(precision, 13)
-+
-+        if precision == 0 and self.max < 100:
-+            self.precision = 1  # Always have a decimal in this case
-+        else:
-+            self.precision = (precision + 2) if precision > 0 else 0
-+
-+    def find_nsteps(self):
-+        self.nsteps = (self.max + self.step - self.min)/self.step
-+
-+    def demap_range(self, val):
-+        if val > self.max:
-+            val = self.max
-+        if val < self.min:
-+            val = self.min
-+        return ((val-self.min)/self.step)
-+
-+    def map_range(self, val):
-+        if val > self.nsteps:
-+            val = self.max
-+        if val < 0:
-+            val = 0
-+        return (val*self.step+self.min)
-+
-+
-+class RangeWidget(QtWidgets.QWidget):
-+    def __init__(self, ranges, slot, label, style, rangeType=float):
-+        """ Creates the QT Range widget """
-+        QtWidgets.QWidget.__init__(self)
-+
-+        self.range = ranges
-+        self.style = style
-+
-+        # rangeType tells the block how to return the value as a standard
-+        self.rangeType = rangeType
-+
-+        # Top-block function to call when any value changes
-+        # Some widgets call this directly when their value changes.
-+        # Others have intermediate functions to map the value into the right range.
-+        self.notifyChanged = slot
-+
-+        layout = Qt.QHBoxLayout()
-+        label = Qt.QLabel(label)
-+        layout.addWidget(label)
-+
-+        if style == "dial":
-+            self.d_widget = self.Dial(self, self.range, self.notifyChanged, rangeType)
-+        elif style == "slider":
-+            self.d_widget = self.Slider(self, self.range, self.notifyChanged, rangeType)
-+        elif style == "counter":
-+            # The counter widget can be directly wired to the notifyChanged slot
-+            self.d_widget = self.Counter(self, self.range, self.notifyChanged, rangeType)
-+        else:
-+            # The CounterSlider needs its own internal handlers before calling notifyChanged
-+            self.d_widget = self.CounterSlider(self, self.range, self.notifyChanged, rangeType)
-+
-+        layout.addWidget(self.d_widget)
-+        self.setLayout(layout)
-+
-+    class Dial(QtWidgets.QDial):
-+        """ Creates the range using a dial """
-+        def __init__(self, parent, ranges, slot, rangeType=float):
-+            QtWidgets.QDial.__init__(self, parent)
-+
-+            self.rangeType = rangeType
-+
-+            # Setup the dial
-+            self.setRange(0, ranges.nsteps-1)
-+            self.setSingleStep(1)
-+            self.setNotchesVisible(True)
-+            self.range = ranges
-+
-+            # Round the initial value to the closest tick
-+            temp = int(round(ranges.demap_range(ranges.default), 0))
-+            self.setValue(temp)
-+
-+            # Setup the slots
-+            self.valueChanged.connect(self.changed)
-+            self.notifyChanged = slot
-+
-+        def changed(self, value):
-+            """ Handles maping the value to the right range before calling the slot. """
-+            val = self.range.map_range(value)
-+            self.notifyChanged(self.rangeType(val))
-+
-+    class Slider(QtWidgets.QSlider):
-+        """ Creates the range using a slider """
-+        def __init__(self, parent, ranges, slot, rangeType=float):
-+            QtWidgets.QSlider.__init__(self, QtCore.Qt.Horizontal, parent)
-+
-+            self.rangeType = rangeType
-+
-+            # Setup the slider
-+            #self.setFocusPolicy(QtCore.Qt.NoFocus)
-+            self.setRange(0, ranges.nsteps - 1)
-+            self.setTickPosition(2)
-+            self.setSingleStep(1)
-+            self.range = ranges
-+
-+            # Round the initial value to the closest tick
-+            temp = int(round(ranges.demap_range(ranges.default), 0))
-+            self.setValue(temp)
-+
-+            if ranges.nsteps > ranges.min_length:
-+                interval = int(ranges.nsteps/ranges.min_length)
-+                self.setTickInterval(interval)
-+                self.setPageStep(interval)
-+            else:
-+                self.setTickInterval(1)
-+                self.setPageStep(1)
-+
-+            # Setup the handler function
-+            self.valueChanged.connect(self.changed)
-+            self.notifyChanged = slot
-+
-+        def changed(self, value):
-+            """ Handle the valueChanged signal and map the value into the correct range """
-+            val = self.range.map_range(value)
-+            self.notifyChanged(self.rangeType(val))
-+
-+        def mousePressEvent(self, event):
-+            if((event.button() == QtCore.Qt.LeftButton)):
-+                new = self.minimum() + ((self.maximum()-self.minimum()) * event.x()) / self.width()
-+                self.setValue(new)
-+                event.accept()
-+            # Use repaint rather than calling the super mousePressEvent.
-+            # Calling super causes issue where slider jumps to wrong value.
-+            QtWidgets.QSlider.repaint(self)
-+
-+        def mouseMoveEvent(self, event):
-+            new = self.minimum() + ((self.maximum()-self.minimum()) * event.x()) / self.width()
-+            self.setValue(new)
-+            event.accept()
-+            QtWidgets.QSlider.repaint(self)
-+
-+    class Counter(QtWidgets.QDoubleSpinBox):
-+        """ Creates the range using a counter """
-+        def __init__(self, parent, ranges, slot, rangeType=float):
-+            QtWidgets.QDoubleSpinBox.__init__(self, parent)
-+
-+            self.rangeType = rangeType
-+
-+            # Setup the counter
-+            self.setDecimals(ranges.precision)
-+            self.setRange(ranges.min, ranges.max)
-+            self.setValue(ranges.default)
-+            self.setSingleStep(ranges.step)
-+            self.setKeyboardTracking(False)
-+
-+            # The counter already handles floats and can be connected directly.
-+            self.valueChanged.connect(self.changed)
-+            self.notifyChanged = slot
-+
-+        def changed(self, value):
-+            """ Handle the valueChanged signal by converting to the right type """
-+            self.notifyChanged(self.rangeType(value))
-+
-+    class CounterSlider(QtWidgets.QWidget):
-+        """ Creates the range using a counter and slider """
-+        def __init__(self, parent, ranges, slot, rangeType=float):
-+            QtWidgets.QWidget.__init__(self, parent)
-+
-+            self.rangeType = rangeType
-+
-+            # Slot to call in the parent
-+            self.notifyChanged = slot
-+
-+            self.slider = RangeWidget.Slider(parent, ranges, self.sliderChanged, rangeType)
-+            self.counter = RangeWidget.Counter(parent, ranges, self.counterChanged, rangeType)
-+
-+            # Need another horizontal layout to wrap the other widgets.
-+            layout = Qt.QHBoxLayout()
-+            layout.addWidget(self.slider)
-+            layout.addWidget(self.counter)
-+            self.setLayout(layout)
-+
-+            # Flag to ignore the slider event caused by a change to the counter.
-+            self.ignoreSlider = False
-+            self.range = ranges
-+
-+        def sliderChanged(self, value):
-+            """ Handles changing the counter when the slider is updated """
-+            # If the counter was changed, ignore any of these events
-+            if not self.ignoreSlider:
-+                # Value is already float. Just set the counter
-+                self.counter.setValue(self.rangeType(value))
-+                self.notifyChanged(self.rangeType(value))
-+            self.ignoreSlider = False
-+
-+        def counterChanged(self, value):
-+            """ Handles changing the slider when the counter is updated """
-+            # Get the current slider value and check to see if the new value changes it
-+            current = self.slider.value()
-+            new = int(round(self.range.demap_range(value), 0))
-+
-+            # If it needs to change, ignore the slider event
-+            # Otherwise, the slider will cause the counter to round to the nearest tick
-+            if current != new:
-+                self.ignoreSlider = True
-+                self.slider.setValue(new)
-+
-+            self.notifyChanged(self.rangeType(value))
-+
-+
-+if __name__ == "__main__":
-+    from PyQt4 import Qt
-+    import sys
-+
-+    def valueChanged(frequency):
-+        print("Value updated - " + str(frequency))
-+
-+    app = Qt.QApplication(sys.argv)
-+    widget = RangeWidget(Range(0, 100, 10, 1, 100), valueChanged, "Test", "counter_slider", int)
-+
-+    widget.show()
-+    widget.setWindowTitle("Test Qt Range")
-+    app.exec_()
-+
-+    widget = None
+ 
