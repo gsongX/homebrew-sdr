@@ -167,119 +167,9 @@ class Gnuradio < Formula
   # end
 
   # use qt5 patch
-  #patch do
-  #  url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-qt5.patch"
-  #  sha256 "60398e127ba72e6ccf33e7f8d5da800711e182c7e8d3016b8f9483500e89f321"
-  #end
-
   patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0001-CMake-Update-required-minimum-version-to-2.8.12.patch"
-    sha256 "bf453a6587a8c56f4d41d76d6f2ba4b00283b22b6aca624e6cfa87bc24445d09"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0002-CMake-FindQwt-Find-the-Qt5-version-of-QWT-instead-of.patch"
-    sha256 "7d14eb7fca36977dc1be2fb1136f5f072fc1e53b0e786945f58d7dfc87bc83dc"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0003-gr-qtgui-update-for-Qt5.patch"
-    sha256 "c665c77b172af344f1d3afd68aadfd484a66b1cb54449d540bbd2d58224aee6d"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0004-grc-Generate-Python-scripts-that-use-PyQt5.patch"
-    sha256 "03db3d9da992d609b915bf29a1acc970ecd3ed7f11c0be9125384f5065c6dfde"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0005-gr-qtgui-Add-a-workaround-for-an-upstream-bug-of-uic.patch"
-    sha256 "126352577fd08da245c093518ac462d6cb6fa6b6d84b89ca3b03d98f3929cbf0"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0006-qtgui-fixed-examples-for-Qt5-compatibility.patch"
-    sha256 "041533767cbbdea495176025deae568a6bda2babff3b83b83bffd1239669ac40"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0007-qtgui-Fixes-for-edit_box_msg-to-work-with-QT5.patch"
-    sha256 "8730b027a109e221ae38b65ccd5c2c9674d6fb43239a93ddcfceab5bba8973ae"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0008-gr-qtgui-Allow-build-with-Qt4-or-Qt5-default.patch"
-    sha256 "4f1ff930d7bfa2fbad4f9e1d76835738b784718ad1c7e62cc344f70d2f11f141"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0009-gr-qtgui-Fix-PyQt-4-5-include-in-XMLs-for-GRC.patch"
-    sha256 "5a8c25df0c7c3f8f7dc830a441fbdbcbdf0b63c779ea3815c8a1b75934523522"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0010-gr-qtgui-Fix-range.py-to-work-with-both-Qt4-and-Qt5.patch"
-    sha256 "e134ec2f8177c75d241b88d0be66d45007c4a111f08595a67eff79b5c1375f79"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0011-gr-qtgui-Re-introduce-some-Qt4-specific-code.patch"
-    sha256 "2c5455da361ab1a60692105d6abdcac17e54d09b162de97e190f072f6d908079"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0012-grc-Fix-generation-of-Python-code-for-Qt4-and-Qt5.patch"
-    sha256 "5ee8ad63d6fd2913dcda4d6e45f09882998e2290932d908c867a3a7908eb0f8b"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0013-grc-replace-templated-xml-files-with-search-and-repl.patch"
-    sha256 "896ded49f14dd630923fcd4d020c560988f1e5ac18d4a0caba1a83c00ba3898b"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0014-qtgui-replace-templated-xml-files-with-search-and-re.patch"
-    sha256 "a82f5115ef4395b94f399f6027359e3b5c51b285e10812a865a88432c0320c7a"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0015-fixed-the-FindQwt-to-prefer-pkgconfig-for-qt5-qwt.patch"
-    sha256 "bb915edfc97413cb6235b4435e7143aefb22dadda0e906c5d90d344cce0fb050"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0016-Revert-fixed-the-FindQwt-to-prefer-pkgconfig-for-qt5.patch"
-    sha256 "9f7691c824170be455c526fbba56e29004c7c5d302476593e3222e56518707f5"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0017-qtgui-fix-stylesheet-for-qt5.patch"
-    sha256 "9059074320f8db5b17c7330fd30bf78e3e950b347cbe3291bd5f93654034f3ab"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0019-qtgui-fixed-apps-for-Qt5-compatibility.patch"
-    sha256 "71ecbcacbbefbcfd15d28b55091343fbe3b065b159cd5e5b681302bc9a665859"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0021-gnuradio-runtime-ctrlport-qt5.patch"
-    sha256 "3e88a7fe12137cb3056657f115995bdce9191c1ae77658db6e6916368b1c333b"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0022-gr-uhd-qt5.patch"
-    sha256 "71220d3f8469b0307721b9bd22da9fdbdfa094fef2102898462e2a10090f55b5"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0023-gr-qtgui-util.patch"
-    sha256 "0b73e607e6ab1cacd51913288ae39d89667e7134e203e2daeb70a046f8ab935d"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0024-gr-qtgui-restoreGeometry.patch"
-    sha256 "83c88277ef5e0f77c89c4db8d262722bdd314ad8aac0c9e89a8598c8400a560f"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-qt5.patch"
+    sha256 "60398e127ba72e6ccf33e7f8d5da800711e182c7e8d3016b8f9483500e89f321"
   end
 
   patch do
@@ -499,3 +389,53 @@ index 4c782a7f7..c352f6d2a 100644
 -GR_PYTHON_CHECK_MODULE("pygtk >= 2.10.0"   gtk          "gtk.pygtk_version >= (2, 10, 0)"           PYGTK_FOUND)
 +GR_PYTHON_CHECK_MODULE("pygtk >= 2.10.0"   pygtk        True                                        PYGTK_FOUND)
  GR_PYTHON_CHECK_MODULE("numpy"             numpy        True                                        NUMPY_FOUND)
+diff --git a/gr-uhd/apps/uhd_fft b/gr-uhd/apps/uhd_fft
+index 777461fd6..4731589be 100755
+--- a/gr-uhd/apps/uhd_fft
++++ b/gr-uhd/apps/uhd_fft
+@@ -54,7 +54,7 @@ except ImportError:
+     from gnuradio.uhd.uhd_app import UHDApp
+ 
+ 
+-class uhd_fft(gr.top_block, Qt.QWidget, UHDApp):
++class uhd_fft(gr.top_block, UHDApp, Qt.QWidget):
+     """
+     Simple UHD Spectrum Analyzer / Scope App.
+     """
+@@ -82,7 +82,8 @@ class uhd_fft(gr.top_block, Qt.QWidget, UHDApp):
+         self.top_grid_layout = Qt.QGridLayout()
+         self.top_layout.addLayout(self.top_grid_layout)
+         self.settings = Qt.QSettings("GNU Radio", "uhd_fft")
+-        self.restoreGeometry(self.settings.value("geometry", type=QtCore.QByteArray))
++        if self.settings.value("geometry"):
++            self.restoreGeometry(self.settings.value("geometry"))
+ 
+         ##################################################
+         # Parameters
+@@ -139,7 +140,7 @@ class uhd_fft(gr.top_block, Qt.QWidget, UHDApp):
+         self._samp_rate__line_edit = Qt.QLineEdit(eng_notation.num_to_str(self.samp_rate))
+         self._samp_rate__tool_bar.addWidget(self._samp_rate__line_edit)
+         self._samp_rate__line_edit.returnPressed.connect(
+-            lambda: self.set_samp_rate(eng_notation.str_to_num(str(self._samp_rate__line_edit.text().toAscii()))))
++            lambda: self.set_samp_rate(eng_notation.str_to_num(self._samp_rate__line_edit.text())))
+         self.top_grid_layout.addWidget(self._samp_rate__tool_bar, 3, 2, 1, 2)
+         # Gain:
+         self._gain__range = Range(
+@@ -157,7 +158,7 @@ class uhd_fft(gr.top_block, Qt.QWidget, UHDApp):
+         self._freq_line_edit = Qt.QLineEdit(eng_notation.num_to_str(self.freq))
+         self._freq_tool_bar.addWidget(self._freq_line_edit)
+         self._freq_line_edit.returnPressed.connect(
+-            lambda: self.set_freq_qt(eng_notation.str_to_num(str(self._freq_line_edit.text().toAscii()))))
++            lambda: self.set_freq_qt(eng_notation.str_to_num(self._freq_line_edit.text())))
+         self.top_grid_layout.addWidget(self._freq_tool_bar, 3,0,1,2)
+         # Antenna Selection:
+         self._ant_labels = self._ant_options
+@@ -234,7 +235,7 @@ class uhd_fft(gr.top_block, Qt.QWidget, UHDApp):
+         self.qtgui_time_sink_x_0.set_update_time(self.update_rate)
+         self.qtgui_time_sink_x_0.set_y_axis(-1, 1)
+         self.qtgui_time_sink_x_0.set_y_label("Amplitude", "")
+-        self.qtgui_time_sink_x_0.enable_tags(-1, True)
++        self.qtgui_time_sink_x_0.enable_tags(0, True)
+         self.qtgui_time_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
+         self.qtgui_time_sink_x_0.enable_autoscale(True)
+         self.qtgui_time_sink_x_0.enable_grid(False)
