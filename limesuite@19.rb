@@ -1,4 +1,4 @@
-class LimesuiteATDIY < Formula
+class LimesuiteAT19 < Formula
   desc "Lime suite device drivers, GUI, and SDR support"
   homepage "https://github.com/myriadrf/LimeSuite/blob/master/README.md"
   head "https://github.com/myriadrf/LimeSuite.git"
@@ -8,7 +8,7 @@ class LimesuiteATDIY < Formula
   depends_on "cmake" => :build
   depends_on "sqlite" #core library dependency
   depends_on "libusb" => :recommended
-  depends_on "wxmac@" => :recommended
+  depends_on "wxmac@3.1" => :recommended
   depends_on "soapysdr" => :recommended
   option "with-images", "Download and install firmware/gatware images"
 
