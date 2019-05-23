@@ -31,7 +31,7 @@ class Gnuradio < Formula
   #depends_on "cartr/qt4/qwt-qt4"
   #depends_on "cartr/qt4/pyqt@4"
   #depends_on "wxpython"
-  depends_on "wxmac"
+  depends_on "wxmac@3.1"
   depends_on "sdl"
   depends_on "thrift"
   depends_on "codec2"
