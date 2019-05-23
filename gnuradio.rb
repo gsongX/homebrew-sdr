@@ -27,7 +27,7 @@ class Gnuradio < Formula
   depends_on "portaudio"
   depends_on "cppunit"
   depends_on "qwt"
-  depends_on "pyqt"
+  depends_on "gsong2014/tools/pyqt"
   #depends_on "cartr/qt4/qwt-qt4"
   #depends_on "cartr/qt4/pyqt@4"
   #depends_on "wxpython"
