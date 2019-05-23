@@ -8,7 +8,7 @@ class LimesuiteATDIY < Formula
   depends_on "cmake" => :build
   depends_on "sqlite" #core library dependency
   depends_on "libusb" => :recommended
-  depends_on "wxmac@diy" => :recommended
+  depends_on "wxmac@" => :recommended
   depends_on "soapysdr" => :recommended
   option "with-images", "Download and install firmware/gatware images"
 
