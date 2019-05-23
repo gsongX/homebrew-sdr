@@ -221,7 +221,8 @@ class Gnuradio < Formula
   patch :DATA
 
   def install
-    ENV.prepend_path "PATH", "/System/Library/Frameworks/Python.framework/Versions/2.7/bin"
+    #ENV.prepend_path "PATH", "/System/Library/Frameworks/Python.framework/Versions/2.7/bin"
+    ENV.prepend_path "PATH", "/usr/local/opt/python2/bin"
 
     ENV["CHEETAH_INSTALL_WITHOUT_SETUPTOOLS"] = "1"
     ENV["XML_CATALOG_FILES"] = etc/"xml/catalog"
