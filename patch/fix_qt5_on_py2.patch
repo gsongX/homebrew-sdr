@@ -1,0 +1,901 @@
+diff -uNrp a/gr-filter/examples/gr_filtdes_callback.py b/gr-filter/examples/gr_filtdes_callback.py
+--- a/gr-filter/examples/gr_filtdes_callback.py	2019-04-20 16:58:09.000000000 +0700
++++ b/gr-filter/examples/gr_filtdes_callback.py	2019-05-23 11:37:06.000000000 +0700
+@@ -23,9 +23,9 @@
+ from gnuradio.filter import filter_design
+ import sys
+ try:
+-    from PyQt4 import Qt, QtCore, QtGui
++    from PyQt5 import Qt, QtCore, QtGui
+ except ImportError:
+-    print "Please install PyQt4 to run this script (http://www.riverbankcomputing.co.uk/software/pyqt/download)"
++    print "Please install PyQt5 to run this script (http://www.riverbankcomputing.co.uk/software/pyqt/download)"
+     raise SystemExit, 1
+ 
+ '''
+diff -uNrp a/gr-filter/examples/gr_filtdes_live_upd.py b/gr-filter/examples/gr_filtdes_live_upd.py
+--- a/gr-filter/examples/gr_filtdes_live_upd.py	2019-04-20 16:58:09.000000000 +0700
++++ b/gr-filter/examples/gr_filtdes_live_upd.py	2019-05-23 11:37:06.000000000 +0700
+@@ -27,10 +27,10 @@ import sys
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt4 import QtGui, QtCore
++    from PyQt5 import QtGui, QtCore
+     import sip
+ except ImportError:
+-    sys.stderr.write("Error: Program requires PyQt4 and gr-qtgui.\n")
++    sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+     sys.exit(1)
+ 
+ 
+@@ -84,7 +84,7 @@ class my_top_block(gr.top_block):
+         pyQt  = self.snk1.pyqwidget()
+ 
+         # Wrap the pointer as a PyQt SIP object
+-        # This can now be manipulated as a PyQt4.QtGui.QWidget
++        # This can now be manipulated as a PyQt5.QtGui.QWidget
+         pyWin = sip.wrapinstance(pyQt, QtGui.QWidget)
+         pyWin.show()
+ 
+diff -uNrp a/gr-filter/examples/gr_filtdes_restrict.py b/gr-filter/examples/gr_filtdes_restrict.py
+--- a/gr-filter/examples/gr_filtdes_restrict.py	2019-04-20 16:58:09.000000000 +0700
++++ b/gr-filter/examples/gr_filtdes_restrict.py	2019-05-23 11:37:06.000000000 +0700
+@@ -23,9 +23,9 @@
+ from gnuradio.filter import filter_design
+ import sys
+ try:
+-    from PyQt4 import Qt, QtCore, QtGui
++    from PyQt5 import Qt, QtCore, QtGui
+ except ImportError:
+-    print "Please install PyQt4 to run this script (http://www.riverbankcomputing.co.uk/software/pyqt/download)"
++    print "Please install PyQt5 to run this script (http://www.riverbankcomputing.co.uk/software/pyqt/download)"
+     raise SystemExit, 1
+ 
+ 
+diff -uNrp a/gr-filter/python/filter/design/filter_design.py b/gr-filter/python/filter/design/filter_design.py
+--- a/gr-filter/python/filter/design/filter_design.py	2019-04-20 16:58:09.000000000 +0700
++++ b/gr-filter/python/filter/design/filter_design.py	2019-05-23 11:37:05.000000000 +0700
+@@ -31,13 +31,14 @@ except ImportError:
+     raise SystemExit, 1
+ 
+ try:
+-    from PyQt4 import Qt, QtCore, QtGui
++    from PyQt5 import Qt, QtCore, QtGui
+ except ImportError:
+-    print "Please install PyQt4 to run this script (http://www.riverbankcomputing.co.uk/software/pyqt/download)"
++    print "Please install PyQt5 to run this script (http://www.riverbankcomputing.co.uk/software/pyqt/download)"
+     raise SystemExit, 1
+ 
+ try:
+-    import PyQt4.Qwt5 as Qwt
++    import sip
++    import PyQt5.Qwt5 as Qwt
+ except ImportError:
+     print "Please install PyQwt5 to run this script (http://pyqwt.sourceforge.net/)"
+     raise SystemExit, 1
+diff -uNrp a/gr-filter/python/filter/design/fir_design.py b/gr-filter/python/filter/design/fir_design.py
+--- a/gr-filter/python/filter/design/fir_design.py	2019-04-20 16:58:09.000000000 +0700
++++ b/gr-filter/python/filter/design/fir_design.py	2019-05-23 11:37:05.000000000 +0700
+@@ -20,7 +20,7 @@
+ 
+ import scipy
+ from gnuradio import filter
+-from PyQt4 import QtGui
++from PyQt5 import QtGui
+ 
+ # Filter design functions using a window
+ def design_win_lpf(fs, gain, wintype, mainwin):
+diff -uNrp a/gr-filter/python/filter/gui/bandgraphicsview.py b/gr-filter/python/filter/gui/bandgraphicsview.py
+--- a/gr-filter/python/filter/gui/bandgraphicsview.py	2019-04-20 16:58:09.000000000 +0700
++++ b/gr-filter/python/filter/gui/bandgraphicsview.py	2019-05-23 11:37:05.000000000 +0700
+@@ -18,7 +18,7 @@
+ # Boston, MA 02110-1301, USA.
+ #
+ 
+-from PyQt4 import QtGui, QtCore, Qt
++from PyQt5 import QtGui, QtCore, Qt
+ 
+ class BandGraphicsView(QtGui.QGraphicsView):
+     def resizeEvent(self, event):
+diff -uNrp a/gr-filter/python/filter/gui/banditems.py b/gr-filter/python/filter/gui/banditems.py
+--- a/gr-filter/python/filter/gui/banditems.py	2019-04-20 16:58:09.000000000 +0700
++++ b/gr-filter/python/filter/gui/banditems.py	2019-05-23 11:37:05.000000000 +0700
+@@ -19,9 +19,9 @@
+ #
+ 
+ try:
+-    from PyQt4 import Qt, QtCore, QtGui
++    from PyQt5 import Qt, QtCore, QtGui
+ except ImportError:
+-    print "Please install PyQt4 to run this script (http://www.riverbankcomputing.co.uk/software/pyqt/download)"
++    print "Please install PyQt5 to run this script (http://www.riverbankcomputing.co.uk/software/pyqt/download)"
+     raise SystemExit, 1
+ 
+ #Movable solid line for filter ideal-band diagram
+diff -uNrp a/gr-filter/python/filter/gui/icons_rc.py b/gr-filter/python/filter/gui/icons_rc.py
+--- a/gr-filter/python/filter/gui/icons_rc.py	2019-04-20 16:58:09.000000000 +0700
++++ b/gr-filter/python/filter/gui/icons_rc.py	2019-05-23 11:37:05.000000000 +0700
+@@ -7,7 +7,7 @@
+ #
+ # WARNING! All changes made in this file will be lost!
+ 
+-from PyQt4 import QtCore
++from PyQt5 import QtCore
+ 
+ qt_resource_data = "\
+ \x00\x00\x08\x4a\
+diff -uNrp a/gr-filter/python/filter/gui/idealbanditems.py b/gr-filter/python/filter/gui/idealbanditems.py
+--- a/gr-filter/python/filter/gui/idealbanditems.py	2019-04-20 16:58:09.000000000 +0700
++++ b/gr-filter/python/filter/gui/idealbanditems.py	2019-05-23 11:37:05.000000000 +0700
+@@ -18,8 +18,8 @@
+ # Boston, MA 02110-1301, USA.
+ #
+ 
+-from PyQt4 import QtGui, QtCore, Qt
+-import PyQt4.Qwt5 as Qwt
++from PyQt5 import QtGui, QtCore, Qt
++import PyQt5.Qwt5 as Qwt
+ import scipy
+ 
+ class IdealBandItems():
+diff -uNrp a/gr-filter/python/filter/gui/polezero_plot.py b/gr-filter/python/filter/gui/polezero_plot.py
+--- a/gr-filter/python/filter/gui/polezero_plot.py	2019-04-20 16:58:09.000000000 +0700
++++ b/gr-filter/python/filter/gui/polezero_plot.py	2019-05-23 11:37:05.000000000 +0700
+@@ -19,9 +19,9 @@
+ #
+ 
+ import sys
+-from PyQt4 import Qt, QtCore
++from PyQt5 import Qt, QtCore
+ from math import sin, cos, pi
+-import PyQt4.Qwt5 as Qwt
++import PyQt5.Qwt5 as Qwt
+ from numpy import zeros
+ from numpy import float as Float
+ from numpy import vectorize
+diff -uNrp a/gr-filter/python/filter/gui/pyqt_filter_stacked.py b/gr-filter/python/filter/gui/pyqt_filter_stacked.py
+--- a/gr-filter/python/filter/gui/pyqt_filter_stacked.py	2019-04-20 16:58:09.000000000 +0700
++++ b/gr-filter/python/filter/gui/pyqt_filter_stacked.py	2019-05-23 11:37:05.000000000 +0700
+@@ -3,11 +3,11 @@
+ # Form implementation generated from reading ui file 'pyqt_filter_stacked.ui'
+ #
+ # Created: Wed Aug  8 11:42:47 2012
+-#      by: PyQt4 UI code generator 4.9.1
++#      by: PyQt5 UI code generator 4.9.1
+ #
+ # WARNING! All changes made in this file will be lost!
+ 
+-from PyQt4 import QtCore, QtGui
++from PyQt5 import QtCore, QtGui
+ 
+ try:
+     _fromUtf8 = QtCore.QString.fromUtf8
+@@ -1414,7 +1414,7 @@ class Ui_MainWindow(object):
+         self.actionCheck.setText(QtGui.QApplication.translate("MainWindow", "check", None, QtGui.QApplication.UnicodeUTF8))
+         self.actionPlot_FFT_points.setText(QtGui.QApplication.translate("MainWindow", "Plot FFT points", None, QtGui.QApplication.UnicodeUTF8))
+ 
+-from PyQt4 import Qwt5
++from PyQt5 import Qwt5
+ from bandgraphicsview import BandGraphicsView
+ from polezero_plot import PzPlot
+ import icons_rc
+diff -uNrp a/gr-qtgui/apps/gr_spectrogram_plot b/gr-qtgui/apps/gr_spectrogram_plot
+--- a/gr-qtgui/apps/gr_spectrogram_plot	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/gr_spectrogram_plot	2019-05-23 11:58:24.000000000 +0700
+@@ -35,9 +35,9 @@ except ImportError:
+     import plot_spectrogram_base as plot_base
+ 
+ try:
++    import sip
+     from gnuradio import qtgui
+     from PyQt5 import QtWidgets, Qt
+-    import sip
+ except ImportError:
+     sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+     sys.exit(1)
+diff -uNrp a/gr-qtgui/apps/gr_spectrogram_plot_b b/gr-qtgui/apps/gr_spectrogram_plot_b
+--- a/gr-qtgui/apps/gr_spectrogram_plot_b	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/gr_spectrogram_plot_b	2019-05-23 11:58:03.000000000 +0700
+@@ -30,9 +30,9 @@ except ImportError:
+     import plot_spectrogram_base as plot_base
+ 
+ try:
++    import sip
+     from gnuradio import qtgui
+     from PyQt5 import QtWidgets, Qt
+-    import sip
+ except ImportError:
+     import sys
+     sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+diff -uNrp a/gr-qtgui/apps/gr_spectrogram_plot_c b/gr-qtgui/apps/gr_spectrogram_plot_c
+--- a/gr-qtgui/apps/gr_spectrogram_plot_c	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/gr_spectrogram_plot_c	2019-05-23 11:57:54.000000000 +0700
+@@ -31,9 +31,9 @@ except ImportError:
+     import plot_spectrogram_base as plot_base
+ 
+ try:
++    import sip
+     from gnuradio import qtgui
+     from PyQt5 import QtWidgets, Qt
+-    import sip
+ except ImportError:
+     import sys
+     sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+diff -uNrp a/gr-qtgui/apps/gr_spectrogram_plot_f b/gr-qtgui/apps/gr_spectrogram_plot_f
+--- a/gr-qtgui/apps/gr_spectrogram_plot_f	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/gr_spectrogram_plot_f	2019-05-23 11:57:39.000000000 +0700
+@@ -31,9 +31,9 @@ except ImportError:
+     import plot_spectrogram_base as plot_base
+ 
+ try:
++    import sip
+     from gnuradio import qtgui
+     from PyQt5 import QtWidgets, Qt
+-    import sip
+ except ImportError:
+     import sys
+     sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+diff -uNrp a/gr-qtgui/apps/gr_spectrogram_plot_i b/gr-qtgui/apps/gr_spectrogram_plot_i
+--- a/gr-qtgui/apps/gr_spectrogram_plot_i	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/gr_spectrogram_plot_i	2019-05-23 11:57:29.000000000 +0700
+@@ -30,9 +30,9 @@ except ImportError:
+     import plot_spectrogram_base as plot_base
+ 
+ try:
++    import sip
+     from gnuradio import qtgui
+     from PyQt5 import QtWidgets, Qt
+-    import sip
+ except ImportError:
+     import sys
+     sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+diff -uNrp a/gr-qtgui/apps/gr_spectrogram_plot_s b/gr-qtgui/apps/gr_spectrogram_plot_s
+--- a/gr-qtgui/apps/gr_spectrogram_plot_s	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/gr_spectrogram_plot_s	2019-05-23 11:57:20.000000000 +0700
+@@ -30,9 +30,9 @@ except ImportError:
+     import plot_spectrogram_base as plot_base
+ 
+ try:
++    import sip
+     from gnuradio import qtgui
+     from PyQt5 import QtWidgets, Qt
+-    import sip
+ except ImportError:
+     import sys
+     sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+diff -uNrp a/gr-qtgui/apps/gr_time_plot_b b/gr-qtgui/apps/gr_time_plot_b
+--- a/gr-qtgui/apps/gr_time_plot_b	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/gr_time_plot_b	2019-05-23 11:57:12.000000000 +0700
+@@ -29,9 +29,9 @@ except ImportError:
+     import plot_time_base as plot_base
+ 
+ try:
++    import sip
+     from gnuradio import qtgui
+     from PyQt5 import QtWidgets, Qt
+-    import sip
+ except ImportError:
+     import sys
+     sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+diff -uNrp a/gr-qtgui/apps/gr_time_plot_c b/gr-qtgui/apps/gr_time_plot_c
+--- a/gr-qtgui/apps/gr_time_plot_c	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/gr_time_plot_c	2019-05-23 11:57:02.000000000 +0700
+@@ -30,9 +30,9 @@ except ImportError:
+     import plot_time_base as plot_base
+ 
+ try:
++    import sip
+     from gnuradio import qtgui
+     from PyQt5 import QtWidgets, Qt
+-    import sip
+ except ImportError:
+     import sys
+     sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+diff -uNrp a/gr-qtgui/apps/gr_time_plot_f b/gr-qtgui/apps/gr_time_plot_f
+--- a/gr-qtgui/apps/gr_time_plot_f	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/gr_time_plot_f	2019-05-23 11:56:52.000000000 +0700
+@@ -30,9 +30,9 @@ except ImportError:
+     import plot_time_base as plot_base
+ 
+ try:
++    import sip
+     from gnuradio import qtgui
+     from PyQt5 import QtWidgets, Qt
+-    import sip
+ except ImportError:
+     import sys
+     sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+diff -uNrp a/gr-qtgui/apps/gr_time_plot_i b/gr-qtgui/apps/gr_time_plot_i
+--- a/gr-qtgui/apps/gr_time_plot_i	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/gr_time_plot_i	2019-05-23 11:56:38.000000000 +0700
+@@ -29,9 +29,9 @@ except ImportError:
+     import plot_time_base as plot_base
+ 
+ try:
++    import sip
+     from gnuradio import qtgui
+     from PyQt5 import QtWidgets, Qt
+-    import sip
+ except ImportError:
+     import sys
+     sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+diff -uNrp a/gr-qtgui/apps/gr_time_plot_s b/gr-qtgui/apps/gr_time_plot_s
+--- a/gr-qtgui/apps/gr_time_plot_s	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/gr_time_plot_s	2019-05-23 11:56:25.000000000 +0700
+@@ -29,9 +29,9 @@ except ImportError:
+     import plot_time_base as plot_base
+ 
+ try:
++    import sip
+     from gnuradio import qtgui
+     from PyQt5 import QtWidgets, Qt
+-    import sip
+ except ImportError:
+     import sys
+     sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+diff -uNrp a/gr-qtgui/apps/gr_time_raster_b b/gr-qtgui/apps/gr_time_raster_b
+--- a/gr-qtgui/apps/gr_time_raster_b	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/gr_time_raster_b	2019-05-23 11:56:15.000000000 +0700
+@@ -30,9 +30,9 @@ except ImportError:
+     import plot_time_raster_base as plot_base
+ 
+ try:
++    import sip
+     from gnuradio import qtgui
+     from PyQt5 import QtWidgets, Qt
+-    import sip
+ except ImportError:
+     import sys
+     sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+diff -uNrp a/gr-qtgui/apps/gr_time_raster_f b/gr-qtgui/apps/gr_time_raster_f
+--- a/gr-qtgui/apps/gr_time_raster_f	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/gr_time_raster_f	2019-05-23 11:56:05.000000000 +0700
+@@ -30,9 +30,9 @@ except ImportError:
+     import plot_time_raster_base as plot_base
+ 
+ try:
++    import sip
+     from gnuradio import qtgui
+     from PyQt5 import QtWidgets, Qt
+-    import sip
+ except ImportError:
+     import sys
+     sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+diff -uNrp a/gr-qtgui/apps/plot_base.py b/gr-qtgui/apps/plot_base.py
+--- a/gr-qtgui/apps/plot_base.py	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/plot_base.py	2019-05-23 11:55:50.000000000 +0700
+@@ -28,9 +28,9 @@ import os, sys
+ os.environ['GR_CONF_CONTROLPORT_ON'] = 'False'
+ 
+ try:
++    import sip
+     from gnuradio import qtgui
+     from PyQt5 import QtWidgets, Qt
+-    import sip
+ except ImportError:
+     sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+     sys.exit(1)
+diff -uNrp a/gr-qtgui/apps/plot_constellation_form.py b/gr-qtgui/apps/plot_constellation_form.py
+--- a/gr-qtgui/apps/plot_constellation_form.py	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/plot_constellation_form.py	2019-05-23 11:55:35.000000000 +0700
+@@ -24,8 +24,8 @@ import sys
+ from gnuradio import filter
+ 
+ try:
+-    from PyQt5 import QtWidgets, Qt
+     import sip
++    from PyQt5 import QtWidgets, Qt
+ except ImportError:
+     import sys
+     sys.stderr.write("Error: Program requires PyQt5.\n")
+diff -uNrp a/gr-qtgui/apps/plot_form.py b/gr-qtgui/apps/plot_form.py
+--- a/gr-qtgui/apps/plot_form.py	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/plot_form.py	2019-05-23 11:55:23.000000000 +0700
+@@ -21,8 +21,8 @@
+ #
+ 
+ try:
+-    from PyQt5 import QtWidgets, Qt
+     import sip
++    from PyQt5 import QtWidgets, Qt
+ except ImportError:
+     import sys
+     sys.stderr.write("Error: Program requires PyQt5.\n")
+diff -uNrp a/gr-qtgui/apps/plot_psd_base.py b/gr-qtgui/apps/plot_psd_base.py
+--- a/gr-qtgui/apps/plot_psd_base.py	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/plot_psd_base.py	2019-05-23 11:55:11.000000000 +0700
+@@ -26,9 +26,9 @@ from optparse import OptionParser
+ import os, sys
+ 
+ try:
++    import sip
+     from gnuradio import qtgui
+     from PyQt5 import QtWidgets, Qt
+-    import sip
+ except ImportError:
+     sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+     sys.exit(1)
+diff -uNrp a/gr-qtgui/apps/plot_psd_form.py b/gr-qtgui/apps/plot_psd_form.py
+--- a/gr-qtgui/apps/plot_psd_form.py	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/plot_psd_form.py	2019-05-23 11:55:00.000000000 +0700
+@@ -24,8 +24,8 @@ import sys
+ from gnuradio import filter
+ 
+ try:
+-    from PyQt5 import QtWidgets, Qt
+     import sip
++    from PyQt5 import QtWidgets, Qt
+ except ImportError:
+     sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+     sys.exit(1)
+diff -uNrp a/gr-qtgui/apps/plot_spectrogram_base.py b/gr-qtgui/apps/plot_spectrogram_base.py
+--- a/gr-qtgui/apps/plot_spectrogram_base.py	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/plot_spectrogram_base.py	2019-05-23 11:54:50.000000000 +0700
+@@ -26,9 +26,9 @@ from optparse import OptionParser
+ import os, sys
+ 
+ try:
++    import sip
+     from gnuradio import qtgui
+     from PyQt5 import QtWidgets, Qt
+-    import sip
+ except ImportError:
+     sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+     sys.exit(1)
+diff -uNrp a/gr-qtgui/apps/plot_spectrogram_form.py b/gr-qtgui/apps/plot_spectrogram_form.py
+--- a/gr-qtgui/apps/plot_spectrogram_form.py	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/plot_spectrogram_form.py	2019-05-23 11:54:42.000000000 +0700
+@@ -24,8 +24,8 @@ import sys
+ from gnuradio import filter
+ 
+ try:
+-    from PyQt5 import QtWidgets, Qt
+     import sip
++    from PyQt5 import QtWidgets, Qt
+ except ImportError:
+     sys.stderr.write("Error: Program requires PyQt5.\n")
+     sys.exit(1)
+diff -uNrp a/gr-qtgui/apps/plot_time_base.py b/gr-qtgui/apps/plot_time_base.py
+--- a/gr-qtgui/apps/plot_time_base.py	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/plot_time_base.py	2019-05-23 11:54:33.000000000 +0700
+@@ -26,9 +26,9 @@ from optparse import OptionParser
+ import os, sys
+ 
+ try:
++    import sip
+     from gnuradio import qtgui
+     from PyQt5 import QtWidgets, Qt
+-    import sip
+ except ImportError:
+     sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+     sys.exit(1)
+diff -uNrp a/gr-qtgui/apps/plot_time_form.py b/gr-qtgui/apps/plot_time_form.py
+--- a/gr-qtgui/apps/plot_time_form.py	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/plot_time_form.py	2019-05-23 11:54:18.000000000 +0700
+@@ -24,8 +24,8 @@ import sys
+ from gnuradio import filter
+ 
+ try:
+-    from PyQt5 import QtWidgets, Qt
+     import sip
++    from PyQt5 import QtWidgets, Qt
+ except ImportError:
+     sys.stderr.write("Error: Program requires PyQt5.\n")
+     sys.exit(1)
+diff -uNrp a/gr-qtgui/apps/plot_time_raster_base.py b/gr-qtgui/apps/plot_time_raster_base.py
+--- a/gr-qtgui/apps/plot_time_raster_base.py	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/plot_time_raster_base.py	2019-05-23 11:54:09.000000000 +0700
+@@ -27,8 +27,8 @@ import os, sys
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt5 import QtWidgets, Qt
+     import sip
++    from PyQt5 import QtWidgets, Qt
+ except ImportError:
+     import sys
+     sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+diff -uNrp a/gr-qtgui/apps/plot_time_raster_form.py b/gr-qtgui/apps/plot_time_raster_form.py
+--- a/gr-qtgui/apps/plot_time_raster_form.py	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/plot_time_raster_form.py	2019-05-23 11:54:00.000000000 +0700
+@@ -24,8 +24,8 @@ import sys, math
+ from gnuradio import filter
+ 
+ try:
+-    from PyQt5 import QtWidgets, Qt
+     import sip
++    from PyQt5 import QtWidgets, Qt
+ except ImportError:
+     sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+     sys.exit(1)
+diff -uNrp a/gr-qtgui/apps/qt_digital.py b/gr-qtgui/apps/qt_digital.py
+--- a/gr-qtgui/apps/qt_digital.py	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/qt_digital.py	2019-05-23 11:53:51.000000000 +0700
+@@ -29,8 +29,8 @@ import sys
+ 
+ try:
+     from gnuradio import qtgui
+-    from PyQt5 import QtWidgets, Qt
+     import sip
++    from PyQt5 import QtWidgets, Qt
+ except ImportError:
+     sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+     sys.exit(1)
+diff -uNrp a/gr-qtgui/apps/qt_digital_window.py b/gr-qtgui/apps/qt_digital_window.py
+--- a/gr-qtgui/apps/qt_digital_window.py	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/qt_digital_window.py	2019-05-23 11:53:39.000000000 +0700
+@@ -7,6 +7,7 @@
+ #
+ # WARNING! All changes made in this file will be lost!
+ 
++import sip
+ from PyQt5 import QtWidgets, Qt
+ 
+ class Ui_DigitalWindow(object):
+diff -uNrp a/gr-qtgui/apps/uhd_display.py b/gr-qtgui/apps/uhd_display.py
+--- a/gr-qtgui/apps/uhd_display.py	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/uhd_display.py	2019-05-23 11:47:18.000000000 +0700
+@@ -30,9 +30,9 @@ from optparse import OptionParser
+ import sys
+ 
+ try:
++    import sip
+     from gnuradio import qtgui
+     from PyQt5 import QtWidgets, Qt
+-    import sip
+ except ImportError:
+     sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+     sys.exit(1)
+diff -uNrp a/gr-qtgui/apps/usrp_display_qtgui.py b/gr-qtgui/apps/usrp_display_qtgui.py
+--- a/gr-qtgui/apps/usrp_display_qtgui.py	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/apps/usrp_display_qtgui.py	2019-05-23 11:53:19.000000000 +0700
+@@ -7,6 +7,7 @@
+ #
+ # WARNING! All changes made in this file will be lost!
+ 
++import sip
+ from PyQt5 import Qt, QtWidgets
+ 
+ class Ui_MainWindow(object):
+diff -uNrp a/gr-qtgui/docs/qtgui.dox b/gr-qtgui/docs/qtgui.dox
+--- a/gr-qtgui/docs/qtgui.dox	2019-04-20 16:58:09.000000000 +0700
++++ b/gr-qtgui/docs/qtgui.dox	2019-05-23 11:07:11.000000000 +0700
+@@ -129,7 +129,7 @@ The QT GUI blocks require the following 
+ \li QtCore (version >= 4.4)
+ \li QtGui (version >= 4.4)
+ \li QtOpenGL (version >= 4.4)
+-\li PyQt4 for Qt4 (version >= 4.4)
++\li PyQt5 for Qt5 (version >= 4.4)
+ \li Qwt (version >= 5.2)
+ 
+ \section qtgui_usage Usage
+@@ -148,7 +148,7 @@ qapp's "exec_()" function is called. Thi
+ while the GUI is alive.
+ 
+ \code
+-from PyQt4 import Qt
++from PyQt5 import Qt
+ from gnuradio import qtgui
+ import sys, sip
+ 
+diff -uNrp a/gr-qtgui/examples/pyqt_waterfall_c.py b/gr-qtgui/examples/pyqt_waterfall_c.py
+--- a/gr-qtgui/examples/pyqt_waterfall_c.py	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/examples/pyqt_waterfall_c.py	2019-05-23 11:24:36.000000000 +0700
+@@ -29,7 +29,7 @@ try:
+     from PyQt5 import QtWidgets, Qt
+     import sip
+ except ImportError:
+-    sys.stderr.write("Error: Program requires PyQt4 and gr-qtgui.\n")
++    sys.stderr.write("Error: Program requires PyQt5 and gr-qtgui.\n")
+     sys.exit(1)
+ 
+ try:
+diff -uNrp a/gr-qtgui/grc/qtgui_ber_sink_b.xml b/gr-qtgui/grc/qtgui_ber_sink_b.xml
+--- a/gr-qtgui/grc/qtgui_ber_sink_b.xml	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/grc/qtgui_ber_sink_b.xml	2019-05-23 11:52:04.000000000 +0700
+@@ -7,6 +7,7 @@
+ <block>
+   <name>QT GUI Bercurve Sink</name>
+   <key>qtgui_bercurve_sink</key>
++  <import>import sip</import>
+   <import>from PyQt5 import Qt</import>
+   <import>from gnuradio import qtgui</import>
+   <import>import sip</import>
+diff -uNrp a/gr-qtgui/grc/qtgui_check_box.xml b/gr-qtgui/grc/qtgui_check_box.xml
+--- a/gr-qtgui/grc/qtgui_check_box.xml	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/grc/qtgui_check_box.xml	2019-05-23 11:51:42.000000000 +0700
+@@ -8,6 +8,7 @@
+ <block>
+ 	<name>QT GUI Check Box</name>
+ 	<key>variable_qtgui_check_box</key>
++	<import>import sip</import>
+ 	<import>from PyQt5 import Qt</import>
+ 	<var_make>self.$(id) = $(id) = $value</var_make>
+ 	<make>#set $win = '_%s_check_box'%$id
+diff -uNrp a/gr-qtgui/grc/qtgui_chooser.xml b/gr-qtgui/grc/qtgui_chooser.xml
+--- a/gr-qtgui/grc/qtgui_chooser.xml	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/grc/qtgui_chooser.xml	2019-05-23 11:51:57.000000000 +0700
+@@ -8,6 +8,7 @@
+ <block>
+ 	<name>QT GUI Chooser</name>
+ 	<key>variable_qtgui_chooser</key>
++	<import>import sip</import>
+ 	<import>from PyQt5 import Qt</import>
+ 	<import>from PyQt5.QtCore import QObject, pyqtSlot</import>
+ 	<var_make>self.$(id) = $(id) = $value</var_make>
+diff -uNrp a/gr-qtgui/grc/qtgui_const_sink_x.xml b/gr-qtgui/grc/qtgui_const_sink_x.xml
+--- a/gr-qtgui/grc/qtgui_const_sink_x.xml	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/grc/qtgui_const_sink_x.xml	2019-05-23 11:51:16.000000000 +0700
+@@ -7,6 +7,7 @@
+ <block>
+   <name>QT GUI Constellation Sink</name>
+   <key>qtgui_const_sink_x</key>
++  <import>import sip</import>
+   <import>from PyQt5 import Qt</import>
+   <import>from gnuradio import qtgui</import>
+   <import>import sip</import>
+diff -uNrp a/gr-qtgui/grc/qtgui_edit_box_msg.xml b/gr-qtgui/grc/qtgui_edit_box_msg.xml
+--- a/gr-qtgui/grc/qtgui_edit_box_msg.xml	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/grc/qtgui_edit_box_msg.xml	2019-05-23 11:51:23.000000000 +0700
+@@ -7,6 +7,7 @@
+ <block>
+   <name>QT GUI Message Edit Box</name>
+   <key>qtgui_edit_box_msg</key>
++  <import>import sip</import>
+   <import>from PyQt5 import Qt</import>
+   <import>from gnuradio import qtgui</import>
+   <import>import sip</import>
+diff -uNrp a/gr-qtgui/grc/qtgui_entry.xml b/gr-qtgui/grc/qtgui_entry.xml
+--- a/gr-qtgui/grc/qtgui_entry.xml	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/grc/qtgui_entry.xml	2019-05-23 11:51:34.000000000 +0700
+@@ -8,6 +8,7 @@
+ <block>
+ 	<name>QT GUI Entry</name>
+ 	<key>variable_qtgui_entry</key>
++	<import>import sip</import>
+ 	<import>from PyQt5 import Qt</import>
+ 	<import>from gnuradio import eng_notation</import>
+ 	<var_make>self.$(id) = $(id) = $value</var_make>
+diff -uNrp a/gr-qtgui/grc/qtgui_freq_sink_x.xml b/gr-qtgui/grc/qtgui_freq_sink_x.xml
+--- a/gr-qtgui/grc/qtgui_freq_sink_x.xml	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/grc/qtgui_freq_sink_x.xml	2019-05-23 11:52:14.000000000 +0700
+@@ -7,6 +7,7 @@
+ <block>
+   <name>QT GUI Frequency Sink</name>
+   <key>qtgui_freq_sink_x</key>
++  <import>import sip</import>
+   <import>from PyQt5 import Qt</import>
+   <import>from gnuradio import qtgui</import>
+   <import>from gnuradio.filter import firdes</import>
+diff -uNrp a/gr-qtgui/grc/qtgui_histogram_sink_x.xml b/gr-qtgui/grc/qtgui_histogram_sink_x.xml
+--- a/gr-qtgui/grc/qtgui_histogram_sink_x.xml	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/grc/qtgui_histogram_sink_x.xml	2019-05-23 11:48:09.000000000 +0700
+@@ -7,6 +7,7 @@
+ <block>
+   <name>QT GUI Histogram Sink</name>
+   <key>qtgui_histogram_sink_x</key>
++  <import>import sip</import>
+   <import>from PyQt5 import Qt</import>
+   <import>from gnuradio import qtgui</import>
+   <import>import sip</import>
+diff -uNrp a/gr-qtgui/grc/qtgui_label.xml b/gr-qtgui/grc/qtgui_label.xml
+--- a/gr-qtgui/grc/qtgui_label.xml	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/grc/qtgui_label.xml	2019-05-23 11:51:05.000000000 +0700
+@@ -9,6 +9,7 @@
+ <block>
+   <name>QT GUI Label</name>
+   <key>variable_qtgui_label</key>
++  <import>import sip</import>
+   <import>from PyQt5 import Qt</import>
+   <import>from gnuradio import eng_notation</import>
+   <var_make>self.$(id) = $(id) = $value</var_make>
+diff -uNrp a/gr-qtgui/grc/qtgui_number_sink.xml b/gr-qtgui/grc/qtgui_number_sink.xml
+--- a/gr-qtgui/grc/qtgui_number_sink.xml	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/grc/qtgui_number_sink.xml	2019-05-23 11:50:59.000000000 +0700
+@@ -7,6 +7,7 @@
+ <block>
+   <name>QT GUI Number Sink</name>
+   <key>qtgui_number_sink</key>
++  <import>import sip</import>
+   <import>from PyQt5 import Qt</import>
+   <import>from gnuradio import qtgui</import>
+   <import>import sip</import>
+diff -uNrp a/gr-qtgui/grc/qtgui_push_button.xml b/gr-qtgui/grc/qtgui_push_button.xml
+--- a/gr-qtgui/grc/qtgui_push_button.xml	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/grc/qtgui_push_button.xml	2019-05-23 11:50:49.000000000 +0700
+@@ -8,6 +8,7 @@
+ <block>
+ 	<name>QT GUI Push Button</name>
+ 	<key>variable_qtgui_push_button</key>
++	<import>import sip</import>
+ 	<import>from PyQt5 import Qt</import>
+ 	<var_make>self.$(id) = $(id) = $value</var_make>
+ 	<make>#set $win = '_%s_push_button'%$id
+diff -uNrp a/gr-qtgui/grc/qtgui_sink_x.xml b/gr-qtgui/grc/qtgui_sink_x.xml
+--- a/gr-qtgui/grc/qtgui_sink_x.xml	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/grc/qtgui_sink_x.xml	2019-05-23 11:50:27.000000000 +0700
+@@ -7,6 +7,7 @@
+ <block>
+   <name>QT GUI Sink</name>
+   <key>qtgui_sink_x</key>
++  <import>import sip</import>
+   <import>from PyQt5 import Qt</import>
+   <import>from gnuradio import qtgui</import>
+   <import>from gnuradio.filter import firdes</import>
+diff -uNrp a/gr-qtgui/grc/qtgui_tab_widget.xml b/gr-qtgui/grc/qtgui_tab_widget.xml
+--- a/gr-qtgui/grc/qtgui_tab_widget.xml	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/grc/qtgui_tab_widget.xml	2019-05-23 11:50:20.000000000 +0700
+@@ -7,6 +7,7 @@
+ <block>
+ 	<name>QT GUI Tab Widget</name>
+ 	<key>qtgui_tab_widget</key>
++	<import>import sip</import>
+ 	<import>from PyQt5 import Qt</import>
+ 	<make>#set $win = 'self.%s'%$id
+ Qt.QTabWidget()
+diff -uNrp a/gr-qtgui/grc/qtgui_time_raster_x.xml b/gr-qtgui/grc/qtgui_time_raster_x.xml
+--- a/gr-qtgui/grc/qtgui_time_raster_x.xml	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/grc/qtgui_time_raster_x.xml	2019-05-23 11:50:15.000000000 +0700
+@@ -7,6 +7,7 @@
+ <block>
+   <name>QT GUI Time Raster Sink</name>
+   <key>qtgui_time_raster_sink_x</key>
++  <import>import sip</import>
+   <import>from PyQt5 import Qt</import>
+   <import>from gnuradio import qtgui</import>
+   <import>import sip</import>
+diff -uNrp a/gr-qtgui/grc/qtgui_time_sink_x.xml b/gr-qtgui/grc/qtgui_time_sink_x.xml
+--- a/gr-qtgui/grc/qtgui_time_sink_x.xml	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/grc/qtgui_time_sink_x.xml	2019-05-23 11:50:08.000000000 +0700
+@@ -7,6 +7,7 @@
+ <block>
+   <name>QT GUI Time Sink</name>
+   <key>qtgui_time_sink_x</key>
++  <import>import sip</import>
+   <import>from PyQt5 import Qt</import>
+   <import>from gnuradio import qtgui</import>
+   <import>from gnuradio.filter import firdes</import>
+diff -uNrp a/gr-qtgui/grc/qtgui_vector_sink_f.xml b/gr-qtgui/grc/qtgui_vector_sink_f.xml
+--- a/gr-qtgui/grc/qtgui_vector_sink_f.xml	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/grc/qtgui_vector_sink_f.xml	2019-05-23 11:49:49.000000000 +0700
+@@ -7,6 +7,7 @@
+ <block>
+   <name>QT GUI Vector Sink</name>
+   <key>qtgui_vector_sink_f</key>
++  <import>import sip</import>
+   <import>from PyQt5 import Qt</import>
+   <import>from gnuradio import qtgui</import>
+   <import>import sip</import>
+diff -uNrp a/gr-qtgui/grc/qtgui_waterfall_sink_x.xml b/gr-qtgui/grc/qtgui_waterfall_sink_x.xml
+--- a/gr-qtgui/grc/qtgui_waterfall_sink_x.xml	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/grc/qtgui_waterfall_sink_x.xml	2019-05-23 11:49:39.000000000 +0700
+@@ -7,6 +7,7 @@
+ <block>
+   <name>QT GUI Waterfall Sink</name>
+   <key>qtgui_waterfall_sink_x</key>
++  <import>import sip</import>
+   <import>from PyQt5 import Qt</import>
+   <import>from gnuradio import qtgui</import>
+   <import>from gnuradio.filter import firdes</import>
+diff -uNrp a/gr-qtgui/python/qtgui/range.py b/gr-qtgui/python/qtgui/range.py
+--- a/gr-qtgui/python/qtgui/range.py	2019-05-23 10:45:01.000000000 +0700
++++ b/gr-qtgui/python/qtgui/range.py	2019-05-23 12:03:07.000000000 +0700
+@@ -20,7 +20,7 @@
+ # the Free Software Foundation, Inc., 51 Franklin Street,
+ # Boston, MA 02110-1301, USA.
+ #
+-
++import sip
+ @PY_QT_IMPORT@
+ import util
+ 
+@@ -244,7 +244,7 @@ class RangeWidget(QtWidgets.QWidget):
+ 
+ 
+ if __name__ == "__main__":
+-    from PyQt4 import Qt
++    from PyQt5 import Qt
+     import sys
+ 
+     def valueChanged(frequency):
+diff -uNrp a/gr-utils/python/utils/gr_plot_qt b/gr-utils/python/utils/gr_plot_qt
+--- a/gr-utils/python/utils/gr_plot_qt	2019-04-20 16:58:09.000000000 +0700
++++ b/gr-utils/python/utils/gr_plot_qt	2019-05-23 11:02:54.000000000 +0700
+@@ -14,13 +14,13 @@ except ImportError:
+     raise SystemExit, 1
+ 
+ try:
+-    from PyQt4 import Qt, QtCore, QtGui
++    from PyQt5 import Qt, QtCore, QtGui
+ except ImportError:
+-    print "Please install PyQt4 to run this script (http://www.riverbankcomputing.co.uk/software/pyqt/download)"
++    print "Please install PyQt5 to run this script (http://www.riverbankcomputing.co.uk/software/pyqt/download)"
+     raise SystemExit, 1
+ 
+ try:
+-    import PyQt4.Qwt5 as Qwt
++    import PyQt5.Qwt5 as Qwt
+ except ImportError:
+     print "Please install PyQwt5 to run this script (http://pyqwt.sourceforge.net/)"
+     raise SystemExit, 1
+diff -uNrp a/gr-utils/python/utils/pyqt_filter.py b/gr-utils/python/utils/pyqt_filter.py
+--- a/gr-utils/python/utils/pyqt_filter.py	2019-04-20 16:58:09.000000000 +0700
++++ b/gr-utils/python/utils/pyqt_filter.py	2019-05-23 11:31:35.000000000 +0700
+@@ -3,11 +3,11 @@
+ # Form implementation generated from reading ui file 'pyqt_filter.ui'
+ #
+ # Created: Thu Mar 17 10:51:17 2011
+-#      by: PyQt4 UI code generator 4.7.4
++#      by: PyQt5 UI code generator 4.7.4
+ #
+ # WARNING! All changes made in this file will be lost!
+ 
+-from PyQt4 import QtCore, QtGui
++from PyQt5 import QtCore, QtGui
+ 
+ class Ui_MainWindow(object):
+     def setupUi(self, MainWindow):
+@@ -431,5 +431,5 @@ class Ui_MainWindow(object):
+         self.action_open.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+O", None, QtGui.QApplication.UnicodeUTF8))
+ 
+ #from qwt_plot import QwtPlot
+-from PyQt4.Qwt5 import QwtPlot
++from PyQt5.Qwt5 import QwtPlot
+ 
+diff -uNrp a/gr-utils/python/utils/pyqt_plot.py b/gr-utils/python/utils/pyqt_plot.py
+--- a/gr-utils/python/utils/pyqt_plot.py	2019-04-20 16:58:09.000000000 +0700
++++ b/gr-utils/python/utils/pyqt_plot.py	2019-05-23 11:08:21.000000000 +0700
+@@ -3,11 +3,11 @@
+ # Form implementation generated from reading ui file 'pyqt_plot.ui'
+ #
+ # Created: Tue Oct  6 10:39:58 2009
+-#      by: PyQt4 UI code generator 4.4.4
++#      by: PyQt5 UI code generator 4.4.4
+ #
+ # WARNING! All changes made in this file will be lost!
+ 
+-from PyQt4 import QtCore, QtGui
++from PyQt5 import QtCore, QtGui
+ 
+ class Ui_MainWindow(object):
+     def setupUi(self, MainWindow):
+@@ -208,4 +208,4 @@ class Ui_MainWindow(object):
+         self.action_reload.setText(QtGui.QApplication.translate("MainWindow", "&Reload", None, QtGui.QApplication.UnicodeUTF8))
+         self.action_reload.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+R", None, QtGui.QApplication.UnicodeUTF8))
+ 
+-from PyQt4 import Qwt5
++from PyQt5 import Qwt5
+diff -uNrp a/gr-zeromq/examples/python/fixui4py.sh b/gr-zeromq/examples/python/fixui4py.sh
+--- a/gr-zeromq/examples/python/fixui4py.sh	2019-04-20 16:58:09.000000000 +0700
++++ b/gr-zeromq/examples/python/fixui4py.sh	2019-05-23 11:30:28.000000000 +0700
+@@ -1,2 +1,2 @@
+ #!/bin/bash
+-sed -i 's/qwt_plot.h/PyQt4.Qwt5.Qwt/' $1
++sed -i 's/qwt_plot.h/PyQt5.Qwt5.Qwt/' $1
+diff -uNrp a/gr-zeromq/examples/python/gui.py b/gr-zeromq/examples/python/gui.py
+--- a/gr-zeromq/examples/python/gui.py	2019-04-20 16:58:09.000000000 +0700
++++ b/gr-zeromq/examples/python/gui.py	2019-05-23 11:30:05.000000000 +0700
+@@ -27,8 +27,8 @@ from gnuradio.eng_option import eng_opti
+ import gui
+ import sys
+ import os
+-from PyQt4 import Qt, QtGui, QtCore, uic
+-import PyQt4.Qwt5 as Qwt
++from PyQt5 import Qt, QtGui, QtCore, uic
++import PyQt5.Qwt5 as Qwt
+ from gnuradio import zeromq
+ import signal
+ 
+diff -uNrp a/gr-zeromq/examples/python/main_window.ui b/gr-zeromq/examples/python/main_window.ui
+--- a/gr-zeromq/examples/python/main_window.ui	2019-04-20 16:58:09.000000000 +0700
++++ b/gr-zeromq/examples/python/main_window.ui	2019-05-23 11:30:58.000000000 +0700
+@@ -191,7 +191,7 @@
+   <customwidget>
+    <class>QwtPlot</class>
+    <extends>QFrame</extends>
+-   <header>PyQt4.Qwt5.Qwt</header>
++   <header>PyQt5.Qwt5.Qwt</header>
+   </customwidget>
+  </customwidgets>
+  <resources/>
