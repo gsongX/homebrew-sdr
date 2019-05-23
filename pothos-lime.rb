@@ -4,7 +4,7 @@ class PothosLime < Formula
 
   depends_on "cmake" => :build
   depends_on "ninja" => :build
-  depends_on "pyqt5"
+  depends_on "gsong2014/tools/pyqt"
   depends_on "portaudio"
   depends_on "qwt"
   depends_on "audiofilter/spuc/spuce"
