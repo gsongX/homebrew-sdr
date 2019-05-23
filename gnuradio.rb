@@ -313,11 +313,6 @@ class Gnuradio < Formula
   end
 
   patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/Get-the-FreeDV-demodulator-working"
-    sha256 "0612f725b48808f38e2983cb66295d60a12a0468fad6eff0738b6f528d7a424e"
-  end
-
-  patch do
     url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/runtime-replace-std-auto_ptr-usage-with-std-unique_p"
     sha256 "c400936cebdf06ccdb88d3259c7ed63094764e96d8505845935fe0d4847af0c8"
   end
