@@ -173,31 +173,6 @@ class Gnuradio < Formula
   #end
 
   patch :p0 do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/0001-Fixed-out-of-bound-vector-acces-in-PMT-maint-3.7-edi.patch"
-    sha256 "733ea19d169e2adc3c5f6f867b8cf8884e04735e08071eac1d73d6068bc1b283"
-  end
-
-  patch :p0 do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/0002-polar_decoder_sc_systematic.cc-Fix-memory-leak.patch"
-    sha256 "f9022aaf82ae38ad9605a9a32c556c7576f68d0f81d6a6f73314b8831de023a2"
-  end
-
-  patch :p0 do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/0003-modified-gen_uhd_usrp_blocks.py.patch"
-    sha256 "c4fea8d1420194843e6e5bfed79861518565342e601844e4d65dce09ef2d0e9f"
-  end
-
-  patch :p0 do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/0004-qtgui-Fix-compiler-warnings-Wreorder.patch"
-    sha256 "a3a184a3bfcaac4cbf549c973497d3cfc55771cb19b387a79ed9ebf8e564cfd9"
-  end
-
-  patch :p0 do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/0005-blocks-fix-the-udp_source_sink-test-flakiness.patch"
-    sha256 "879514df13304347a39d5cb7a23b7df5bbff63c62bcc39aa9abf13eaf0b9a9b1"
-  end
-
-  patch :p0 do
     url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/qt5-maint-0001-CMake-Update-required-minimum-version-to-2.8.12.patch"
     sha256 "bf453a6587a8c56f4d41d76d6f2ba4b00283b22b6aca624e6cfa87bc24445d09"
   end
@@ -337,10 +312,10 @@ class Gnuradio < Formula
     sha256 "3e2c40b0a0daf001d5fb9df6dc1af9fe73377fd5780225ba403959fbe710acec"
   end
 
-  patch :p0 do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/add-freedv-blocks"
-    sha256 "4ea80bc4d449633fdc4ee44a124497083844634d01404257ffafc9239d2120f5"
-  end
+  # patch :p0 do
+  #   url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/add-freedv-blocks"
+  #   sha256 "4ea80bc4d449633fdc4ee44a124497083844634d01404257ffafc9239d2120f5"
+  # end
 
   patch :p0 do
     url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/provide-example-grfreedv"
