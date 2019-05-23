@@ -1,4 +1,4 @@
-class LimesuiteAt19 < Formula
+class LimesuiteAT19 < Formula
   desc "Lime suite device drivers, GUI, and SDR support"
   homepage "https://github.com/myriadrf/LimeSuite/blob/master/README.md"
   head "https://github.com/myriadrf/LimeSuite.git"
