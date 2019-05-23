@@ -313,11 +313,6 @@ class Gnuradio < Formula
   end
 
   patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/Convert-tabs-to-spaces"
-    sha256 "767752bb2d5bb5a5fba3fd49dffc3a210e489b93ee861482cee31429b16bdfcc"
-  end
-
-  patch do
     url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/Get-the-FreeDV-demodulator-working"
     sha256 "0612f725b48808f38e2983cb66295d60a12a0468fad6eff0738b6f528d7a424e"
   end
