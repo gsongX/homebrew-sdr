@@ -146,7 +146,7 @@ class GnuradioAT37 < Formula
 
   patch do
     url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/fix_qt5_on_py2.patch"
-    sha256 "e13f48d667d73f8b0666ab1b8b1a1ae26db488463d1d4c5353b40b4d4bfe38e7"
+    sha256 "e14071c2e87022e2eb10f3881944895dcc2f98fa7308aa7b394e3c4c320fe7d3"
   end
 
   
