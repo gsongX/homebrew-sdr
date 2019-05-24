@@ -162,7 +162,6 @@ class GnuradioAT37 < Formula
   patch :DATA
 
   def install
-    ENV.prepend_path "PATH", "/System/Library/Frameworks/Python.framework/Versions/2.7/bin"
 
     ENV["CHEETAH_INSTALL_WITHOUT_SETUPTOOLS"] = "1"
     ENV["XML_CATALOG_FILES"] = etc/"xml/catalog"
@@ -173,6 +172,8 @@ class GnuradioAT37 < Formula
         system "python", *Language::Python.setup_install_args(libexec/"vendor")
       end
     end
+
+    install_args = [ "setup.py", "install", "--prefix=#{libexec}" ]
 
     begin
       # Fix "ld: file not found: /usr/lib/system/libsystem_darwin.dylib" for lxml
@@ -194,6 +195,13 @@ class GnuradioAT37 < Formula
       -DENABLE_DOXYGEN=Off
     ]
 
+    # add python config
+    python_prefix = `python-config --prefix`.strip
+
+    args << "-DPYTHON_LIBRARY='#{python_prefix}/Python'"
+    args << "-DPYTHON_INCLUDE_DIR='#{python_prefix}/Headers'"
+    args << "-DPYTHON_PACKAGES_PATH='#{lib}/#{which_python}/site-packages'"
+
     enabled = %w[GR_ANALOG GR_FFT VOLK GR_FILTER GNURADIO_RUNTIME
                  GR_BLOCKS GR_PAGER GR_NOAA GR_CHANNELS GR_AUDIO
                  GR_FCD GR_VOCODER GR_FEC GR_DIGITAL GR_DTV GR_ATSC
@@ -213,6 +221,16 @@ class GnuradioAT37 < Formula
 
     rm bin.children.reject(&:executable?)
     bin.env_script_all_files(libexec/"bin", :PYTHONPATH => ENV["PYTHONPATH"])
+  end
+
+  def python_path
+    python = Formula.factory('python@2')
+    kegs = python.rack.children.reject { |p| p.basename.to_s == '.DS_Store' }
+    kegs.find { |p| Keg.new(p).linked? } || kegs.last
+  end
+
+  def which_python
+    "python" + `python -c 'import sys;print(sys.version[:3])'`.strip
   end
 
   test do
