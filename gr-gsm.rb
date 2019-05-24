@@ -7,7 +7,7 @@ class GrGsm < Formula
   depends_on "graphviz" => :build
   depends_on "swig" => :build
   depends_on "boost"
-  depends_on "gsong2014/sdr/gnuradio"
+  depends_on "gsong2014/sdr/gnuradio@3.7"
   depends_on "gsong2014/sdr/libosmocore"
 
   def install
