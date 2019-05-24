@@ -114,9 +114,14 @@ class GnuradioAT37 < Formula
   end
 
   patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/usr-bin-examples"
-    sha256 "157f6015f2bbfd63be07d9cbb6bc3bfdb967a8646115e0ef7845064d223d77a9"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/codec2-next.patch"
+    sha256 "4c6cf295b65d781822de4a157191214a85eca29f481eff9503fd93e6930433ad"
   end
+
+  # patch do
+  #   url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/usr-bin-examples"
+  #   sha256 "157f6015f2bbfd63be07d9cbb6bc3bfdb967a8646115e0ef7845064d223d77a9"
+  # end
 
   patch do
     url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/wxpy3"
@@ -128,25 +133,11 @@ class GnuradioAT37 < Formula
     sha256 "f2d956cc629272a8847bbb592b766862723f075e83db070f9ff221d9942d49bc"
   end
 
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/gr-vocoder-codec2-subcomponent-using-external-codec2"
-    sha256 "6e7b725d105e4ccff408c66f2f88c2b91ac184757587e14900df260a1ab5113a"
-  end
 
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/gr-vocoder-gsm-subcomponent-using-external-gsm-libra"
-    sha256 "525064e51ad77c2a905e6af0750ba17daa582daae9d9f873cae26b4bc8c087dd"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/fix-vocoder-test"
-    sha256 "3e2c40b0a0daf001d5fb9df6dc1af9fe73377fd5780225ba403959fbe710acec"
-  end
-
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/runtime-replace-std-auto_ptr-usage-with-std-unique_p"
-    sha256 "c400936cebdf06ccdb88d3259c7ed63094764e96d8505845935fe0d4847af0c8"
-  end
+  # patch do
+  #   url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/runtime-replace-std-auto_ptr-usage-with-std-unique_p"
+  #   sha256 "c400936cebdf06ccdb88d3259c7ed63094764e96d8505845935fe0d4847af0c8"
+  # end
 
   patch do
     url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/use-recent-cmake-features"
