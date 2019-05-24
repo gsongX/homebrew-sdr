@@ -1,13 +1,13 @@
 class Qwtqt5 < Formula
   desc "Qt Widgets for Technical Applications (v5.1)"
   homepage "http://qwt.sourceforge.net/"
-  url "https://downloads.sourceforge.net/project/qwt/qwt/6.1.2/qwt-6.1.2.tar.bz2"
-  sha256 "2b08f18d1d3970e7c3c6096d850f17aea6b54459389731d3ce715d193e243d0c"
+  url "https://downloads.sourceforge.net/project/qwt/qwt/6.1.4/qwt-6.1.4.tar.bz2"
+  sha256 "1529215329e51fc562e0009505a838f427919a18b362afff441f035b2d9b5bd9"
 
   option "with-qwtmathml", "Build the qwtmathml library"
   option "without-plugin", "Skip building the Qt Designer plugin"
 
-  depends_on "qt5"
+  depends_on "qt"
 
   # Update designer plugin linking back to qwt framework/lib after install
   # See: https://sourceforge.net/p/qwt/patches/45/
@@ -17,15 +17,19 @@ class Qwtqt5 < Formula
     inreplace "qwtconfig.pri" do |s|
       s.gsub! /^\s*QWT_INSTALL_PREFIX\s*=(.*)$/, "QWT_INSTALL_PREFIX=#{prefix}"
       s.sub! /\+(=\s*QwtDesigner)/, "-\\1" if build.without? "plugin"
+
+      # Install Qt plugin in `lib/qt/plugins/designer`, not `plugins/designer`.
+      s.sub! %r{(= \$\$\{QWT_INSTALL_PREFIX\})/(plugins/designer)$},
+             "\\1/lib/qt/\\2" if build.without? "plugin"
     end
 
     args = ["-config", "release", "-spec"]
-    # On Mavericks we want to target libc++, this requires a unsupported/macx-clang-libc++ flag
-    #if ENV.compiler == :clang && MacOS.version >= :mavericks
-    #  args << "unsupported/macx-clang-libc++"
-    #else
-    args << "macx-clang"
-    #end
+    
+    if ENV.compiler == :clang
+      args << "macx-clang"
+    else
+      args << "macx-g++"
+    end
 
     if build.with? "qwtmathml"
       args << "QWT_CONFIG+=QwtMathML"
@@ -38,7 +42,7 @@ class Qwtqt5 < Formula
 
     # symlink Qt Designer plugin (note: not removed on qwt formula uninstall)
     ln_sf prefix/"plugins/designer/libqwt_designer_plugin.dylib",
-          Formula["qt5"].opt_prefix/"plugins/designer/" if build.with? "plugin"
+          Formula["qt"].opt_prefix/"plugins/designer/" if build.with? "plugin"
   end
 
   def caveats
@@ -48,6 +52,24 @@ class Qwtqt5 < Formula
         #{opt_prefix}/qtmmlwidget-license
       EOS
     end
+  end
+
+  test do
+    (testpath/"test.cpp").write <<~EOS
+      #include <qwt_plot_curve.h>
+      int main() {
+        QwtPlotCurve *curve1 = new QwtPlotCurve("Curve 1");
+        return (curve1 == NULL);
+      }
+    EOS
+    system ENV.cxx, "test.cpp", "-o", "out",
+      "-std=c++11",
+      "-framework", "qwt", "-framework", "QtCore",
+      "-F#{lib}", "-F#{Formula["qt"].opt_lib}",
+      "-I#{lib}/qwt.framework/Headers",
+      "-I#{Formula["qt"].opt_lib}/QtCore.framework/Versions/5/Headers",
+      "-I#{Formula["qt"].opt_lib}/QtGui.framework/Versions/5/Headers"
+    system "./out"
   end
 end
 
