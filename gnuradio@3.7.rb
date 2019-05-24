@@ -85,25 +85,25 @@ class GnuradioAT37 < Formula
     sha256 "20b267903f7ecb5cba27ffcc650b08ba013744ef454a15978c09d4399ce020c6"
   end
 
-  # patch :p0 do
-  #   url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-fix_ctrlport_test.release.diff"
-  #   sha256 "1893da6101b11a9749a292efb509d1de7d8998ae9d208abe1aa022205f49b375"
-  # end
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-fix_ctrlport_test.release.diff"
+    sha256 "1893da6101b11a9749a292efb509d1de7d8998ae9d208abe1aa022205f49b375"
+  end
 
-  # patch :p0 do
-  #   url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-C_CXX_STANDARD.release.diff"
-  #   sha256 "a483a20a089ef9db4c1ec3a2976b9721f2de4b7f3efa9aeefce85ffbeb11555a"
-  # end
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-C_CXX_STANDARD.release.diff"
+    sha256 "a483a20a089ef9db4c1ec3a2976b9721f2de4b7f3efa9aeefce85ffbeb11555a"
+  end
 
   patch :p0 do
     url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-fix-GNUCXX.release.diff"
     sha256 "62a09d5a6ae000f7a109860a1f893969653b3ac8e0078f0ecf4e3f78edd1359a"
   end
 
-  # patch :p0 do
-  #   url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-fix-ctrlport-python-app-install-location.release.diff"
-  #   sha256 "c9d10d25fc97359fc19d14441a6aa2ec07644c67186a4b607a0ff409cbceb6c9"
-  # end
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-fix-ctrlport-python-app-install-location.release.diff"
+    sha256 "c9d10d25fc97359fc19d14441a6aa2ec07644c67186a4b607a0ff409cbceb6c9"
+  end
 
 
 
