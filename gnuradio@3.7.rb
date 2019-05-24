@@ -33,7 +33,7 @@ class GnuradioAT37 < Formula
   #depends_on "wxpython"
   depends_on "wxmac@3.1"
   depends_on "sdl"
-  #depends_on "thrift"
+  #depends_on "thrift"  #GR_CTRLPORT
   #depends_on "codec2"
 
 
@@ -199,7 +199,7 @@ class GnuradioAT37 < Formula
                  GR_BLOCKS GR_PAGER GR_NOAA GR_CHANNELS GR_AUDIO
                  GR_FCD GR_VOCODER GR_FEC GR_DIGITAL GR_DTV GR_ATSC
                  GR_TRELLIS GR_ZEROMQ GR_WAVELET GR_UHD GR_VIDEO_SDL
-                 PYTHON GR_UTILS GR_WXGUI GRC GR_QTGUI GR_CTRLPORT]
+                 PYTHON GR_UTILS GR_WXGUI GRC GR_QTGUI]
     enabled.each do |c|
       args << "-DENABLE_#{c}=ON"
     end
