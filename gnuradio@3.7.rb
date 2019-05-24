@@ -163,7 +163,9 @@ class GnuradioAT37 < Formula
 
   def install
     #ENV.prepend_path "PATH", "/System/Library/Frameworks/Python.framework/Versions/2.7/bin"
-    ENV.prepend_path "PATH", "/usr/local/opt/python2/bin"
+
+    ["#{Formula["python@2"].opt_bin}/python2"].each do |python|
+      version = Language::Python.major_minor_version python
 
     ENV["CHEETAH_INSTALL_WITHOUT_SETUPTOOLS"] = "1"
     ENV["XML_CATALOG_FILES"] = etc/"xml/catalog"
