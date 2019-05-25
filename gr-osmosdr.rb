@@ -12,7 +12,6 @@ class GrOsmosdr < Formula
   depends_on "boost" => :build
   depends_on "uhd"
   depends_on "airspy"
-  depends_on "hackrf"
   depends_on "gsong2014/sdr/gnuradio@3.7"
   depends_on "librtlsdr"
 
