@@ -23,7 +23,7 @@ class Volk < Formula
   end
 
   patch  do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-fix-cxx11.release.diff"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/volk-01-fix-cxx11.diff"
     sha256 "5734ecef1e80dca5030874cce77fcb5578f5c390600a9f80c3cb46944fe9f04a"
   end
 

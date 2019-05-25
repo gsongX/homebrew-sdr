@@ -81,27 +81,27 @@ class GnuradioAT37 < Formula
 
   # fix
   patch :p0 do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-cmake-expand.release.diff"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-01-cmake-expand.diff"
     sha256 "20b267903f7ecb5cba27ffcc650b08ba013744ef454a15978c09d4399ce020c6"
   end
 
   patch :p0 do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-fix_ctrlport_test.release.diff"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-02-fix_ctrlport_test.diff"
     sha256 "1893da6101b11a9749a292efb509d1de7d8998ae9d208abe1aa022205f49b375"
   end
 
   patch :p0 do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-C_CXX_STANDARD.release.diff"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-03-C_CXX_STANDARD.diff"
     sha256 "a483a20a089ef9db4c1ec3a2976b9721f2de4b7f3efa9aeefce85ffbeb11555a"
   end
 
   patch :p0 do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-fix-GNUCXX.release.diff"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-04-fix-GNUCXX.diff"
     sha256 "62a09d5a6ae000f7a109860a1f893969653b3ac8e0078f0ecf4e3f78edd1359a"
   end
 
   patch :p0 do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-fix-ctrlport-python-app-install-location.release.diff"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-05-fix-ctrlport-python-app-install-location.diff"
     sha256 "c9d10d25fc97359fc19d14441a6aa2ec07644c67186a4b607a0ff409cbceb6c9"
   end
 
@@ -109,43 +109,48 @@ class GnuradioAT37 < Formula
 
   # use qt5 patch
   patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-qt5.patch"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-06-use_qt5.patch"
     sha256 "72d6c9f8e0a2c3335d0bbd69b35b3e6ce719031ddfce9d514bf7756f8ee83326"
   end
 
   patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/codec2-next.patch"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-07-codec2-next.patch"
     sha256 "4c6cf295b65d781822de4a157191214a85eca29f481eff9503fd93e6930433ad"
   end
 
-  # patch do
-  #   url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/usr-bin-examples"
-  #   sha256 "157f6015f2bbfd63be07d9cbb6bc3bfdb967a8646115e0ef7845064d223d77a9"
-  # end
-
   patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/wxpy3"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-08-wxpy3.diff"
     sha256 "bfc85156896bf55911297a15e5003c8eb9fc22b47292a485191e0c403e518018"
   end
 
   patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/cmake-policies"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-09-cmake-policies.diff"
     sha256 "f2d956cc629272a8847bbb592b766862723f075e83db070f9ff221d9942d49bc"
   end
 
+  patch do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-10-usr-bin-examples.diff"
+    sha256 "157f6015f2bbfd63be07d9cbb6bc3bfdb967a8646115e0ef7845064d223d77a9"
+  end
 
-  # patch do
-  #   url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/runtime-replace-std-auto_ptr-usage-with-std-unique_p"
-  #   sha256 "c400936cebdf06ccdb88d3259c7ed63094764e96d8505845935fe0d4847af0c8"
-  # end
 
   patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/linux/use-recent-cmake-features"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-11-runtime-replace-std-auto_ptr-usage-with-std-unique_p.diff"
+    sha256 "c400936cebdf06ccdb88d3259c7ed63094764e96d8505845935fe0d4847af0c8"
+  end
+
+  patch do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-runtime_lib_buffer.cc.boost_include_fix.devel.diff"
+    sha256 "c9662f1e1bb85eee09139d0c9ce2daee962519bc40d678e486295dc3a6177f94"
+  end
+
+  patch do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-12-use-recent-cmake-features.diff"
     sha256 "b61f9bbde868a21ec24230740aaa93160fe23593a1c893f8b238a0e86db0c4cc"
   end
 
   patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/fix_qt5_on_py2.patch"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-13-fix_qt5_on_py2.patch"
     sha256 "e8b44e6352bab494216a9f4c3e4ef014336fd55b6a6ec47e37ac9de51c04698c"
   end
 
