@@ -12,7 +12,7 @@ class GrOsmosdr < Formula
   depends_on "ninja" => :build
   depends_on "python@2" => :build
   depends_on "boost" => :build
-  depends_on "gsong2014/sdr/gnuradio"
+  depends_on "gsong2014/sdr/gnuradio@3.7"
   depends_on "librtlsdr"
 
   patch do
