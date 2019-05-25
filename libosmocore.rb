@@ -22,11 +22,6 @@ class Libosmocore < Formula
   end
 
   patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/libosmocore-patch-02-fix-python.release.diff"
-    sha256 "70906cd75ce005046c1bb8316bfa83a9f2e10c3def22747c314593560bcea6e1"
-  end
-
-  patch do
     url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/libosmocore-patch-03-configure.ac.diff"
     sha256 "c8d4668b17d5d76eddfd81f40090c944d651fbf3fe2056cb0a4cefbfc7adfbf7"
   end
