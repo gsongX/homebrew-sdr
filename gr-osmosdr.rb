@@ -8,8 +8,8 @@ class GrOsmosdr < Formula
   depends_on "cmake" => :build
   depends_on "swig" => :build
   depends_on "ninja" => :build
-  depends_on "python@2" => :build
-  depends_on "boost" => :build
+  depends_on "python@2"
+  depends_on "boost"
   depends_on "uhd"
   depends_on "airspy"
   depends_on "gsong2014/sdr/gnuradio@3.7"
