@@ -8,7 +8,7 @@ class Pothos < Formula
   depends_on "cmake" => :build
   depends_on "poco"
   depends_on "nlohmann/json/nlohmann_json"
-  depends_on "pothosware/pothos/muparserx"
+  depends_on "gsong2014/sdr/muparserx"
 
   def install
 

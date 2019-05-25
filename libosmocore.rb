@@ -17,17 +17,17 @@ class Libosmocore < Formula
 
 
   patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/libosmocore-patch-01-fix_clock_gettime.release.diff"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/libosmocore-01-fix_clock_gettime.release.diff"
     sha256 "e6f197a8ee3b3f293004d8566759335da0303e24ab51cb4d27f620163db0c2ae"
   end
 
   patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/libosmocore-patch-03-configure.ac.diff"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/libosmocore-03-configure.ac.diff"
     sha256 "c8d4668b17d5d76eddfd81f40090c944d651fbf3fe2056cb0a4cefbfc7adfbf7"
   end
 
   patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/libosmocore-patch-04-include_osmocom_coding_gsm0503_parity.h.diff"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/libosmocore-04-include_osmocom_coding_gsm0503_parity.h.diff"
     sha256 "a6ba898ab5df7121a7ea90fe27629a48a5289ea9eec4caf31b00b9f2297118fb"
   end
 

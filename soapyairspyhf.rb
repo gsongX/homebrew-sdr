@@ -7,7 +7,7 @@ class Soapyairspyhf < Formula
 
   depends_on "cmake" => :build
   depends_on "soapysdr"
-  depends_on "pothosware/pothos/airspyhf"
+  depends_on "gsong2014/sdr/airspyhf"
 
   def install
     mkdir "build" do
