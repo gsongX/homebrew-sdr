@@ -10,6 +10,7 @@ class Libosmocore < Formula
   depends_on "pkg-config" => :build
   depends_on "pcsc-lite"
   depends_on "talloc"
+  depends_on "gnutls"
 
   def install
     system "autoreconf", "-i"
