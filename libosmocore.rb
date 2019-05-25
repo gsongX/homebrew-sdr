@@ -17,7 +17,7 @@ class Libosmocore < Formula
 
 
   patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/libosmocore-patch-01-fix_clock_gettime.release.diff.diff"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/libosmocore-patch-01-fix_clock_gettime.release.diff"
     sha256 "e6f197a8ee3b3f293004d8566759335da0303e24ab51cb4d27f620163db0c2ae"
   end
 
