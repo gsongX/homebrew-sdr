@@ -139,10 +139,10 @@ class GnuradioAT37 < Formula
     sha256 "c400936cebdf06ccdb88d3259c7ed63094764e96d8505845935fe0d4847af0c8"
   end
 
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-runtime_lib_buffer.cc.boost_include_fix.devel.diff"
-    sha256 "c9662f1e1bb85eee09139d0c9ce2daee962519bc40d678e486295dc3a6177f94"
-  end
+  # patch do
+  #   url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-runtime_lib_buffer.cc.boost_include_fix.devel.diff"
+  #   sha256 "c9662f1e1bb85eee09139d0c9ce2daee962519bc40d678e486295dc3a6177f94"
+  # end
 
   patch do
     url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-12-use-recent-cmake-features.diff"
