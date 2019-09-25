@@ -23,7 +23,7 @@ class GnuradioAT38 < Formula
   depends_on "pygobject3"
   depends_on "uhd"
   depends_on "zeromq"
-  depends_on "pyqt"
+  depends_on "pyqt@5.13"
   depends_on "qwt"
   depends_on "freeglut"
   depends_on "log4cpp"
