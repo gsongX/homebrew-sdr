@@ -1,16 +1,16 @@
 class Libad9361 < Formula
   desc "IIO AD9361 library for filter design and handling, multi-chip sync, etc."
   homepage "https://wiki.analog.com/software/linux/docs/iio/iio"
-  url "https://github.com/analogdevicesinc/libad9361-iio/archive/v0.1.tar.gz"
-  sha256 "46eeacb696e3b70873c541761af189a8ecde6ab7b3e7a5273dfc003e3ba0165d"
+  url "https://github.com/analogdevicesinc/libad9361-iio/archive/v0.2.tar.gz"
+  sha256 "f0d935eb7f70fde8596d98e9eb1f311b408b87662fc1fff45ae3ed455697b747"
   head "https://github.com/analogdevicesinc/libad9361-iio.git"
 
   depends_on "cmake" => :build
   depends_on "ninja" => :build
-  depends_on "libiio"
+  depends_on "gsong2014/sdr/libiio"
 
   def install
-    libiio = Formulary.factory 'libiio'
+    libiio = Formulary.factory 'eblot/sdr/libiio'
 
     mktemp do
       if !(build.head?)
@@ -26,7 +26,7 @@ class Libad9361 < Formula
              "-DCMAKE_FRAMEWORK_PATH=#{libiio.opt_prefix}",
              *std_cmake_args
       system "ninja"
-      system "cmake", "--build", ".", "--target", "install"
+      system "ninja", "install"
     end
   end
 

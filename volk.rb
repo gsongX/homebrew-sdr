@@ -6,15 +6,13 @@ class Volk < Formula
   url "https://github.com/gnuradio/volk/archive/v1.4.tar.gz"
   head "https://github.com/gnuradio/volk.git"
   sha256 "32131ba17846850c07270bc5897dd2de7130ec02ca029875a36966335120e7bf"
-
-
   depends_on "cmake" => :build
   depends_on "ninja" => :build
-  depends_on "python@2" => :build
+  depends_on "python" => :build
 
   resource "Mako" do
-    url "https://files.pythonhosted.org/packages/f9/93/63f78c552e4397549499169198698de23b559b52e57f27d967690811d16d/Mako-1.0.10.tar.gz"
-    sha256 "7165919e78e1feb68b4dbe829871ea9941398178fa58e6beedb9ba14acf63965"
+    url "https://files.pythonhosted.org/packages/eb/69/6137c60cae2ab8c911bff510bb6d1d23a0189f75d114bb277606c6486b5f/Mako-1.0.8.tar.gz"
+    sha256 "04092940c0df49b01f43daea4f5adcecd0e50ef6a4b222be5ac003d5d84b2843"
   end
 
   resource "MarkupSafe" do
@@ -22,24 +20,25 @@ class Volk < Formula
     sha256 "29872e92839765e546828bb7754a68c418d927cd064fd4708fab9fe9c8bb116b"
   end
 
-  patch  do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/volk-01-fix-cxx11.diff"
-    sha256 "5734ecef1e80dca5030874cce77fcb5578f5c390600a9f80c3cb46944fe9f04a"
-  end
-
   def install
-    ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/python2.7/site-packages"
+    ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/python3.7/site-packages"
+    pyver = "python3.7"
+
+    python = Formulary.factory 'python'
 
     resource("MarkupSafe").stage do
-      system "python", *Language::Python.setup_install_args(libexec/"vendor")
+      system "#{python.bin}/#{pyver}", *Language::Python.setup_install_args(libexec/"vendor")
     end
 
     resource("Mako").stage do
-      system "python", *Language::Python.setup_install_args(libexec/"vendor")
+      system "#{python.bin}/#{pyver}", *Language::Python.setup_install_args(libexec/"vendor")
     end
 
     mktemp do
-      system "cmake", "-G", "Ninja", buildpath, *std_cmake_args
+      args = %W[
+        -DPYTHON_EXECUTABLE=#{python.bin}/python3
+      ]
+      system "cmake", "-G", "Ninja", buildpath, *(std_cmake_args + args)
       system "ninja"
       system "ninja", "install"
     end

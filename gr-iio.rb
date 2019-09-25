@@ -1,8 +1,7 @@
-class GrOsmosdr < Formula
+class GrIio < Formula
   desc "Osmocom GNU Radio Blocks"
-  homepage "https://osmocom.org/projects/sdr/wiki/GrOsmoSDR"
-  # pristine tarballs are too old
-  head "https://github.com/eblot/gr-osmosdr.git", :branch => "python3-gqrx"
+  homepage "https://github.com/analogdevicesinc/gr-iio"
+  head "https://github.com/eblot/gr-iio.git", :branch => "gr3.8-py3"
 
   depends_on "cmake" => :build
   depends_on "swig" => :build
@@ -10,30 +9,29 @@ class GrOsmosdr < Formula
   depends_on "boost" => :build
   depends_on "doxygen" => :build
   depends_on "graphviz" => :build
-  depends_on "uhd"
-  depends_on "airspy"
+  depends_on "flex" => :build
+  depends_on "bison" => :build
   depends_on "python"
   depends_on "gmp"
   depends_on "mpir"
-  depends_on "gsong2014/sdr/gnuradio@3.8"
-  depends_on "gsong2014/sdr/gr-iio"
-  depends_on "librtlsdr"
+  depends_on "gsong2014/sdr/gnuradio"
+  depends_on "gsong2014/sdr/libiio"
+  depends_on "gsong2014/sdr/libad9361"
   depends_on "log4cpp"
   depends_on "swig"
-
-  patch do
-    url "https://gist.githubusercontent.com/eblot/4ac69e4d72fdbab36906f7c086289b63/raw/30a33a9f2a16159053e560e0be0771175dffd28a/gr-osmosdr-clang.patch"
-    sha256 "7e94dd33a3b747cdc1b25942c9061f8d5415612c4f8f28f923ef52c8cf84e4a7"
-  end
 
   resource "Cheetah3" do
     url "https://files.pythonhosted.org/packages/d8/49/25d1d310c274433e1bc82736483f2c57f870688deddb0c56f296dcfe36f7/Cheetah3-3.2.1.tar.gz"
     sha256 "685f961d2761e140bfea67156a013313acda66a229edc6c8708b71d9080ece9c"
   end
 
+  # TODO:
+  #   * fix installation path (iio/iio is likely wrong)
+  #   * library version (version number do not exist, so lib is *uio....dylib)
+
   def install
     python = Formulary.factory 'python'
-    gnuradio = Formulary.factory 'eblot/sdr/gnuradio'
+    libad9361 = Formulary.factory 'gsong2014/sdr/libad9361'
     pyver = 'python3.7'
 
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/#{pyver}/site-packages"
@@ -45,6 +43,8 @@ class GrOsmosdr < Formula
 
     args = %W[
       -DPYTHON_EXECUTABLE=#{python.bin}/python3
+      -DAD9361_INCLUDE_DIRS=#{libad9361.prefix}/ad9361.framework/Headers
+      -DAD9361_LIBRARIES=#{libad9361.prefix}/ad9361.framework
     ]
 
     mkdir "build" do
