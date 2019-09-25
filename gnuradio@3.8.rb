@@ -7,10 +7,10 @@ class GnuradioAT38 < Formula
 
   depends_on "cmake" => :build
   depends_on "ninja" => :build
-  depends_on "doxygen" => :build
+  # depends_on "doxygen" => :build
   depends_on "graphviz" => :build
   depends_on "pkg-config" => :build
-  depends_on "sphinx-doc" => :build
+  # depends_on "sphinx-doc" => :build
   depends_on "swig" => :build
   depends_on "boost"
   depends_on "fftw"
@@ -148,7 +148,7 @@ class GnuradioAT38 < Formula
     enabled = %w[GR_ANALOG GR_FFT VOLK GR_FILTER GNURADIO_RUNTIME
                  GR_BLOCKS GR_CHANNELS GR_AUDIO GR_QTGUI
                  GR_VOCODER GR_FEC GR_DIGITAL GR_DTV
-                 GR_TRELLIS GR_ZEROMQ GR_WAVELET GR_UHD DOXYGEN SPHINX
+                 GR_TRELLIS GR_ZEROMQ GR_WAVELET GR_UHD
                  PYTHON GR_UTILS GRC]
     enabled.each do |c|
       args << "-DENABLE_#{c}=ON"
