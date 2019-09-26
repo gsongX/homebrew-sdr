@@ -274,3 +274,17 @@ index 91333b24d..e6a978090 100644
    )
  
  list(APPEND gr_audio_confs ${CMAKE_CURRENT_SOURCE_DIR}/gr-audio.conf)
+
+diff -uNrp /tmp/a/grc/core/Platform.py b/grc/core/Platform.py
+--- /tmp/a/grc/core/Platform.py 2019-04-20 16:58:00.000000000 +0700
++++ b/grc/core/Platform.py  2019-05-24 15:18:07.000000000 +0700
+@@ -194,7 +194,8 @@ class Platform(Element):
+         block = self.Block(self._flow_graph, n)
+         key = block.get_key()
+         if key in self.blocks:
+-            print >> sys.stderr, 'Warning: Block with key "{0}" already exists.\n\tIgnoring: {1}'.format(key, xml_file)
++            #print >> sys.stderr, 'Warning: Block with key "{0}" already exists.\n\tIgnoring: {1}'.format(key, xml_file)
++            pass
+         else:  # Store the block
+             self.blocks[key] = block
+             self._blocks_n[key] = n
