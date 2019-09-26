@@ -275,18 +275,18 @@ index 91333b24d..e6a978090 100644
  
  list(APPEND gr_audio_confs ${CMAKE_CURRENT_SOURCE_DIR}/gr-audio.conf)
 
---- a/grc/core/platform.py  2019-09-26 07:08:09.000000000 +0700
-+++ b/grc/core/platform.py  2019-08-10 04:40:00.000000000 +0700
+--- b/grc/core/platform.py  2019-08-10 04:40:00.000000000 +0700
++++ a/grc/core/platform.py  2019-09-26 07:08:09.000000000 +0700
 @@ -237,9 +237,9 @@ class Platform(Element):
          if block_id in self.block_classes_build_in:
              log.warning('Not overwriting build-in block %s with %s', block_id, file_path)
              return
--        # if block_id in self.blocks:
--            # log.warning('Block with id "%s" loaded from\n  %s\noverwritten by\n  %s',
--                        # block_id, self.blocks[block_id].loaded_from, file_path)
-+        if block_id in self.blocks:
-+            log.warning('Block with id "%s" loaded from\n  %s\noverwritten by\n  %s',
-+                        block_id, self.blocks[block_id].loaded_from, file_path)
+-        if block_id in self.blocks:
+-            log.warning('Block with id "%s" loaded from\n  %s\noverwritten by\n  %s',
+-                        block_id, self.blocks[block_id].loaded_from, file_path)
++        # if block_id in self.blocks:
++            # log.warning('Block with id "%s" loaded from\n  %s\noverwritten by\n  %s',
++                        # block_id, self.blocks[block_id].loaded_from, file_path)
  
          try:
              block_cls = self.blocks[block_id] = self.new_block_class(**data)
