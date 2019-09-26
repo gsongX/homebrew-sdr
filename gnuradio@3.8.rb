@@ -275,7 +275,6 @@ index 91333b24d..e6a978090 100644
  
  list(APPEND gr_audio_confs ${CMAKE_CURRENT_SOURCE_DIR}/gr-audio.conf)
 
-diff -uNrp a/grc/core/platform.py b/grc/core/platform.py
 --- a/grc/core/platform.py  2019-09-26 07:08:09.000000000 +0700
 +++ b/grc/core/platform.py  2019-08-10 04:40:00.000000000 +0700
 @@ -237,9 +237,9 @@ class Platform(Element):
