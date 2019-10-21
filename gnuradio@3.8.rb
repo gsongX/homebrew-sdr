@@ -7,10 +7,10 @@ class GnuradioAT38 < Formula
 
   depends_on "cmake" => :build
   depends_on "ninja" => :build
-  # depends_on "doxygen" => :build
+  depends_on "doxygen" => :build
   depends_on "graphviz" => :build
   depends_on "pkg-config" => :build
-  # depends_on "sphinx-doc" => :build
+  depends_on "sphinx-doc" => :build
   depends_on "swig" => :build
   depends_on "boost"
   depends_on "fftw"
@@ -24,11 +24,13 @@ class GnuradioAT38 < Formula
   depends_on "gtk+3"
   depends_on "uhd"
   depends_on "zeromq"
-  depends_on "pyqt@5.13"
+  depends_on "pyqt"
   depends_on "qwt"
   depends_on "freeglut"
   depends_on "log4cpp"
-  depends_on "gnome-icon-theme"
+  depends_on "cppunit"
+  depends_on "thrift"
+  depends_on "adwaita-icon-theme"
 
   patch do
     # log4cpp invalid module name
@@ -83,8 +85,8 @@ class GnuradioAT38 < Formula
   end
 
   resource "pyyaml" do
-    url "https://files.pythonhosted.org/packages/9f/2c/9417b5c774792634834e730932745bc09a7d36754ca00acf1ccd1ac2594d/PyYAML-5.1.tar.gz"
-    sha256 "436bc774ecf7c103814098159fbb84c2715d25980175292c648f2da143909f95"
+    url "https://files.pythonhosted.org/packages/e3/e8/b3212641ee2718d556df0f23f78de8303f068fe29cdaa7a91018849582fe/PyYAML-5.1.2.tar.gz"
+    sha256 "01adf0b6c6f61bd11af6e10ca52b7d4057dd0be0343eb9283c878cf3af56aee4"
   end
 
   resource "click" do
