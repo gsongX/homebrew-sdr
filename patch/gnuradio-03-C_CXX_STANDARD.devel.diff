@@ -1,6 +1,6 @@
 --- CMakeLists.txt.orig
 +++ CMakeLists.txt
-@@ -131,9 +131,16 @@
+@@ -130,9 +130,16 @@
      MESSAGE(status "Skipping compiler version check.")
  ENDIF()
  
@@ -20,7 +20,7 @@
  
  IF(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
      SET(CMAKE_CXX_STANDARD 98)
-@@ -142,19 +149,129 @@
+@@ -141,19 +148,129 @@
  ELSEIF(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
      SET(CMAKE_CXX_STANDARD 98)
  ELSE()
