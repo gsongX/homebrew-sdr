@@ -3,21 +3,21 @@ class Volk < Formula
 
   desc "The Vector Optimized Library of Math Kernels"
   homepage "http://libvolk.org/"
-  url "https://github.com/gnuradio/volk/archive/v1.4.tar.gz"
+  url "https://github.com/gnuradio/volk/releases/download/v2.0.0/volk-v2.0.0.tar.gz"
   head "https://github.com/gnuradio/volk.git"
-  sha256 "32131ba17846850c07270bc5897dd2de7130ec02ca029875a36966335120e7bf"
+  sha256 "d4274c4cb07d634f4d5f94f4845fb54156ad45ee03f4cd045496b91967b21c30"
   depends_on "cmake" => :build
   depends_on "ninja" => :build
   depends_on "python" => :build
 
-  resource "Mako" do
-    url "https://files.pythonhosted.org/packages/eb/69/6137c60cae2ab8c911bff510bb6d1d23a0189f75d114bb277606c6486b5f/Mako-1.0.8.tar.gz"
-    sha256 "04092940c0df49b01f43daea4f5adcecd0e50ef6a4b222be5ac003d5d84b2843"
-  end
-
   resource "MarkupSafe" do
     url "https://files.pythonhosted.org/packages/b9/2e/64db92e53b86efccfaea71321f597fa2e1b2bd3853d8ce658568f7a13094/MarkupSafe-1.1.1.tar.gz"
     sha256 "29872e92839765e546828bb7754a68c418d927cd064fd4708fab9fe9c8bb116b"
+  end
+
+  resource "Mako" do
+    url "https://files.pythonhosted.org/packages/eb/69/6137c60cae2ab8c911bff510bb6d1d23a0189f75d114bb277606c6486b5f/Mako-1.0.8.tar.gz"
+    sha256 "04092940c0df49b01f43daea4f5adcecd0e50ef6a4b222be5ac003d5d84b2843"
   end
 
   def install

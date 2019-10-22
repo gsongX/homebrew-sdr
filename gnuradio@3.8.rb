@@ -28,6 +28,8 @@ class GnuradioAT38 < Formula
   depends_on "qwt"
   depends_on "freeglut"
   depends_on "log4cpp"
+  depends_on "wxmac@3.1"
+  depends_on "volk"
   depends_on "cppunit"
   depends_on "thrift"
   depends_on "adwaita-icon-theme"
@@ -103,6 +105,15 @@ class GnuradioAT38 < Formula
     url "https://raw.githubusercontent.com/zeromq/cppzmq/46fc0572c5e9f09a32a23d6f22fd79b841f77e00/zmq.hpp"
     sha256 "964031c0944f913933f55ad1610938105a6657a69d1ac5a6dd50e16a679104d5"
   end
+
+    # fix
+  # patch :p0 do
+  #   url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-01-cmake-expand.diff"
+  #   sha256 "20b267903f7ecb5cba27ffcc650b08ba013744ef454a15978c09d4399ce020c6"
+  # end
+
+  # patch :DATA
+
 
   def install
     python = Formulary.factory 'python'
