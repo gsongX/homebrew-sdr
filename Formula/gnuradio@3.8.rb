@@ -29,6 +29,7 @@ class GnuradioAT38 < Formula
   depends_on "freeglut"
   depends_on "log4cpp"
   depends_on "volk"
+  depends_on "gmp"
   depends_on "cppunit"
   depends_on "thrift"
   depends_on "adwaita-icon-theme"
