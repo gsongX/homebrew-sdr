@@ -28,7 +28,6 @@ class GnuradioAT38 < Formula
   depends_on "qwt"
   depends_on "freeglut"
   depends_on "log4cpp"
-  depends_on "wxmac@3.1"
   depends_on "volk"
   depends_on "cppunit"
   depends_on "thrift"
