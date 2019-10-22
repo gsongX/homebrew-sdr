@@ -4,9 +4,11 @@
     sha256 "ee7eccb51cefff15c6bf8313a7cc7a3f347dc8e9fdba7a3c3bd73f958070b3eb"
   end
 
+  # sdl 1.2.15
+
   patch do
     url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/SDL-1.2.15-00-build-for-mac-x11.patch"
-    sha256 "7d91fa9ebbb59a64d0d42b4ce47f8ebc3198c8c0796c859cef18a9ae1ea66c26"
+    sha256 "d9615264824b62b37b56e864ba816b15a7aace157b5871e35370ca1ca367c63d"
   end
 
    # fix
