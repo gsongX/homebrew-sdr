@@ -1,7 +1,6 @@
-diff --git a/gio/giomodule.c b/gio/giomodule.c
-index 1007abd..6bd7860 100644
---- a/gio/giomodule.c
-+++ b/gio/giomodule.c
+diff -uNrp a/gio/giomodule.c b/gio/giomodule.c
+--- a/gio/giomodule.c	2019-10-22 00:18:40.000000000 +0700
++++ b/gio/giomodule.c	2019-10-23 02:29:36.000000000 +0700
 @@ -47,16 +47,7 @@
  #endif
  #include <glib/gstdio.h>
@@ -30,11 +29,9 @@ index 1007abd..6bd7860 100644
  #ifdef G_OS_UNIX
        g_type_ensure (_g_unix_volume_monitor_get_type ());
        g_type_ensure (g_fdo_notification_backend_get_type ());
-diff --git a/gio/gosxappinfo.h b/gio/gosxappinfo.h
-deleted file mode 100644
-index 7beeaad..0000000
---- a/gio/gosxappinfo.h
-+++ /dev/null
+diff -uNrp a/gio/gosxappinfo.h b/gio/gosxappinfo.h
+--- a/gio/gosxappinfo.h	2019-10-22 00:18:40.000000000 +0700
++++ b/gio/gosxappinfo.h	1970-01-01 07:00:00.000000000 +0700
 @@ -1,54 +0,0 @@
 -/* GIO - GLib Input, Output and Streaming Library
 - *
@@ -90,11 +87,9 @@ index 7beeaad..0000000
 -
 -
 -#endif /* __G_OSX_APP_INFO_H__ */
-diff --git a/gio/gosxappinfo.m b/gio/gosxappinfo.m
-deleted file mode 100644
-index 463b2da..0000000
---- a/gio/gosxappinfo.m
-+++ /dev/null
+diff -uNrp a/gio/gosxappinfo.m b/gio/gosxappinfo.m
+--- a/gio/gosxappinfo.m	2019-10-22 00:18:40.000000000 +0700
++++ b/gio/gosxappinfo.m	1970-01-01 07:00:00.000000000 +0700
 @@ -1,759 +0,0 @@
 -/* GIO - GLib Input, Output and Streaming Library
 - *
@@ -855,10 +850,9 @@ index 463b2da..0000000
 -g_app_info_reset_type_associations (const char *content_type)
 -{
 -}
-diff --git a/gio/meson.build b/gio/meson.build
-index 9a9e621..1f475b4 100644
---- a/gio/meson.build
-+++ b/gio/meson.build
+diff -uNrp a/gio/meson.build b/gio/meson.build
+--- a/gio/meson.build	2019-10-22 00:18:40.000000000 +0700
++++ b/gio/meson.build	2019-10-23 02:29:36.000000000 +0700
 @@ -413,25 +413,15 @@ if host_system != 'windows'
      'gunixsocketaddress.h',
    )
@@ -894,10 +888,9 @@ index 9a9e621..1f475b4 100644
  
    subdir('xdgmime')
    internal_deps += [xdgmime_lib]
-diff --git a/glib/meson.build b/glib/meson.build
-index 91a48f1..1d869fd 100644
---- a/glib/meson.build
-+++ b/glib/meson.build
+diff -uNrp a/glib/meson.build b/glib/meson.build
+--- a/glib/meson.build	2019-10-22 00:18:40.000000000 +0700
++++ b/glib/meson.build	2019-10-23 02:29:36.000000000 +0700
 @@ -316,10 +316,6 @@ else
    platform_deps = []
  endif
@@ -918,35 +911,15 @@ index 91a48f1..1d869fd 100644
  )
  
  libglib_dep = declare_dependency(
-@@ -463,3 +459,4 @@ build_tests = not meson.is_cross_build() or (meson.is_cross_build() and meson.ha
+@@ -461,3 +457,4 @@ endif
  if build_tests
    subdir('tests')
  endif
 +
-diff --git a/gmodule/meson.build b/gmodule/meson.build
-index d38ad2d..640ba20 100644
---- a/gmodule/meson.build
-+++ b/gmodule/meson.build
-@@ -13,12 +13,11 @@ if host_system == 'windows'
- # dlopen() filepath must be of the form /path/libname.a(libname.so)
- elif host_system == 'aix'
-   g_module_impl = 'G_MODULE_IMPL_AR'
--# NSLinkModule (dyld) in system libraries (Darwin)
-+elif have_dlopen_dlsym
-+  g_module_impl = 'G_MODULE_IMPL_DL'
- elif cc.has_function('NSLinkModule')
-   g_module_impl = 'G_MODULE_IMPL_DYLD'
-   g_module_need_uscore = 1
--elif have_dlopen_dlsym
--  g_module_impl = 'G_MODULE_IMPL_DL'
- endif
- 
- # additional checks for G_MODULE_IMPL_DL
-diff --git a/meson.build b/meson.build
-index 717d1bc..2d0ad2b 100644
---- a/meson.build
-+++ b/meson.build
-@@ -653,32 +653,6 @@ if host_system == 'darwin'
+diff -uNrp a/meson.build b/meson.build
+--- a/meson.build	2019-10-22 00:18:40.000000000 +0700
++++ b/meson.build	2019-10-23 02:29:36.000000000 +0700
+@@ -656,32 +656,6 @@ if host_system == 'darwin'
  
    osx_ldflags += ['-Wl,-framework,CoreFoundation']
  

@@ -12,6 +12,19 @@
     sha256 "d9615264824b62b37b56e864ba816b15a7aace157b5871e35370ca1ca367c63d"
   end
 
+  # glib 2.62
+
+  patch do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/glib-2.62.0-00-support_modules_and_x11.patch"
+    sha256 "e90ffa27be330030fcdda9fad7f6129b68abc25818ee13325819cd9c5d7418b6"
+  end
+
+  # PyQt5 5.13.1 # not patch
+  patch do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/PyQt5_gpl-5.13.1-00-inject-compile-flags.patch"
+    sha256 "667efe7e04df8a9468eaf04d4cf7fb7322cb9979f1e6ab93db1514f1844a4312"
+  end
+
    # fix
   # patch :p0 do
   #   url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-01-cmake-expand.diff"
