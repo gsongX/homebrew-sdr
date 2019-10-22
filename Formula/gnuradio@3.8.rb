@@ -31,7 +31,7 @@ class GnuradioAT38 < Formula
   depends_on "volk"
   depends_on "gmp"
   depends_on "cppunit"
-  #depends_on "thrift"
+  depends_on "thrift"
   depends_on "sdl"
   depends_on "adwaita-icon-theme"
 
@@ -108,9 +108,9 @@ class GnuradioAT38 < Formula
   end
 
     # fix
-  patch :p0 do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-10-fixes_for-thrift.devel.diff"
-    sha256 "0065706f543167d892d826750ffcc40f367602502a82cd3d700106d87251e238"
+  patch do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-maint-3.8-00-4bed721.patch"
+    sha256 "1791e964da4ba72542ce994259b6008b8c5cedd16ac54a1b9439cd6fb2a1bdbe"
   end
 
 

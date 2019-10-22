@@ -19,6 +19,13 @@
     sha256 "e90ffa27be330030fcdda9fad7f6129b68abc25818ee13325819cd9c5d7418b6"
   end
 
+  # gnuradio maint-3.8-4bed721
+
+  patch do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-maint-3.8-00-4bed721.patch"
+    sha256 "1791e964da4ba72542ce994259b6008b8c5cedd16ac54a1b9439cd6fb2a1bdbe"
+  end
+
   # PyQt5 5.13.1 # not patch
   patch do
     url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/PyQt5_gpl-5.13.1-00-inject-compile-flags.patch"
