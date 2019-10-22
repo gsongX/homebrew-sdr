@@ -1,7 +1,8 @@
 
+  # qwt 6.1.4
   patch do
-    url "https://bugzilla-attachments.libsdl.org/attachment.cgi?id=1324"
-    sha256 "ee7eccb51cefff15c6bf8313a7cc7a3f347dc8e9fdba7a3c3bd73f958070b3eb"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/qwt-6.1.4-00-generate_pkgconfig_files.patch"
+    sha256 "730ca34506227449217d82320fc78916a88d9657b63f194d769c7a204ee896c3"
   end
 
   # sdl 1.2.15
