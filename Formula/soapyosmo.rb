@@ -10,10 +10,14 @@ class Soapyosmo < Formula
   depends_on "boost"
   depends_on "libmirisdr"
   depends_on "libosmosdr"
+  depends_on "libbladerf"
+  depends_on "airspy"
+  depends_on "librtlsdr"
+  depends_on "hackrf"
 
   def install
     mkdir "build" do
-      system "cmake", "..", *std_cmake_args
+      system "cmake", "..", "-DUSE_OSMO_BLADERF=ON", "-DUSE_OSMO_AIRSPY=ON", "-DUSE_OSMO_RTLSDR=ON", "-DUSE_OSMO_HACKRF=ON", "-DENABLE_MIRI=ON" , *std_cmake_args
       system "make", "install"
     end
   end

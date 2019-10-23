@@ -2,10 +2,9 @@ require "formula"
 
 class Libosmocore < Formula
   homepage "http://bb.osmocom.org/trac/wiki/libosmocore"
-  #head "https://github.com/osmocom/libosmocore.git"
-  url "https://github.com/osmocom/libosmocore/archive/1.1.0.tar.gz"
-  sha256 "719372e536c47ead59aa2c56529cd8aa8d58875fc692bfe526f71e1cf85dad5a"
-  head "https://github.com/nejohnson2/libosmocore.git"
+  url "https://github.com/osmocom/libosmocore/archive/1.2.0.tar.gz"
+  sha256 "74b8e0edb2a97eb3665f4004ed7b5c6a42c2e3f5fe29dcd5d474e7c4d1d11888"
+  head "https://github.com/osmocom/libosmocore.git"
 
   depends_on "libtool" => :build
   depends_on "automake" => :build
