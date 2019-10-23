@@ -10,7 +10,7 @@ class Libad9361 < Formula
   depends_on "gsong2014/sdr/libiio"
 
   def install
-    libiio = Formulary.factory 'eblot/sdr/libiio'
+    libiio = Formulary.factory 'gsong2014/sdr/libiio'
 
     mktemp do
       if !(build.head?)
