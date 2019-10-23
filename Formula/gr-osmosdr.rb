@@ -33,7 +33,7 @@ class GrOsmosdr < Formula
 
   def install
     python = Formulary.factory 'python'
-    gnuradio = Formulary.factory 'eblot/sdr/gnuradio'
+    gnuradio = Formulary.factory 'gsong2014/sdr/gnuradio@3.8'
     pyver = 'python3.7'
 
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/#{pyver}/site-packages"
