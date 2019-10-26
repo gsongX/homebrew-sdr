@@ -14,7 +14,7 @@ class GrIio < Formula
   depends_on "python"
   depends_on "gmp"
   depends_on "mpir"
-  depends_on "gsong2014/sdr/gnuradio"
+  depends_on "gsong2014/sdr/gnuradio@3.8"
   depends_on "gsong2014/sdr/libiio"
   depends_on "gsong2014/sdr/libad9361"
   depends_on "log4cpp"
