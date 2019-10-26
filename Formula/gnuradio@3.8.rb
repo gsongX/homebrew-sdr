@@ -32,6 +32,7 @@ class GnuradioAT38 < Formula
   depends_on "gmp"
   depends_on "cppunit"
   depends_on "thrift"
+  depends_on "orc"
   depends_on "sdl"
   depends_on "adwaita-icon-theme"
 
@@ -150,6 +151,7 @@ class GnuradioAT38 < Formula
       -DGR_PREFSDIR=#{etc}/gnuradio/conf.d
       -DPYTHON_EXECUTABLE=#{python.bin}/#{pyver}
       -DENABLE_DOXYGEN=Off
+      -DENABLE_VOLK=Off
       -DPC_QWT_LIBRARIES=qwt
       -DPC_QWT_LIBDIR=#{qwt.lib}/qwt.framework
       -DPC_QWT_INCLUDEDIR=#{qwt.lib}/qwt.framework/Headers
