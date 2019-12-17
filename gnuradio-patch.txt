@@ -37,3 +37,9 @@
   #   url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-01-cmake-expand.diff"
   #   sha256 "20b267903f7ecb5cba27ffcc650b08ba013744ef454a15978c09d4399ce020c6"
   # end
+
+  # brew edit thrift
+  depends_on "glib"
+
+  --with-c_glib
+  --with-python3

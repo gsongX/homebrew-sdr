@@ -21,8 +21,8 @@ class GrIio < Formula
   depends_on "swig"
 
   resource "Cheetah3" do
-    url "https://files.pythonhosted.org/packages/d8/49/25d1d310c274433e1bc82736483f2c57f870688deddb0c56f296dcfe36f7/Cheetah3-3.2.1.tar.gz"
-    sha256 "685f961d2761e140bfea67156a013313acda66a229edc6c8708b71d9080ece9c"
+    url "https://files.pythonhosted.org/packages/4e/72/e6a7d92279e3551db1b68fd336fd7a6e3d2f2ec742bf486486e6150d77d2/Cheetah3-3.2.4.tar.gz"
+    sha256 "caabb9c22961a3413ac85cd1e5525ec9ca80daeba6555f4f60802b6c256e252b"
   end
 
   # TODO:

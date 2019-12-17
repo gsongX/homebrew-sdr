@@ -1,6 +1,6 @@
-diff -uNrp a/.clang-tidy b/.clang-tidy
+diff -uNr a/.clang-tidy b/.clang-tidy
 --- a/.clang-tidy	1970-01-01 07:00:00.000000000 +0700
-+++ b/.clang-tidy	2019-10-20 04:31:39.000000000 +0700
++++ b/.clang-tidy	2019-11-06 03:55:06.000000000 +0700
 @@ -0,0 +1,10 @@
 +---
 +Checks:          '-*,misc-throw-by-value-catch-by-reference,misc-static-assert,readability-container-size-empty'
@@ -12,10 +12,32 @@ diff -uNrp a/.clang-tidy b/.clang-tidy
 +CheckOptions:
 +...
 +
-diff -uNrp a/cmake/Modules/FindLOG4CPP.cmake b/cmake/Modules/FindLOG4CPP.cmake
+diff -uNr a/cmake/Modules/FindCodec2.cmake b/cmake/Modules/FindCodec2.cmake
+--- a/cmake/Modules/FindCodec2.cmake	2019-08-10 04:15:36.000000000 +0700
++++ b/cmake/Modules/FindCodec2.cmake	2019-11-06 03:55:06.000000000 +0700
+@@ -61,6 +61,18 @@
+   else()
+     set(LIBCODEC2_HAS_FREEDV_API false)
+   endif()
++
++  # we need to discover if codec2 < 0.9
++  # moreover, codec2 < 0.8 doesn't provide codec2/version.h
++  if(EXISTS "${LIBCODEC2_INCLUDE_DIRS}/version.h")
++    file(READ "${LIBCODEC2_INCLUDE_DIRS}/version.h" _CODEC2_VERSION_H_CONTENTS)
++    string(REGEX MATCH "CODEC2_VERSION_MAJOR ([0-9]+)(.*)CODEC2_VERSION_MINOR ([0-9]+)" _CODEC2_TMP_MATCH " ${_CODEC2_VERSION_H_CONTENTS}")
++    if((CMAKE_MATCH_1 EQUAL 0) AND (CMAKE_MATCH_3 LESS 9))
++      add_definitions(-DCODEC2_LEGACY)
++    endif()
++  else()
++    add_definitions(-DCODEC2_LEGACY)
++  endif()
+ endif(LIBCODEC2_INCLUDE_DIR AND LIBCODEC2_LIBRARIES)
+ 
+ FIND_PACKAGE_HANDLE_STANDARD_ARGS(LIBCODEC2 DEFAULT_MSG LIBCODEC2_LIBRARIES LIBCODEC2_INCLUDE_DIRS)
+diff -uNr a/cmake/Modules/FindLOG4CPP.cmake b/cmake/Modules/FindLOG4CPP.cmake
 --- a/cmake/Modules/FindLOG4CPP.cmake	2019-08-10 04:15:36.000000000 +0700
-+++ b/cmake/Modules/FindLOG4CPP.cmake	2019-10-20 04:31:39.000000000 +0700
-@@ -12,15 +12,15 @@ if (LOG4CPP_INCLUDE_DIR)
++++ b/cmake/Modules/FindLOG4CPP.cmake	2019-11-06 03:55:06.000000000 +0700
+@@ -12,15 +12,15 @@
  endif ()
  
  find_path(LOG4CPP_INCLUDE_DIR log4cpp/Category.hh
@@ -34,10 +56,10 @@ diff -uNrp a/cmake/Modules/FindLOG4CPP.cmake b/cmake/Modules/FindLOG4CPP.cmake
  )
  
  
-diff -uNrp a/cmake/Modules/FindQwt.cmake b/cmake/Modules/FindQwt.cmake
+diff -uNr a/cmake/Modules/FindQwt.cmake b/cmake/Modules/FindQwt.cmake
 --- a/cmake/Modules/FindQwt.cmake	2019-08-10 04:15:36.000000000 +0700
-+++ b/cmake/Modules/FindQwt.cmake	2019-10-20 04:31:39.000000000 +0700
-@@ -29,7 +29,7 @@ find_path(QWT_INCLUDE_DIRS
++++ b/cmake/Modules/FindQwt.cmake	2019-11-06 03:55:06.000000000 +0700
+@@ -29,7 +29,7 @@
  )
  
  find_library (QWT_LIBRARIES
@@ -46,10 +68,10 @@ diff -uNrp a/cmake/Modules/FindQwt.cmake b/cmake/Modules/FindQwt.cmake
    HINTS
    ${PC_QWT_LIBDIR}
    ${CMAKE_INSTALL_PREFIX}/lib
-diff -uNrp a/gnuradio-runtime/apps/gnuradio-config-info.cc b/gnuradio-runtime/apps/gnuradio-config-info.cc
+diff -uNr a/gnuradio-runtime/apps/gnuradio-config-info.cc b/gnuradio-runtime/apps/gnuradio-config-info.cc
 --- a/gnuradio-runtime/apps/gnuradio-config-info.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gnuradio-runtime/apps/gnuradio-config-info.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -61,7 +61,7 @@ int main(int argc, char** argv)
++++ b/gnuradio-runtime/apps/gnuradio-config-info.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -61,7 +61,7 @@
          return 1;
      }
  
@@ -58,9 +80,9 @@ diff -uNrp a/gnuradio-runtime/apps/gnuradio-config-info.cc b/gnuradio-runtime/ap
          std::cout << desc << std::endl;
          return 1;
      }
-diff -uNrp a/gnuradio-runtime/include/gnuradio/basic_block.h b/gnuradio-runtime/include/gnuradio/basic_block.h
+diff -uNr a/gnuradio-runtime/include/gnuradio/basic_block.h b/gnuradio-runtime/include/gnuradio/basic_block.h
 --- a/gnuradio-runtime/include/gnuradio/basic_block.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gnuradio-runtime/include/gnuradio/basic_block.h	2019-10-20 04:31:39.000000000 +0700
++++ b/gnuradio-runtime/include/gnuradio/basic_block.h	2019-11-06 03:55:06.000000000 +0700
 @@ -38,9 +38,7 @@
  #include <map>
  #include <string>
@@ -71,7 +93,7 @@ diff -uNrp a/gnuradio-runtime/include/gnuradio/basic_block.h b/gnuradio-runtime/
  
  namespace gr {
  
-@@ -91,7 +89,7 @@ protected:
+@@ -91,7 +89,7 @@
      bool d_rpc_set;
  
      msg_queue_map_t msg_queue;
@@ -80,10 +102,10 @@ diff -uNrp a/gnuradio-runtime/include/gnuradio/basic_block.h b/gnuradio-runtime/
  
      basic_block(void) {} // allows pure virtual interface sub-classes
  
-diff -uNrp a/gnuradio-runtime/include/gnuradio/block_gateway.h b/gnuradio-runtime/include/gnuradio/block_gateway.h
+diff -uNr a/gnuradio-runtime/include/gnuradio/block_gateway.h b/gnuradio-runtime/include/gnuradio/block_gateway.h
 --- a/gnuradio-runtime/include/gnuradio/block_gateway.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gnuradio-runtime/include/gnuradio/block_gateway.h	2019-10-20 04:31:39.000000000 +0700
-@@ -310,7 +310,11 @@ protected:
++++ b/gnuradio-runtime/include/gnuradio/block_gateway.h	2019-11-06 03:55:06.000000000 +0700
+@@ -310,7 +310,11 @@
  
      bool has_msg_handler(pmt::pmt_t which_port)
      {
@@ -96,9 +118,9 @@ diff -uNrp a/gnuradio-runtime/include/gnuradio/block_gateway.h b/gnuradio-runtim
      }
  
      void dispatch_msg(pmt::pmt_t which_port, pmt::pmt_t msg)
-diff -uNrp a/gnuradio-runtime/include/gnuradio/block_registry.h b/gnuradio-runtime/include/gnuradio/block_registry.h
+diff -uNr a/gnuradio-runtime/include/gnuradio/block_registry.h b/gnuradio-runtime/include/gnuradio/block_registry.h
 --- a/gnuradio-runtime/include/gnuradio/block_registry.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gnuradio-runtime/include/gnuradio/block_registry.h	2019-10-20 04:31:39.000000000 +0700
++++ b/gnuradio-runtime/include/gnuradio/block_registry.h	2019-11-06 03:55:06.000000000 +0700
 @@ -25,6 +25,7 @@
  
  #include <gnuradio/api.h>
@@ -107,10 +129,10 @@ diff -uNrp a/gnuradio-runtime/include/gnuradio/block_registry.h b/gnuradio-runti
  #include <map>
  
  namespace gr {
-diff -uNrp a/gnuradio-runtime/include/gnuradio/pycallback_object.h b/gnuradio-runtime/include/gnuradio/pycallback_object.h
+diff -uNr a/gnuradio-runtime/include/gnuradio/pycallback_object.h b/gnuradio-runtime/include/gnuradio/pycallback_object.h
 --- a/gnuradio-runtime/include/gnuradio/pycallback_object.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gnuradio-runtime/include/gnuradio/pycallback_object.h	2019-10-20 04:31:39.000000000 +0700
-@@ -150,7 +150,7 @@ private:
++++ b/gnuradio-runtime/include/gnuradio/pycallback_object.h	2019-11-06 03:55:06.000000000 +0700
+@@ -150,7 +150,7 @@
          return (dummy);
      };
  
@@ -119,10 +141,10 @@ diff -uNrp a/gnuradio-runtime/include/gnuradio/pycallback_object.h b/gnuradio-ru
      std::string d_name;
      int d_id;
  };
-diff -uNrp a/gnuradio-runtime/include/gnuradio/rpcserver_aggregator.h b/gnuradio-runtime/include/gnuradio/rpcserver_aggregator.h
+diff -uNr a/gnuradio-runtime/include/gnuradio/rpcserver_aggregator.h b/gnuradio-runtime/include/gnuradio/rpcserver_aggregator.h
 --- a/gnuradio-runtime/include/gnuradio/rpcserver_aggregator.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gnuradio-runtime/include/gnuradio/rpcserver_aggregator.h	2019-10-20 04:31:39.000000000 +0700
-@@ -60,8 +60,8 @@ private:
++++ b/gnuradio-runtime/include/gnuradio/rpcserver_aggregator.h	2019-11-06 03:55:06.000000000 +0700
+@@ -60,8 +60,8 @@
          }
  
          void operator()(T& x) { x->i()->registerConfigureCallback(id, callback); }
@@ -133,7 +155,7 @@ diff -uNrp a/gnuradio-runtime/include/gnuradio/rpcserver_aggregator.h b/gnuradio
      };
  
      template <class T, typename Tcallback>
-@@ -69,7 +69,7 @@ private:
+@@ -69,7 +69,7 @@
          unregisterConfigureCallback_f(const std::string& _id) : id(_id) { ; }
  
          void operator()(T& x) { x->i()->unregisterConfigureCallback(id); }
@@ -142,7 +164,7 @@ diff -uNrp a/gnuradio-runtime/include/gnuradio/rpcserver_aggregator.h b/gnuradio
      };
  
      template <class T, typename Tcallback>
-@@ -81,8 +81,8 @@ private:
+@@ -81,8 +81,8 @@
          }
  
          void operator()(T& x) { x->i()->registerQueryCallback(id, callback); }
@@ -153,7 +175,7 @@ diff -uNrp a/gnuradio-runtime/include/gnuradio/rpcserver_aggregator.h b/gnuradio
      };
  
      template <class T, typename Tcallback>
-@@ -90,7 +90,7 @@ private:
+@@ -90,7 +90,7 @@
          unregisterQueryCallback_f(const std::string& _id) : id(_id) { ; }
  
          void operator()(T& x) { x->i()->unregisterQueryCallback(id); }
@@ -162,7 +184,7 @@ diff -uNrp a/gnuradio-runtime/include/gnuradio/rpcserver_aggregator.h b/gnuradio
      };
  
  
-@@ -103,8 +103,8 @@ private:
+@@ -103,8 +103,8 @@
          }
  
          void operator()(T& x) { x->i()->registerHandlerCallback(id, callback); }
@@ -173,7 +195,7 @@ diff -uNrp a/gnuradio-runtime/include/gnuradio/rpcserver_aggregator.h b/gnuradio
      };
  
      template <class T, typename Tcallback>
-@@ -112,7 +112,7 @@ private:
+@@ -112,7 +112,7 @@
          unregisterHandlerCallback_f(const std::string& _id) : id(_id) { ; }
  
          void operator()(T& x) { x->i()->unregisterHandlerCallback(id); }
@@ -182,10 +204,10 @@ diff -uNrp a/gnuradio-runtime/include/gnuradio/rpcserver_aggregator.h b/gnuradio
      };
  
  
-diff -uNrp a/gnuradio-runtime/include/gnuradio/tag_checker.h b/gnuradio-runtime/include/gnuradio/tag_checker.h
+diff -uNr a/gnuradio-runtime/include/gnuradio/tag_checker.h b/gnuradio-runtime/include/gnuradio/tag_checker.h
 --- a/gnuradio-runtime/include/gnuradio/tag_checker.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gnuradio-runtime/include/gnuradio/tag_checker.h	2019-10-20 04:31:39.000000000 +0700
-@@ -41,7 +41,7 @@ public:
++++ b/gnuradio-runtime/include/gnuradio/tag_checker.h	2019-11-06 03:55:06.000000000 +0700
+@@ -41,7 +41,7 @@
      {
          d_tags = tags;
          std::sort(d_tags.begin(), d_tags.end(), &gr::tag_t::offset_compare);
@@ -194,10 +216,10 @@ diff -uNrp a/gnuradio-runtime/include/gnuradio/tag_checker.h b/gnuradio-runtime/
              d_has_next_tag = true;
              d_next_tag = tags[0];
          }
-diff -uNrp a/gnuradio-runtime/include/gnuradio/thrift_application_base.h b/gnuradio-runtime/include/gnuradio/thrift_application_base.h
+diff -uNr a/gnuradio-runtime/include/gnuradio/thrift_application_base.h b/gnuradio-runtime/include/gnuradio/thrift_application_base.h
 --- a/gnuradio-runtime/include/gnuradio/thrift_application_base.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gnuradio-runtime/include/gnuradio/thrift_application_base.h	2019-10-20 04:31:39.000000000 +0700
-@@ -53,13 +53,13 @@ class thrift_application_base_impl
++++ b/gnuradio-runtime/include/gnuradio/thrift_application_base.h	2019-11-06 03:55:06.000000000 +0700
+@@ -53,13 +53,13 @@
  {
  public:
      thrift_application_base_impl()
@@ -213,7 +235,7 @@ diff -uNrp a/gnuradio-runtime/include/gnuradio/thrift_application_base.h b/gnura
      // Stores the generated endpoint string after the Thrift runtime has initialized.
      std::string d_endpointStr;
      // Thread to execute the Thrift runtime's blocking serve() function.
-@@ -212,7 +212,7 @@ void thrift_application_base<TserverBase
+@@ -212,7 +212,7 @@
          static_cast<unsigned int>(gr::prefs::singleton()->get_long(
              "thrift", "init_attempts", d_default_max_init_attempts));
  
@@ -222,7 +244,7 @@ diff -uNrp a/gnuradio-runtime/include/gnuradio/thrift_application_base.h b/gnura
          p_impl->d_start_thrift_thread.reset((new gr::thread::thread(
              boost::bind(&thrift_application_base::start_thrift, d_application))));
  
-@@ -230,7 +230,7 @@ void thrift_application_base<TserverBase
+@@ -230,7 +230,7 @@
                      "timeout waiting to port number might have failed?");
          }
  
@@ -231,7 +253,7 @@ diff -uNrp a/gnuradio-runtime/include/gnuradio/thrift_application_base.h b/gnura
      }
  }
  
-@@ -254,7 +254,7 @@ void thrift_application_base<TserverBase
+@@ -254,7 +254,7 @@
  template <typename TserverBase, typename TserverClass>
  TserverBase* thrift_application_base<TserverBase, TserverClass>::i()
  {
@@ -240,10 +262,10 @@ diff -uNrp a/gnuradio-runtime/include/gnuradio/thrift_application_base.h b/gnura
          start_application();
      }
      return d_application->i_impl();
-diff -uNrp a/gnuradio-runtime/lib/block.cc b/gnuradio-runtime/lib/block.cc
+diff -uNr a/gnuradio-runtime/lib/block.cc b/gnuradio-runtime/lib/block.cc
 --- a/gnuradio-runtime/lib/block.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gnuradio-runtime/lib/block.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -667,26 +667,26 @@ void block::setup_pc_rpc()
++++ b/gnuradio-runtime/lib/block.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -667,26 +667,26 @@
      d_pc_rpc_set = true;
  #if defined(GR_CTRLPORT) && defined(GR_PERFORMANCE_COUNTERS)
  #include <gnuradio/rpcregisterhelpers.h>
@@ -284,7 +306,7 @@ diff -uNrp a/gnuradio-runtime/lib/block.cc b/gnuradio-runtime/lib/block.cc
          new rpcbasic_register_get<block, float>(alias(),
                                                  "avg noutput_items",
                                                  &block::pc_noutput_items_avg,
-@@ -696,9 +696,9 @@ void block::setup_pc_rpc()
+@@ -696,9 +696,9 @@
                                                  "",
                                                  "Average noutput items",
                                                  RPC_PRIVLVL_MIN,
@@ -296,7 +318,7 @@ diff -uNrp a/gnuradio-runtime/lib/block.cc b/gnuradio-runtime/lib/block.cc
          new rpcbasic_register_get<block, float>(alias(),
                                                  "var noutput_items",
                                                  &block::pc_noutput_items_var,
-@@ -708,45 +708,45 @@ void block::setup_pc_rpc()
+@@ -708,45 +708,45 @@
                                                  "",
                                                  "Var. noutput items",
                                                  RPC_PRIVLVL_MIN,
@@ -379,7 +401,7 @@ diff -uNrp a/gnuradio-runtime/lib/block.cc b/gnuradio-runtime/lib/block.cc
          new rpcbasic_register_get<block, float>(alias(),
                                                  "work time",
                                                  &block::pc_work_time,
-@@ -756,9 +756,9 @@ void block::setup_pc_rpc()
+@@ -756,9 +756,9 @@
                                                  "",
                                                  "clock cycles in call to work",
                                                  RPC_PRIVLVL_MIN,
@@ -391,7 +413,7 @@ diff -uNrp a/gnuradio-runtime/lib/block.cc b/gnuradio-runtime/lib/block.cc
          new rpcbasic_register_get<block, float>(alias(),
                                                  "avg work time",
                                                  &block::pc_work_time_avg,
-@@ -768,9 +768,9 @@ void block::setup_pc_rpc()
+@@ -768,9 +768,9 @@
                                                  "",
                                                  "Average clock cycles in call to work",
                                                  RPC_PRIVLVL_MIN,
@@ -403,7 +425,7 @@ diff -uNrp a/gnuradio-runtime/lib/block.cc b/gnuradio-runtime/lib/block.cc
          new rpcbasic_register_get<block, float>(alias(),
                                                  "var work time",
                                                  &block::pc_work_time_var,
-@@ -780,9 +780,9 @@ void block::setup_pc_rpc()
+@@ -780,9 +780,9 @@
                                                  "",
                                                  "Var. clock cycles in call to work",
                                                  RPC_PRIVLVL_MIN,
@@ -415,7 +437,7 @@ diff -uNrp a/gnuradio-runtime/lib/block.cc b/gnuradio-runtime/lib/block.cc
          new rpcbasic_register_get<block, float>(alias(),
                                                  "total work time",
                                                  &block::pc_work_time_total,
-@@ -792,9 +792,9 @@ void block::setup_pc_rpc()
+@@ -792,9 +792,9 @@
                                                  "",
                                                  "Total clock cycles in calls to work",
                                                  RPC_PRIVLVL_MIN,
@@ -427,7 +449,7 @@ diff -uNrp a/gnuradio-runtime/lib/block.cc b/gnuradio-runtime/lib/block.cc
          alias(),
          "avg throughput",
          &block::pc_throughput_avg,
-@@ -804,85 +804,79 @@ void block::setup_pc_rpc()
+@@ -804,85 +804,79 @@
          "items/s",
          "Average items throughput in call to work",
          RPC_PRIVLVL_MIN,
@@ -585,10 +607,10 @@ diff -uNrp a/gnuradio-runtime/lib/block.cc b/gnuradio-runtime/lib/block.cc
  #endif /* defined(GR_CTRLPORT) && defined(GR_PERFORMANCE_COUNTERS) */
  }
  
-diff -uNrp a/gnuradio-runtime/lib/block_detail.cc b/gnuradio-runtime/lib/block_detail.cc
+diff -uNr a/gnuradio-runtime/lib/block_detail.cc b/gnuradio-runtime/lib/block_detail.cc
 --- a/gnuradio-runtime/lib/block_detail.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gnuradio-runtime/lib/block_detail.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -231,9 +231,8 @@ void block_detail::set_processor_affinit
++++ b/gnuradio-runtime/lib/block_detail.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -231,9 +231,8 @@
      if (threaded) {
          try {
              gr::thread::thread_bind_to_processor(thread, mask);
@@ -599,10 +621,10 @@ diff -uNrp a/gnuradio-runtime/lib/block_detail.cc b/gnuradio-runtime/lib/block_d
          }
      }
  }
-diff -uNrp a/gnuradio-runtime/lib/block_executor.cc b/gnuradio-runtime/lib/block_executor.cc
+diff -uNr a/gnuradio-runtime/lib/block_executor.cc b/gnuradio-runtime/lib/block_executor.cc
 --- a/gnuradio-runtime/lib/block_executor.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gnuradio-runtime/lib/block_executor.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -124,10 +124,11 @@ static bool propagate_tags(block::tag_pr
++++ b/gnuradio-runtime/lib/block_executor.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -124,10 +124,11 @@
              d->get_tags_in_range(
                  rtags, i, start_nitems_read[i], d->nitems_read(i), block_id);
  
@@ -616,7 +638,7 @@ diff -uNrp a/gnuradio-runtime/lib/block_executor.cc b/gnuradio-runtime/lib/block
                  out_buf.reserve(d->noutputs());
                  for (int o = 0; o < d->noutputs(); o++)
                      out_buf.push_back(d->output(o));
-@@ -176,8 +177,9 @@ static bool propagate_tags(block::tag_pr
+@@ -176,8 +177,9 @@
                  d->get_tags_in_range(
                      rtags, i, start_nitems_read[i], d->nitems_read(i), block_id);
  
@@ -627,10 +649,10 @@ diff -uNrp a/gnuradio-runtime/lib/block_executor.cc b/gnuradio-runtime/lib/block
  
                  out_buf = d->output(i);
  
-diff -uNrp a/gnuradio-runtime/lib/flowgraph.cc b/gnuradio-runtime/lib/flowgraph.cc
+diff -uNr a/gnuradio-runtime/lib/flowgraph.cc b/gnuradio-runtime/lib/flowgraph.cc
 --- a/gnuradio-runtime/lib/flowgraph.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gnuradio-runtime/lib/flowgraph.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -328,7 +328,7 @@ std::vector<basic_block_vector_t> flowgr
++++ b/gnuradio-runtime/lib/flowgraph.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -328,7 +328,7 @@
      basic_block_vector_t blocks = calc_used_blocks();
      basic_block_vector_t graph;
  
@@ -639,7 +661,7 @@ diff -uNrp a/gnuradio-runtime/lib/flowgraph.cc b/gnuradio-runtime/lib/flowgraph.
          graph = calc_reachable_blocks(blocks[0], blocks);
          assert(graph.size());
          result.push_back(topological_sort(graph));
-@@ -432,7 +432,7 @@ basic_block_vector_t flowgraph::sort_sou
+@@ -432,7 +432,7 @@
  
  bool flowgraph::source_p(basic_block_sptr block)
  {
@@ -648,7 +670,7 @@ diff -uNrp a/gnuradio-runtime/lib/flowgraph.cc b/gnuradio-runtime/lib/flowgraph.
  }
  
  void flowgraph::topological_dfs_visit(basic_block_sptr block,
-@@ -491,6 +491,7 @@ std::string dot_graph_fg(flowgraph_sptr 
+@@ -491,6 +491,7 @@
  {
      basic_block_vector_t blocks = fg->calc_used_blocks();
      edge_vector_t edges = fg->edges();
@@ -656,7 +678,7 @@ diff -uNrp a/gnuradio-runtime/lib/flowgraph.cc b/gnuradio-runtime/lib/flowgraph.
  
      std::stringstream out;
  
-@@ -498,7 +499,7 @@ std::string dot_graph_fg(flowgraph_sptr 
+@@ -498,7 +499,7 @@
  
      // Define nodes and set labels
      for (basic_block_viter_t block = blocks.begin(); block != blocks.end(); ++block) {
@@ -665,7 +687,7 @@ diff -uNrp a/gnuradio-runtime/lib/flowgraph.cc b/gnuradio-runtime/lib/flowgraph.
              << std::endl;
      }
  
-@@ -508,6 +509,11 @@ std::string dot_graph_fg(flowgraph_sptr 
+@@ -508,6 +509,11 @@
              << edge->dst().block()->unique_id() << std::endl;
      }
  
@@ -677,10 +699,10 @@ diff -uNrp a/gnuradio-runtime/lib/flowgraph.cc b/gnuradio-runtime/lib/flowgraph.
      out << "}" << std::endl;
  
      return out.str();
-diff -uNrp a/gnuradio-runtime/lib/hier_block2.cc b/gnuradio-runtime/lib/hier_block2.cc
+diff -uNr a/gnuradio-runtime/lib/hier_block2.cc b/gnuradio-runtime/lib/hier_block2.cc
 --- a/gnuradio-runtime/lib/hier_block2.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gnuradio-runtime/lib/hier_block2.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -171,9 +171,10 @@ int hier_block2::max_output_buffer(size_
++++ b/gnuradio-runtime/lib/hier_block2.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -171,9 +171,10 @@
  void hier_block2::set_max_output_buffer(int max_output_buffer)
  {
      if (output_signature()->max_streams() > 0) {
@@ -692,7 +714,7 @@ diff -uNrp a/gnuradio-runtime/lib/hier_block2.cc b/gnuradio-runtime/lib/hier_blo
          for (int idx = 0; idx < output_signature()->max_streams(); idx++) {
              d_detail->d_max_output_buffer[idx] = max_output_buffer;
          }
-@@ -182,10 +183,10 @@ void hier_block2::set_max_output_buffer(
+@@ -182,10 +183,10 @@
  
  void hier_block2::set_max_output_buffer(size_t port, int max_output_buffer)
  {
@@ -705,7 +727,7 @@ diff -uNrp a/gnuradio-runtime/lib/hier_block2.cc b/gnuradio-runtime/lib/hier_blo
          d_detail->d_max_output_buffer[port] = max_output_buffer;
      }
  }
-@@ -201,9 +202,10 @@ int hier_block2::min_output_buffer(size_
+@@ -201,9 +202,10 @@
  void hier_block2::set_min_output_buffer(int min_output_buffer)
  {
      if (output_signature()->max_streams() > 0) {
@@ -717,7 +739,7 @@ diff -uNrp a/gnuradio-runtime/lib/hier_block2.cc b/gnuradio-runtime/lib/hier_blo
          for (int idx = 0; idx < output_signature()->max_streams(); idx++) {
              d_detail->d_min_output_buffer[idx] = min_output_buffer;
          }
-@@ -222,8 +224,9 @@ void hier_block2::set_min_output_buffer(
+@@ -222,8 +224,9 @@
  
  bool hier_block2::all_min_output_buffer_p(void)
  {
@@ -728,7 +750,7 @@ diff -uNrp a/gnuradio-runtime/lib/hier_block2.cc b/gnuradio-runtime/lib/hier_blo
      for (size_t idx = 1; idx < d_detail->d_min_output_buffer.size(); idx++) {
          if (d_detail->d_min_output_buffer[0] != d_detail->d_min_output_buffer[idx])
              return false;
-@@ -232,7 +235,7 @@ bool hier_block2::all_min_output_buffer_
+@@ -232,7 +235,7 @@
  }
  bool hier_block2::all_max_output_buffer_p(void)
  {
@@ -737,10 +759,10 @@ diff -uNrp a/gnuradio-runtime/lib/hier_block2.cc b/gnuradio-runtime/lib/hier_blo
          return false;
      for (size_t idx = 1; idx < d_detail->d_max_output_buffer.size(); idx++) {
          if (d_detail->d_max_output_buffer[0] != d_detail->d_max_output_buffer[idx])
-diff -uNrp a/gnuradio-runtime/lib/hier_block2_detail.cc b/gnuradio-runtime/lib/hier_block2_detail.cc
+diff -uNr a/gnuradio-runtime/lib/hier_block2_detail.cc b/gnuradio-runtime/lib/hier_block2_detail.cc
 --- a/gnuradio-runtime/lib/hier_block2_detail.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gnuradio-runtime/lib/hier_block2_detail.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -288,7 +288,7 @@ void hier_block2_detail::disconnect(basi
++++ b/gnuradio-runtime/lib/hier_block2_detail.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -288,7 +288,7 @@
          }
      }
  
@@ -749,7 +771,7 @@ diff -uNrp a/gnuradio-runtime/lib/hier_block2_detail.cc b/gnuradio-runtime/lib/h
          std::stringstream msg;
          msg << "cannot disconnect block " << block << ", not found";
          throw std::invalid_argument(msg.str());
-@@ -560,7 +560,7 @@ void hier_block2_detail::flatten_aux(fla
+@@ -560,7 +560,7 @@
      edge_vector_t edges = d_fg->edges();
      msg_edge_vector_t msg_edges = d_fg->msg_edges();
      edge_viter_t p;
@@ -758,7 +780,7 @@ diff -uNrp a/gnuradio-runtime/lib/hier_block2_detail.cc b/gnuradio-runtime/lib/h
  
      // Only run setup_rpc if ControlPort config param is enabled.
      bool ctrlport_on = prefs::singleton()->get_bool("ControlPort", "on", false);
-@@ -784,7 +784,7 @@ void hier_block2_detail::flatten_aux(fla
+@@ -784,7 +784,7 @@
      // Now add the list of connected input blocks
      std::stringstream msg;
      for (unsigned int i = 0; i < d_inputs.size(); i++) {
@@ -767,10 +789,10 @@ diff -uNrp a/gnuradio-runtime/lib/hier_block2_detail.cc b/gnuradio-runtime/lib/h
              msg << "In hierarchical block " << d_owner->name() << ", input " << i
                  << " is not connected internally";
              throw std::runtime_error(msg.str());
-diff -uNrp a/gnuradio-runtime/lib/io_signature.cc b/gnuradio-runtime/lib/io_signature.cc
+diff -uNr a/gnuradio-runtime/lib/io_signature.cc b/gnuradio-runtime/lib/io_signature.cc
 --- a/gnuradio-runtime/lib/io_signature.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gnuradio-runtime/lib/io_signature.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -79,8 +79,9 @@ io_signature::io_signature(int min_strea
++++ b/gnuradio-runtime/lib/io_signature.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -79,8 +79,9 @@
      if (min_streams < 0 || (max_streams != IO_INFINITE && max_streams < min_streams))
          throw std::invalid_argument("gr::io_signature(1)");
  
@@ -781,10 +803,10 @@ diff -uNrp a/gnuradio-runtime/lib/io_signature.cc b/gnuradio-runtime/lib/io_sign
  
      for (size_t i = 0; i < sizeof_stream_items.size(); i++) {
          if (max_streams != 0 && sizeof_stream_items[i] < 1)
-diff -uNrp a/gnuradio-runtime/lib/logger.cc b/gnuradio-runtime/lib/logger.cc
+diff -uNr a/gnuradio-runtime/lib/logger.cc b/gnuradio-runtime/lib/logger.cc
 --- a/gnuradio-runtime/lib/logger.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gnuradio-runtime/lib/logger.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -157,7 +157,7 @@ logger_ptr logger_get_logger(std::string
++++ b/gnuradio-runtime/lib/logger.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -157,7 +157,7 @@
  
  bool logger_load_config(const std::string& config_filename)
  {
@@ -793,7 +815,7 @@ diff -uNrp a/gnuradio-runtime/lib/logger.cc b/gnuradio-runtime/lib/logger.cc
          try {
              log4cpp::PropertyConfigurator::configure(config_filename);
              return true;
-@@ -343,7 +343,7 @@ bool configure_default_loggers(gr::logge
+@@ -343,7 +343,7 @@
      GR_LOG_GETLOGGER(LOG, "gr_log." + name);
      GR_LOG_SET_LEVEL(LOG, log_level);
  
@@ -802,7 +824,7 @@ diff -uNrp a/gnuradio-runtime/lib/logger.cc b/gnuradio-runtime/lib/logger.cc
          if (log_file == "stdout") {
              GR_LOG_SET_CONSOLE_APPENDER(LOG, "stdout", "gr::log :%p: %c{1} - %m%n");
          } else if (log_file == "stderr") {
-@@ -356,7 +356,7 @@ bool configure_default_loggers(gr::logge
+@@ -356,7 +356,7 @@
  
      GR_LOG_GETLOGGER(DLOG, "gr_log_debug." + name);
      GR_LOG_SET_LEVEL(DLOG, debug_level);
@@ -811,7 +833,7 @@ diff -uNrp a/gnuradio-runtime/lib/logger.cc b/gnuradio-runtime/lib/logger.cc
          if (debug_file == "stdout") {
              GR_LOG_SET_CONSOLE_APPENDER(DLOG, "stdout", "gr::debug :%p: %c{1} - %m%n");
          } else if (debug_file == "stderr") {
-@@ -376,7 +376,7 @@ bool update_logger_alias(const std::stri
+@@ -376,7 +376,7 @@
      std::string debug_file = p->get_string("LOG", "debug_file", "");
  
      GR_LOG_GETLOGGER(LOG, "gr_log." + name);
@@ -820,10 +842,10 @@ diff -uNrp a/gnuradio-runtime/lib/logger.cc b/gnuradio-runtime/lib/logger.cc
          if (log_file == "stdout") {
              boost::format str("gr::log :%%p: %1% - %%m%%n");
              GR_LOG_SET_CONSOLE_APPENDER(LOG, "stdout", boost::str(str % alias));
-diff -uNrp a/gnuradio-runtime/lib/prefs.cc b/gnuradio-runtime/lib/prefs.cc
+diff -uNr a/gnuradio-runtime/lib/prefs.cc b/gnuradio-runtime/lib/prefs.cc
 --- a/gnuradio-runtime/lib/prefs.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gnuradio-runtime/lib/prefs.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -110,7 +110,7 @@ void prefs::_read_files(const std::vecto
++++ b/gnuradio-runtime/lib/prefs.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -110,7 +110,7 @@
                      std::string value = o.value[0];
                      d_config_map[section][key] = value;
                  }
@@ -832,7 +854,7 @@ diff -uNrp a/gnuradio-runtime/lib/prefs.cc b/gnuradio-runtime/lib/prefs.cc
                  std::cerr << "WARNING: Config file '" << fname
                            << "' failed to parse:" << std::endl;
                  std::cerr << e.what() << std::endl;
-@@ -243,7 +243,7 @@ bool prefs::get_bool(const std::string& 
+@@ -243,7 +243,7 @@
  {
      if (has_option(section, option)) {
          std::string str = get_string(section, option, "");
@@ -841,7 +863,7 @@ diff -uNrp a/gnuradio-runtime/lib/prefs.cc b/gnuradio-runtime/lib/prefs.cc
              return default_val;
          }
          std::transform(str.begin(), str.end(), str.begin(), ::tolower);
-@@ -281,7 +281,7 @@ long prefs::get_long(const std::string& 
+@@ -281,7 +281,7 @@
  {
      if (has_option(section, option)) {
          std::string str = get_string(section, option, "");
@@ -850,7 +872,7 @@ diff -uNrp a/gnuradio-runtime/lib/prefs.cc b/gnuradio-runtime/lib/prefs.cc
              return default_val;
          }
          std::stringstream sstr(str);
-@@ -316,7 +316,7 @@ double prefs::get_double(const std::stri
+@@ -316,7 +316,7 @@
  {
      if (has_option(section, option)) {
          std::string str = get_string(section, option, "");
@@ -859,10 +881,10 @@ diff -uNrp a/gnuradio-runtime/lib/prefs.cc b/gnuradio-runtime/lib/prefs.cc
              return default_val;
          }
          std::stringstream sstr(str);
-diff -uNrp a/gnuradio-runtime/lib/top_block.cc b/gnuradio-runtime/lib/top_block.cc
+diff -uNr a/gnuradio-runtime/lib/top_block.cc b/gnuradio-runtime/lib/top_block.cc
 --- a/gnuradio-runtime/lib/top_block.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gnuradio-runtime/lib/top_block.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -109,14 +109,14 @@ void top_block::setup_rpc()
++++ b/gnuradio-runtime/lib/top_block.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -109,14 +109,14 @@
          return;
  
      // Triggers
@@ -883,10 +905,10 @@ diff -uNrp a/gnuradio-runtime/lib/top_block.cc b/gnuradio-runtime/lib/top_block.
  
      // Getters
      add_rpc_variable(rpcbasic_sptr(
-diff -uNrp a/gnuradio-runtime/lib/tpb_thread_body.cc b/gnuradio-runtime/lib/tpb_thread_body.cc
+diff -uNr a/gnuradio-runtime/lib/tpb_thread_body.cc b/gnuradio-runtime/lib/tpb_thread_body.cc
 --- a/gnuradio-runtime/lib/tpb_thread_body.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gnuradio-runtime/lib/tpb_thread_body.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -68,7 +68,7 @@ tpb_thread_body::tpb_thread_body(block_s
++++ b/gnuradio-runtime/lib/tpb_thread_body.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -68,7 +68,7 @@
      GR_LOG_GETLOGGER(LOG, "gr_log.tpb_thread_body");
      GR_LOG_SET_LEVEL(LOG, log_level);
      GR_CONFIG_LOGGER(config_file);
@@ -895,7 +917,7 @@ diff -uNrp a/gnuradio-runtime/lib/tpb_thread_body.cc b/gnuradio-runtime/lib/tpb_
          if (log_file == "stdout") {
              GR_LOG_SET_CONSOLE_APPENDER(LOG, "stdout", "gr::log :%p: %c{1} - %m%n");
          } else if (log_file == "stderr") {
-@@ -79,7 +79,7 @@ tpb_thread_body::tpb_thread_body(block_s
+@@ -79,7 +79,7 @@
      }
  
      // Set thread affinity if it was set before fg was started.
@@ -904,20 +926,20 @@ diff -uNrp a/gnuradio-runtime/lib/tpb_thread_body.cc b/gnuradio-runtime/lib/tpb_
          gr::thread::thread_bind_to_processor(d->thread, block->processor_affinity());
      }
  
-diff -uNrp a/gr-analog/python/analog/fm_demod.py b/gr-analog/python/analog/fm_demod.py
+diff -uNr a/gr-analog/python/analog/fm_demod.py b/gr-analog/python/analog/fm_demod.py
 --- a/gr-analog/python/analog/fm_demod.py	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-analog/python/analog/fm_demod.py	2019-10-20 04:31:39.000000000 +0700
-@@ -110,5 +110,4 @@ class demod_200kf3e_cf(fm_demod_cf):
++++ b/gr-analog/python/analog/fm_demod.py	2019-11-06 03:55:06.000000000 +0700
+@@ -110,5 +110,4 @@
          fm_demod_cf.__init__(self, channel_rate, audio_decim,
                               75000,  # Deviation
                               15000,  # Audio passband
 -                             16000,  # Audio stopband
 -                             20.0)   # Audio gain
 +                             16000)  # Audio stopband
-diff -uNrp a/gr-analog/python/analog/wfm_rcv_fmdet.py b/gr-analog/python/analog/wfm_rcv_fmdet.py
+diff -uNr a/gr-analog/python/analog/wfm_rcv_fmdet.py b/gr-analog/python/analog/wfm_rcv_fmdet.py
 --- a/gr-analog/python/analog/wfm_rcv_fmdet.py	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-analog/python/analog/wfm_rcv_fmdet.py	2019-10-20 04:31:39.000000000 +0700
-@@ -115,7 +115,7 @@ class wfm_rcv_fmdet(gr.hier_block2):
++++ b/gr-analog/python/analog/wfm_rcv_fmdet.py	2019-11-06 03:55:06.000000000 +0700
+@@ -115,7 +115,7 @@
                                        stereo_carrier_filter_coeffs)
  
              # carrier is twice the picked off carrier so arrange to do
@@ -926,10 +948,10 @@ diff -uNrp a/gr-analog/python/analog/wfm_rcv_fmdet.py b/gr-analog/python/analog/
              self.stereo_carrier_generator = blocks.multiply_cc();
  
              # Pick off the rds signal
-diff -uNrp a/gr-analog/python/analog/wfm_rcv_pll.py b/gr-analog/python/analog/wfm_rcv_pll.py
+diff -uNr a/gr-analog/python/analog/wfm_rcv_pll.py b/gr-analog/python/analog/wfm_rcv_pll.py
 --- a/gr-analog/python/analog/wfm_rcv_pll.py	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-analog/python/analog/wfm_rcv_pll.py	2019-10-20 04:31:39.000000000 +0700
-@@ -106,7 +106,7 @@ class wfm_rcv_pll(gr.hier_block2):
++++ b/gr-analog/python/analog/wfm_rcv_pll.py	2019-11-06 03:55:06.000000000 +0700
+@@ -106,7 +106,7 @@
              self.stereo_carrier_filter = \
                  filter.fir_filter_fcc(audio_decimation, stereo_carrier_filter_coeffs)
  
@@ -938,10 +960,10 @@ diff -uNrp a/gr-analog/python/analog/wfm_rcv_pll.py b/gr-analog/python/analog/wf
  
              self.stereo_carrier_generator = blocks.multiply_cc();
  
-diff -uNrp a/gr-audio/lib/jack/jack_sink.cc b/gr-audio/lib/jack/jack_sink.cc
+diff -uNr a/gr-audio/lib/jack/jack_sink.cc b/gr-audio/lib/jack/jack_sink.cc
 --- a/gr-audio/lib/jack/jack_sink.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-audio/lib/jack/jack_sink.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -99,7 +99,6 @@ jack_sink::jack_sink(int sampling_rate, 
++++ b/gr-audio/lib/jack/jack_sink.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -99,7 +99,6 @@
            "audio_jack_sink", io_signature::make(0, 0, 0), io_signature::make(0, 0, 0)),
        d_sampling_rate(sampling_rate),
        d_device_name(device_name.empty() ? default_device_name() : device_name),
@@ -949,10 +971,10 @@ diff -uNrp a/gr-audio/lib/jack/jack_sink.cc b/gr-audio/lib/jack/jack_sink.cc
        d_jack_client(0),
        d_portcount(0),
        d_jack_output_port(),
-diff -uNrp a/gr-audio/lib/jack/jack_sink.h b/gr-audio/lib/jack/jack_sink.h
+diff -uNr a/gr-audio/lib/jack/jack_sink.h b/gr-audio/lib/jack/jack_sink.h
 --- a/gr-audio/lib/jack/jack_sink.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-audio/lib/jack/jack_sink.h	2019-10-20 04:31:39.000000000 +0700
-@@ -52,7 +52,6 @@ class jack_sink : public sink
++++ b/gr-audio/lib/jack/jack_sink.h	2019-11-06 03:55:06.000000000 +0700
+@@ -52,7 +52,6 @@
  
      unsigned int d_sampling_rate;
      std::string d_device_name;
@@ -960,10 +982,10 @@ diff -uNrp a/gr-audio/lib/jack/jack_sink.h b/gr-audio/lib/jack/jack_sink.h
  
      jack_client_t* d_jack_client;
      static const int MAX_PORTS = 10;
-diff -uNrp a/gr-audio/lib/jack/jack_source.cc b/gr-audio/lib/jack/jack_source.cc
+diff -uNr a/gr-audio/lib/jack/jack_source.cc b/gr-audio/lib/jack/jack_source.cc
 --- a/gr-audio/lib/jack/jack_source.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-audio/lib/jack/jack_source.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -101,7 +101,6 @@ jack_source::jack_source(int sampling_ra
++++ b/gr-audio/lib/jack/jack_source.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -101,7 +101,6 @@
            "audio_jack_source", io_signature::make(0, 0, 0), io_signature::make(0, 0, 0)),
        d_sampling_rate(sampling_rate),
        d_device_name(device_name.empty() ? default_device_name() : device_name),
@@ -971,10 +993,10 @@ diff -uNrp a/gr-audio/lib/jack/jack_source.cc b/gr-audio/lib/jack/jack_source.cc
        d_jack_client(0),
        d_portcount(0),
        d_jack_input_port(),
-diff -uNrp a/gr-audio/lib/jack/jack_source.h b/gr-audio/lib/jack/jack_source.h
+diff -uNr a/gr-audio/lib/jack/jack_source.h b/gr-audio/lib/jack/jack_source.h
 --- a/gr-audio/lib/jack/jack_source.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-audio/lib/jack/jack_source.h	2019-10-20 04:31:39.000000000 +0700
-@@ -52,7 +52,6 @@ class jack_source : public source
++++ b/gr-audio/lib/jack/jack_source.h	2019-11-06 03:55:06.000000000 +0700
+@@ -52,7 +52,6 @@
  
      unsigned int d_sampling_rate;
      std::string d_device_name;
@@ -982,10 +1004,10 @@ diff -uNrp a/gr-audio/lib/jack/jack_source.h b/gr-audio/lib/jack/jack_source.h
  
      jack_client_t* d_jack_client;
      static const int MAX_PORTS = 10;
-diff -uNrp a/gr-blocks/lib/ctrlport_probe2_b_impl.cc b/gr-blocks/lib/ctrlport_probe2_b_impl.cc
+diff -uNr a/gr-blocks/lib/ctrlport_probe2_b_impl.cc b/gr-blocks/lib/ctrlport_probe2_b_impl.cc
 --- a/gr-blocks/lib/ctrlport_probe2_b_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-blocks/lib/ctrlport_probe2_b_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -116,7 +116,7 @@ void ctrlport_probe2_b_impl::setup_rpc()
++++ b/gr-blocks/lib/ctrlport_probe2_b_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -116,7 +116,7 @@
  {
  #ifdef GR_CTRLPORT
      int len = static_cast<int>(d_len);
@@ -994,7 +1016,7 @@ diff -uNrp a/gr-blocks/lib/ctrlport_probe2_b_impl.cc b/gr-blocks/lib/ctrlport_pr
          new rpcbasic_register_get<ctrlport_probe2_b, std::vector<signed char>>(
              alias(),
              d_id.c_str(),
-@@ -127,9 +127,9 @@ void ctrlport_probe2_b_impl::setup_rpc()
+@@ -127,9 +127,9 @@
              "volts",
              d_desc.c_str(),
              RPC_PRIVLVL_MIN,
@@ -1006,7 +1028,7 @@ diff -uNrp a/gr-blocks/lib/ctrlport_probe2_b_impl.cc b/gr-blocks/lib/ctrlport_pr
          new rpcbasic_register_get<ctrlport_probe2_b, int>(alias(),
                                                            "length",
                                                            &ctrlport_probe2_b::length,
-@@ -139,9 +139,9 @@ void ctrlport_probe2_b_impl::setup_rpc()
+@@ -139,9 +139,9 @@
                                                            "samples",
                                                            "get vector length",
                                                            RPC_PRIVLVL_MIN,
@@ -1018,7 +1040,7 @@ diff -uNrp a/gr-blocks/lib/ctrlport_probe2_b_impl.cc b/gr-blocks/lib/ctrlport_pr
          new rpcbasic_register_set<ctrlport_probe2_b, int>(alias(),
                                                            "length",
                                                            &ctrlport_probe2_b::set_length,
-@@ -151,7 +151,7 @@ void ctrlport_probe2_b_impl::setup_rpc()
+@@ -151,7 +151,7 @@
                                                            "samples",
                                                            "set vector length",
                                                            RPC_PRIVLVL_MIN,
@@ -1027,10 +1049,10 @@ diff -uNrp a/gr-blocks/lib/ctrlport_probe2_b_impl.cc b/gr-blocks/lib/ctrlport_pr
  #endif /* GR_CTRLPORT */
  }
  
-diff -uNrp a/gr-blocks/lib/ctrlport_probe2_c_impl.cc b/gr-blocks/lib/ctrlport_probe2_c_impl.cc
+diff -uNr a/gr-blocks/lib/ctrlport_probe2_c_impl.cc b/gr-blocks/lib/ctrlport_probe2_c_impl.cc
 --- a/gr-blocks/lib/ctrlport_probe2_c_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-blocks/lib/ctrlport_probe2_c_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -116,7 +116,7 @@ void ctrlport_probe2_c_impl::setup_rpc()
++++ b/gr-blocks/lib/ctrlport_probe2_c_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -116,7 +116,7 @@
  {
  #ifdef GR_CTRLPORT
      int len = static_cast<int>(d_len);
@@ -1039,7 +1061,7 @@ diff -uNrp a/gr-blocks/lib/ctrlport_probe2_c_impl.cc b/gr-blocks/lib/ctrlport_pr
          new rpcbasic_register_get<ctrlport_probe2_c, std::vector<std::complex<float>>>(
              alias(),
              d_id.c_str(),
-@@ -127,9 +127,9 @@ void ctrlport_probe2_c_impl::setup_rpc()
+@@ -127,9 +127,9 @@
              "volts",
              d_desc.c_str(),
              RPC_PRIVLVL_MIN,
@@ -1051,7 +1073,7 @@ diff -uNrp a/gr-blocks/lib/ctrlport_probe2_c_impl.cc b/gr-blocks/lib/ctrlport_pr
          new rpcbasic_register_get<ctrlport_probe2_c, int>(alias(),
                                                            "length",
                                                            &ctrlport_probe2_c::length,
-@@ -139,9 +139,9 @@ void ctrlport_probe2_c_impl::setup_rpc()
+@@ -139,9 +139,9 @@
                                                            "samples",
                                                            "get vector length",
                                                            RPC_PRIVLVL_MIN,
@@ -1063,7 +1085,7 @@ diff -uNrp a/gr-blocks/lib/ctrlport_probe2_c_impl.cc b/gr-blocks/lib/ctrlport_pr
          new rpcbasic_register_set<ctrlport_probe2_c, int>(alias(),
                                                            "length",
                                                            &ctrlport_probe2_c::set_length,
-@@ -151,7 +151,7 @@ void ctrlport_probe2_c_impl::setup_rpc()
+@@ -151,7 +151,7 @@
                                                            "samples",
                                                            "set vector length",
                                                            RPC_PRIVLVL_MIN,
@@ -1072,10 +1094,10 @@ diff -uNrp a/gr-blocks/lib/ctrlport_probe2_c_impl.cc b/gr-blocks/lib/ctrlport_pr
  #endif /* GR_CTRLPORT */
  }
  
-diff -uNrp a/gr-blocks/lib/ctrlport_probe2_f_impl.cc b/gr-blocks/lib/ctrlport_probe2_f_impl.cc
+diff -uNr a/gr-blocks/lib/ctrlport_probe2_f_impl.cc b/gr-blocks/lib/ctrlport_probe2_f_impl.cc
 --- a/gr-blocks/lib/ctrlport_probe2_f_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-blocks/lib/ctrlport_probe2_f_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -116,8 +116,8 @@ void ctrlport_probe2_f_impl::setup_rpc()
++++ b/gr-blocks/lib/ctrlport_probe2_f_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -116,8 +116,8 @@
  {
  #ifdef GR_CTRLPORT
      int len = static_cast<int>(d_len);
@@ -1086,7 +1108,7 @@ diff -uNrp a/gr-blocks/lib/ctrlport_probe2_f_impl.cc b/gr-blocks/lib/ctrlport_pr
              alias(),
              d_id.c_str(),
              &ctrlport_probe2_f::get,
-@@ -130,9 +130,9 @@ void ctrlport_probe2_f_impl::setup_rpc()
+@@ -130,9 +130,9 @@
              "volts",
              d_desc.c_str(),
              RPC_PRIVLVL_MIN,
@@ -1098,7 +1120,7 @@ diff -uNrp a/gr-blocks/lib/ctrlport_probe2_f_impl.cc b/gr-blocks/lib/ctrlport_pr
          new rpcbasic_register_get<ctrlport_probe2_f, int>(alias(),
                                                            "length",
                                                            &ctrlport_probe2_f::length,
-@@ -142,9 +142,9 @@ void ctrlport_probe2_f_impl::setup_rpc()
+@@ -142,9 +142,9 @@
                                                            "samples",
                                                            "get vector length",
                                                            RPC_PRIVLVL_MIN,
@@ -1110,7 +1132,7 @@ diff -uNrp a/gr-blocks/lib/ctrlport_probe2_f_impl.cc b/gr-blocks/lib/ctrlport_pr
          new rpcbasic_register_set<ctrlport_probe2_f, int>(alias(),
                                                            "length",
                                                            &ctrlport_probe2_f::set_length,
-@@ -154,7 +154,7 @@ void ctrlport_probe2_f_impl::setup_rpc()
+@@ -154,7 +154,7 @@
                                                            "samples",
                                                            "set vector length",
                                                            RPC_PRIVLVL_MIN,
@@ -1119,10 +1141,10 @@ diff -uNrp a/gr-blocks/lib/ctrlport_probe2_f_impl.cc b/gr-blocks/lib/ctrlport_pr
  #endif /* GR_CTRLPORT */
  }
  
-diff -uNrp a/gr-blocks/lib/ctrlport_probe2_i_impl.cc b/gr-blocks/lib/ctrlport_probe2_i_impl.cc
+diff -uNr a/gr-blocks/lib/ctrlport_probe2_i_impl.cc b/gr-blocks/lib/ctrlport_probe2_i_impl.cc
 --- a/gr-blocks/lib/ctrlport_probe2_i_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-blocks/lib/ctrlport_probe2_i_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -115,8 +115,8 @@ void ctrlport_probe2_i_impl::setup_rpc()
++++ b/gr-blocks/lib/ctrlport_probe2_i_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -115,8 +115,8 @@
  {
  #ifdef GR_CTRLPORT
      int len = static_cast<int>(d_len);
@@ -1133,7 +1155,7 @@ diff -uNrp a/gr-blocks/lib/ctrlport_probe2_i_impl.cc b/gr-blocks/lib/ctrlport_pr
              alias(),
              d_id.c_str(),
              &ctrlport_probe2_i::get,
-@@ -126,9 +126,9 @@ void ctrlport_probe2_i_impl::setup_rpc()
+@@ -126,9 +126,9 @@
              "volts",
              d_desc.c_str(),
              RPC_PRIVLVL_MIN,
@@ -1145,7 +1167,7 @@ diff -uNrp a/gr-blocks/lib/ctrlport_probe2_i_impl.cc b/gr-blocks/lib/ctrlport_pr
          new rpcbasic_register_get<ctrlport_probe2_i, int>(alias(),
                                                            "length",
                                                            &ctrlport_probe2_i::length,
-@@ -138,9 +138,9 @@ void ctrlport_probe2_i_impl::setup_rpc()
+@@ -138,9 +138,9 @@
                                                            "samples",
                                                            "get vector length",
                                                            RPC_PRIVLVL_MIN,
@@ -1157,7 +1179,7 @@ diff -uNrp a/gr-blocks/lib/ctrlport_probe2_i_impl.cc b/gr-blocks/lib/ctrlport_pr
          new rpcbasic_register_set<ctrlport_probe2_i, int>(alias(),
                                                            "length",
                                                            &ctrlport_probe2_i::set_length,
-@@ -150,7 +150,7 @@ void ctrlport_probe2_i_impl::setup_rpc()
+@@ -150,7 +150,7 @@
                                                            "samples",
                                                            "set vector length",
                                                            RPC_PRIVLVL_MIN,
@@ -1166,10 +1188,10 @@ diff -uNrp a/gr-blocks/lib/ctrlport_probe2_i_impl.cc b/gr-blocks/lib/ctrlport_pr
  #endif /* GR_CTRLPORT */
  }
  
-diff -uNrp a/gr-blocks/lib/ctrlport_probe2_s_impl.cc b/gr-blocks/lib/ctrlport_probe2_s_impl.cc
+diff -uNr a/gr-blocks/lib/ctrlport_probe2_s_impl.cc b/gr-blocks/lib/ctrlport_probe2_s_impl.cc
 --- a/gr-blocks/lib/ctrlport_probe2_s_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-blocks/lib/ctrlport_probe2_s_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -115,8 +115,8 @@ void ctrlport_probe2_s_impl::setup_rpc()
++++ b/gr-blocks/lib/ctrlport_probe2_s_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -115,8 +115,8 @@
  {
  #ifdef GR_CTRLPORT
      int len = static_cast<int>(d_len);
@@ -1180,7 +1202,7 @@ diff -uNrp a/gr-blocks/lib/ctrlport_probe2_s_impl.cc b/gr-blocks/lib/ctrlport_pr
              alias(),
              d_id.c_str(),
              &ctrlport_probe2_s::get,
-@@ -126,9 +126,9 @@ void ctrlport_probe2_s_impl::setup_rpc()
+@@ -126,9 +126,9 @@
              "volts",
              d_desc.c_str(),
              RPC_PRIVLVL_MIN,
@@ -1192,7 +1214,7 @@ diff -uNrp a/gr-blocks/lib/ctrlport_probe2_s_impl.cc b/gr-blocks/lib/ctrlport_pr
          new rpcbasic_register_get<ctrlport_probe2_s, int>(alias(),
                                                            "length",
                                                            &ctrlport_probe2_s::length,
-@@ -138,9 +138,9 @@ void ctrlport_probe2_s_impl::setup_rpc()
+@@ -138,9 +138,9 @@
                                                            "samples",
                                                            "get vector length",
                                                            RPC_PRIVLVL_MIN,
@@ -1204,7 +1226,7 @@ diff -uNrp a/gr-blocks/lib/ctrlport_probe2_s_impl.cc b/gr-blocks/lib/ctrlport_pr
          new rpcbasic_register_set<ctrlport_probe2_s, int>(alias(),
                                                            "length",
                                                            &ctrlport_probe2_s::set_length,
-@@ -150,7 +150,7 @@ void ctrlport_probe2_s_impl::setup_rpc()
+@@ -150,7 +150,7 @@
                                                            "samples",
                                                            "set vector length",
                                                            RPC_PRIVLVL_MIN,
@@ -1213,10 +1235,10 @@ diff -uNrp a/gr-blocks/lib/ctrlport_probe2_s_impl.cc b/gr-blocks/lib/ctrlport_pr
  #endif /* GR_CTRLPORT */
  }
  
-diff -uNrp a/gr-blocks/lib/ctrlport_probe_c_impl.cc b/gr-blocks/lib/ctrlport_probe_c_impl.cc
+diff -uNr a/gr-blocks/lib/ctrlport_probe_c_impl.cc b/gr-blocks/lib/ctrlport_probe_c_impl.cc
 --- a/gr-blocks/lib/ctrlport_probe_c_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-blocks/lib/ctrlport_probe_c_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -81,7 +81,7 @@ int ctrlport_probe_c_impl::work(int nout
++++ b/gr-blocks/lib/ctrlport_probe_c_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -81,7 +81,7 @@
  void ctrlport_probe_c_impl::setup_rpc()
  {
  #ifdef GR_CTRLPORT
@@ -1225,7 +1247,7 @@ diff -uNrp a/gr-blocks/lib/ctrlport_probe_c_impl.cc b/gr-blocks/lib/ctrlport_pro
          new rpcbasic_register_get<ctrlport_probe_c, std::vector<std::complex<float>>>(
              alias(),
              d_id.c_str(),
-@@ -92,7 +92,7 @@ void ctrlport_probe_c_impl::setup_rpc()
+@@ -92,7 +92,7 @@
              "volts",
              d_desc.c_str(),
              RPC_PRIVLVL_MIN,
@@ -1234,10 +1256,10 @@ diff -uNrp a/gr-blocks/lib/ctrlport_probe_c_impl.cc b/gr-blocks/lib/ctrlport_pro
  #endif /* GR_CTRLPORT */
  }
  
-diff -uNrp a/gr-blocks/lib/file_meta_source_impl.cc b/gr-blocks/lib/file_meta_source_impl.cc
+diff -uNr a/gr-blocks/lib/file_meta_source_impl.cc b/gr-blocks/lib/file_meta_source_impl.cc
 --- a/gr-blocks/lib/file_meta_source_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-blocks/lib/file_meta_source_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -258,7 +258,7 @@ bool file_meta_source_impl::open(const s
++++ b/gr-blocks/lib/file_meta_source_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -258,7 +258,7 @@
      bool ret = true;
      if (d_state == STATE_DETACHED) {
          std::string s;
@@ -1246,10 +1268,10 @@ diff -uNrp a/gr-blocks/lib/file_meta_source_impl.cc b/gr-blocks/lib/file_meta_so
              s = filename + ".hdr";
          else
              s = hdr_filename;
-diff -uNrp a/gr-blocks/lib/multiply_matrix_impl.cc b/gr-blocks/lib/multiply_matrix_impl.cc
+diff -uNr a/gr-blocks/lib/multiply_matrix_impl.cc b/gr-blocks/lib/multiply_matrix_impl.cc
 --- a/gr-blocks/lib/multiply_matrix_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-blocks/lib/multiply_matrix_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -212,7 +212,7 @@ typename multiply_matrix<T>::sptr
++++ b/gr-blocks/lib/multiply_matrix_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -212,7 +212,7 @@
  multiply_matrix<T>::make(std::vector<std::vector<T>> A,
                           gr::block::tag_propagation_policy_t tag_propagation_policy)
  {
@@ -1258,9 +1280,9 @@ diff -uNrp a/gr-blocks/lib/multiply_matrix_impl.cc b/gr-blocks/lib/multiply_matr
          throw std::invalid_argument("matrix A has invalid dimensions.");
      }
      return gnuradio::get_initial_sptr(
-diff -uNrp a/gr-blocks/lib/mute_impl.cc b/gr-blocks/lib/mute_impl.cc
+diff -uNr a/gr-blocks/lib/mute_impl.cc b/gr-blocks/lib/mute_impl.cc
 --- a/gr-blocks/lib/mute_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-blocks/lib/mute_impl.cc	2019-10-20 04:31:39.000000000 +0700
++++ b/gr-blocks/lib/mute_impl.cc	2019-11-06 03:55:06.000000000 +0700
 @@ -1,6 +1,6 @@
  /* -*- c++ -*- */
  /*
@@ -1277,7 +1299,7 @@ diff -uNrp a/gr-blocks/lib/mute_impl.cc b/gr-blocks/lib/mute_impl.cc
  
  namespace gr {
  namespace blocks {
-@@ -66,7 +67,7 @@ int mute_impl<T>::work(int noutput_items
+@@ -66,7 +67,7 @@
      int size = noutput_items;
  
      if (d_mute) {
@@ -1286,10 +1308,10 @@ diff -uNrp a/gr-blocks/lib/mute_impl.cc b/gr-blocks/lib/mute_impl.cc
      } else {
          while (size >= 8) {
              *optr++ = *iptr++;
-diff -uNrp a/gr-blocks/lib/nop_impl.cc b/gr-blocks/lib/nop_impl.cc
+diff -uNr a/gr-blocks/lib/nop_impl.cc b/gr-blocks/lib/nop_impl.cc
 --- a/gr-blocks/lib/nop_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-blocks/lib/nop_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -69,19 +69,18 @@ int nop_impl::general_work(int noutput_i
++++ b/gr-blocks/lib/nop_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -69,19 +69,18 @@
  void nop_impl::setup_rpc()
  {
  #ifdef GR_CTRLPORT
@@ -1320,10 +1342,10 @@ diff -uNrp a/gr-blocks/lib/nop_impl.cc b/gr-blocks/lib/nop_impl.cc
          rpcbasic_sptr(new rpcbasic_register_set<nop, int>(alias(),
                                                            "test",
                                                            &nop::set_ctrlport_test,
-diff -uNrp a/gr-blocks/lib/qa_gr_flowgraph.cc b/gr-blocks/lib/qa_gr_flowgraph.cc
+diff -uNr a/gr-blocks/lib/qa_gr_flowgraph.cc b/gr-blocks/lib/qa_gr_flowgraph.cc
 --- a/gr-blocks/lib/qa_gr_flowgraph.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-blocks/lib/qa_gr_flowgraph.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -269,8 +269,8 @@ BOOST_AUTO_TEST_CASE(t15_clear)
++++ b/gr-blocks/lib/qa_gr_flowgraph.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -269,8 +269,8 @@
  
      fg->clear();
  
@@ -1334,10 +1356,10 @@ diff -uNrp a/gr-blocks/lib/qa_gr_flowgraph.cc b/gr-blocks/lib/qa_gr_flowgraph.cc
  }
  
  BOOST_AUTO_TEST_CASE(t16_partition)
-diff -uNrp a/gr-blocks/lib/tag_debug_impl.cc b/gr-blocks/lib/tag_debug_impl.cc
+diff -uNr a/gr-blocks/lib/tag_debug_impl.cc b/gr-blocks/lib/tag_debug_impl.cc
 --- a/gr-blocks/lib/tag_debug_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-blocks/lib/tag_debug_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -71,7 +71,7 @@ void tag_debug_impl::set_display(bool d)
++++ b/gr-blocks/lib/tag_debug_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -71,7 +71,7 @@
  
  void tag_debug_impl::set_key_filter(const std::string& key_filter)
  {
@@ -1346,7 +1368,7 @@ diff -uNrp a/gr-blocks/lib/tag_debug_impl.cc b/gr-blocks/lib/tag_debug_impl.cc
          d_filter = pmt::PMT_NIL;
      else
          d_filter = pmt::intern(key_filter);
-@@ -104,7 +104,7 @@ int tag_debug_impl::work(int noutput_ite
+@@ -104,7 +104,7 @@
          else
              get_tags_in_range(d_tags, i, abs_N, end_N, d_filter);
  
@@ -1355,10 +1377,10 @@ diff -uNrp a/gr-blocks/lib/tag_debug_impl.cc b/gr-blocks/lib/tag_debug_impl.cc
              toprint = true;
          }
  
-diff -uNrp a/gr-blocks/lib/tag_gate_impl.cc b/gr-blocks/lib/tag_gate_impl.cc
+diff -uNr a/gr-blocks/lib/tag_gate_impl.cc b/gr-blocks/lib/tag_gate_impl.cc
 --- a/gr-blocks/lib/tag_gate_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-blocks/lib/tag_gate_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -64,7 +64,7 @@ void tag_gate_impl::set_propagation(bool
++++ b/gr-blocks/lib/tag_gate_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -64,7 +64,7 @@
  
  void tag_gate_impl::set_single_key(const std::string& single_key)
  {
@@ -1367,10 +1389,10 @@ diff -uNrp a/gr-blocks/lib/tag_gate_impl.cc b/gr-blocks/lib/tag_gate_impl.cc
          d_single_key = pmt::PMT_NIL;
          d_single_key_set = false;
      } else {
-diff -uNrp a/gr-blocks/lib/tagged_file_sink_impl.cc b/gr-blocks/lib/tagged_file_sink_impl.cc
+diff -uNr a/gr-blocks/lib/tagged_file_sink_impl.cc b/gr-blocks/lib/tagged_file_sink_impl.cc
 --- a/gr-blocks/lib/tagged_file_sink_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-blocks/lib/tagged_file_sink_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -94,7 +94,7 @@ int tagged_file_sink_impl::work(int nout
++++ b/gr-blocks/lib/tagged_file_sink_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -94,7 +94,7 @@
      // Look for a time tag and initialize d_timeval.
      std::vector<tag_t> time_tags_outer;
      get_tags_in_range(time_tags_outer, 0, start_N, end_N, tkey);
@@ -1379,7 +1401,7 @@ diff -uNrp a/gr-blocks/lib/tagged_file_sink_impl.cc b/gr-blocks/lib/tagged_file_
          const tag_t tag = time_tags_outer[0];
          uint64_t offset = tag.offset;
          pmt::pmt_t time = tag.value;
-@@ -122,7 +122,7 @@ int tagged_file_sink_impl::work(int nout
+@@ -122,7 +122,7 @@
                      std::vector<tag_t> time_tags;
                      // get_tags_in_range(time_tags, 0, d_last_N, N, gr_tags::key_time);
                      get_tags_in_range(time_tags, 0, d_last_N, N, tkey);
@@ -1388,10 +1410,10 @@ diff -uNrp a/gr-blocks/lib/tagged_file_sink_impl.cc b/gr-blocks/lib/tagged_file_
                          const tag_t tag = time_tags[time_tags.size() - 1];
  
                          uint64_t time_nitems = tag.offset;
-diff -uNrp a/gr-blocks/lib/tagged_stream_align_impl.cc b/gr-blocks/lib/tagged_stream_align_impl.cc
+diff -uNr a/gr-blocks/lib/tagged_stream_align_impl.cc b/gr-blocks/lib/tagged_stream_align_impl.cc
 --- a/gr-blocks/lib/tagged_stream_align_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-blocks/lib/tagged_stream_align_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -72,7 +72,7 @@ int tagged_stream_align_impl::general_wo
++++ b/gr-blocks/lib/tagged_stream_align_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -72,7 +72,7 @@
      } else {
          get_tags_in_range(
              tags, 0, nitems_read(0), nitems_read(0) + ninput_items[0], d_lengthtag);
@@ -1400,10 +1422,10 @@ diff -uNrp a/gr-blocks/lib/tagged_stream_align_impl.cc b/gr-blocks/lib/tagged_st
              d_have_sync = true;
              consume_each(tags[0].offset - nitems_read(0));
          } else {
-diff -uNrp a/gr-blocks/lib/throttle_impl.cc b/gr-blocks/lib/throttle_impl.cc
+diff -uNr a/gr-blocks/lib/throttle_impl.cc b/gr-blocks/lib/throttle_impl.cc
 --- a/gr-blocks/lib/throttle_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-blocks/lib/throttle_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -116,7 +116,7 @@ int throttle_impl::work(int noutput_item
++++ b/gr-blocks/lib/throttle_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -116,7 +116,7 @@
  void throttle_impl::setup_rpc()
  {
  #ifdef GR_CTRLPORT
@@ -1412,7 +1434,7 @@ diff -uNrp a/gr-blocks/lib/throttle_impl.cc b/gr-blocks/lib/throttle_impl.cc
          new rpcbasic_register_get<throttle, double>(alias(),
                                                      "sample_rate",
                                                      &throttle::sample_rate,
-@@ -126,9 +126,9 @@ void throttle_impl::setup_rpc()
+@@ -126,9 +126,9 @@
                                                      "Hz",
                                                      "Sample Rate",
                                                      RPC_PRIVLVL_MIN,
@@ -1424,7 +1446,7 @@ diff -uNrp a/gr-blocks/lib/throttle_impl.cc b/gr-blocks/lib/throttle_impl.cc
          new rpcbasic_register_set<throttle, double>(alias(),
                                                      "sample_rate",
                                                      &throttle::set_sample_rate,
-@@ -138,7 +138,7 @@ void throttle_impl::setup_rpc()
+@@ -138,7 +138,7 @@
                                                      "Hz",
                                                      "Sample Rate",
                                                      RPC_PRIVLVL_MIN,
@@ -1433,10 +1455,10 @@ diff -uNrp a/gr-blocks/lib/throttle_impl.cc b/gr-blocks/lib/throttle_impl.cc
  #endif /* GR_CTRLPORT */
  }
  
-diff -uNrp a/gr-blocks/lib/udp_sink_impl.cc b/gr-blocks/lib/udp_sink_impl.cc
+diff -uNr a/gr-blocks/lib/udp_sink_impl.cc b/gr-blocks/lib/udp_sink_impl.cc
 --- a/gr-blocks/lib/udp_sink_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-blocks/lib/udp_sink_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -70,7 +70,7 @@ void udp_sink_impl::connect(const std::s
++++ b/gr-blocks/lib/udp_sink_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -70,7 +70,7 @@
          disconnect();
  
      std::string s_port = (boost::format("%d") % port).str();
@@ -1445,10 +1467,10 @@ diff -uNrp a/gr-blocks/lib/udp_sink_impl.cc b/gr-blocks/lib/udp_sink_impl.cc
          boost::asio::ip::udp::resolver resolver(d_io_service);
          boost::asio::ip::udp::resolver::query query(
              host, s_port, boost::asio::ip::resolver_query_base::passive);
-diff -uNrp a/gr-blocks/lib/udp_source_impl.cc b/gr-blocks/lib/udp_source_impl.cc
+diff -uNr a/gr-blocks/lib/udp_source_impl.cc b/gr-blocks/lib/udp_source_impl.cc
 --- a/gr-blocks/lib/udp_source_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-blocks/lib/udp_source_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -84,7 +84,7 @@ void udp_source_impl::connect(const std:
++++ b/gr-blocks/lib/udp_source_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -84,7 +84,7 @@
      std::string s_port;
      s_port = (boost::format("%d") % d_port).str();
  
@@ -1457,10 +1479,10 @@ diff -uNrp a/gr-blocks/lib/udp_source_impl.cc b/gr-blocks/lib/udp_source_impl.cc
          boost::asio::ip::udp::resolver resolver(d_io_service);
          boost::asio::ip::udp::resolver::query query(
              d_host, s_port, boost::asio::ip::resolver_query_base::passive);
-diff -uNrp a/gr-blocks/lib/vector_source_impl.cc b/gr-blocks/lib/vector_source_impl.cc
+diff -uNr a/gr-blocks/lib/vector_source_impl.cc b/gr-blocks/lib/vector_source_impl.cc
 --- a/gr-blocks/lib/vector_source_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-blocks/lib/vector_source_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -57,7 +57,7 @@ vector_source_impl<T>::vector_source_imp
++++ b/gr-blocks/lib/vector_source_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -57,7 +57,7 @@
        d_vlen(vlen),
        d_tags(tags)
  {
@@ -1469,7 +1491,7 @@ diff -uNrp a/gr-blocks/lib/vector_source_impl.cc b/gr-blocks/lib/vector_source_i
          d_settags = 0;
      } else {
          d_settags = 1;
-@@ -79,7 +79,7 @@ void vector_source_impl<T>::set_data(con
+@@ -79,7 +79,7 @@
      d_data = data;
      d_tags = tags;
      rewind();
@@ -1478,10 +1500,10 @@ diff -uNrp a/gr-blocks/lib/vector_source_impl.cc b/gr-blocks/lib/vector_source_i
          d_settags = false;
      } else {
          d_settags = true;
-diff -uNrp a/gr-blocks/python/blocks/qa_python_message_passing.py b/gr-blocks/python/blocks/qa_python_message_passing.py
+diff -uNr a/gr-blocks/python/blocks/qa_python_message_passing.py b/gr-blocks/python/blocks/qa_python_message_passing.py
 --- a/gr-blocks/python/blocks/qa_python_message_passing.py	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-blocks/python/blocks/qa_python_message_passing.py	2019-10-20 04:31:39.000000000 +0700
-@@ -103,13 +103,7 @@ class test_python_message_passing(gr_uni
++++ b/gr-blocks/python/blocks/qa_python_message_passing.py	2019-11-06 03:55:06.000000000 +0700
+@@ -103,13 +103,7 @@
          self.assertEqual('in_port' in pmt.to_python(msg_cons.message_ports_in()), True)
  
          # Run to verify message passing
@@ -1496,9 +1518,9 @@ diff -uNrp a/gr-blocks/python/blocks/qa_python_message_passing.py b/gr-blocks/py
  
          # Verify that the message consumer got all the messages
          self.assertEqual(num_msgs, len(msg_cons.msg_list))
-diff -uNrp a/gr-digital/lib/burst_shaper_impl.cc b/gr-digital/lib/burst_shaper_impl.cc
+diff -uNr a/gr-digital/lib/burst_shaper_impl.cc b/gr-digital/lib/burst_shaper_impl.cc
 --- a/gr-digital/lib/burst_shaper_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-digital/lib/burst_shaper_impl.cc	2019-10-20 04:31:39.000000000 +0700
++++ b/gr-digital/lib/burst_shaper_impl.cc	2019-11-06 03:55:06.000000000 +0700
 @@ -1,6 +1,6 @@
  /* -*- c++ -*- */
  /*
@@ -1515,7 +1537,7 @@ diff -uNrp a/gr-digital/lib/burst_shaper_impl.cc b/gr-digital/lib/burst_shaper_i
  
  namespace gr {
  namespace digital {
-@@ -220,7 +221,7 @@ template <class T>
+@@ -220,7 +221,7 @@
  void burst_shaper_impl<T>::write_padding(T*& dst, int& nwritten, int nspace)
  {
      int nprocess = std::min(d_limit - d_index, nspace);
@@ -1524,10 +1546,10 @@ diff -uNrp a/gr-digital/lib/burst_shaper_impl.cc b/gr-digital/lib/burst_shaper_i
      dst += nprocess;
      nwritten += nprocess;
      d_index += nprocess;
-diff -uNrp a/gr-digital/lib/constellation.cc b/gr-digital/lib/constellation.cc
+diff -uNr a/gr-digital/lib/constellation.cc b/gr-digital/lib/constellation.cc
 --- a/gr-digital/lib/constellation.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-digital/lib/constellation.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -69,7 +69,7 @@ constellation::constellation(std::vector
++++ b/gr-digital/lib/constellation.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -69,7 +69,7 @@
              d_constellation[i] = d_constellation[i] * d_scalefactor;
          }
      }
@@ -1536,7 +1558,7 @@ diff -uNrp a/gr-digital/lib/constellation.cc b/gr-digital/lib/constellation.cc
          d_apply_pre_diff_code = false;
      else if (pre_diff_code.size() != constsize)
          throw std::runtime_error(
-@@ -307,7 +307,7 @@ void constellation::set_soft_dec_lut(con
+@@ -307,7 +307,7 @@
      d_lut_scale = powf(2.0, static_cast<float>(precision));
  }
  
@@ -1545,10 +1567,10 @@ diff -uNrp a/gr-digital/lib/constellation.cc b/gr-digital/lib/constellation.cc
  
  std::vector<std::vector<float>> constellation::soft_dec_lut() { return d_soft_dec_lut; }
  
-diff -uNrp a/gr-digital/lib/costas_loop_cc_impl.cc b/gr-digital/lib/costas_loop_cc_impl.cc
+diff -uNr a/gr-digital/lib/costas_loop_cc_impl.cc b/gr-digital/lib/costas_loop_cc_impl.cc
 --- a/gr-digital/lib/costas_loop_cc_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-digital/lib/costas_loop_cc_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -180,7 +180,7 @@ int costas_loop_cc_impl::work(int noutpu
++++ b/gr-digital/lib/costas_loop_cc_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -180,7 +180,7 @@
                        pmt::intern("phase_est"));
  
      for (int i = 0; i < noutput_items; i++) {
@@ -1557,10 +1579,10 @@ diff -uNrp a/gr-digital/lib/costas_loop_cc_impl.cc b/gr-digital/lib/costas_loop_
              if (tags[0].offset - nitems_read(0) == (size_t)i) {
                  d_phase = (float)pmt::to_double(tags[0].value);
                  tags.erase(tags.begin());
-diff -uNrp a/gr-digital/lib/fll_band_edge_cc_impl.cc b/gr-digital/lib/fll_band_edge_cc_impl.cc
+diff -uNr a/gr-digital/lib/fll_band_edge_cc_impl.cc b/gr-digital/lib/fll_band_edge_cc_impl.cc
 --- a/gr-digital/lib/fll_band_edge_cc_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-digital/lib/fll_band_edge_cc_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -226,7 +226,6 @@ int fll_band_edge_cc_impl::work(int nout
++++ b/gr-digital/lib/fll_band_edge_cc_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -226,7 +226,6 @@
      float error;
      gr_complex nco_out;
      gr_complex out_upper, out_lower;
@@ -1568,10 +1590,10 @@ diff -uNrp a/gr-digital/lib/fll_band_edge_cc_impl.cc b/gr-digital/lib/fll_band_e
  
      for (i = 0; i < noutput_items; i++) {
          nco_out = gr_expj(d_phase);
-diff -uNrp a/gr-digital/lib/hdlc_framer_pb_impl.cc b/gr-digital/lib/hdlc_framer_pb_impl.cc
+diff -uNr a/gr-digital/lib/hdlc_framer_pb_impl.cc b/gr-digital/lib/hdlc_framer_pb_impl.cc
 --- a/gr-digital/lib/hdlc_framer_pb_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-digital/lib/hdlc_framer_pb_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -114,7 +114,7 @@ int hdlc_framer_pb_impl::work(int noutpu
++++ b/gr-digital/lib/hdlc_framer_pb_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -114,7 +114,7 @@
      // partial packets., but if we're to preserve tag boundaries
      // this is much, much simpler.
      int oidx = 0;
@@ -1580,10 +1602,10 @@ diff -uNrp a/gr-digital/lib/hdlc_framer_pb_impl.cc b/gr-digital/lib/hdlc_framer_
          if ((size_t)noutput_items < (oidx + d_leftovers[0].size()))
              return oidx;
          memcpy(out + oidx, &d_leftovers[0][0], d_leftovers[0].size());
-diff -uNrp a/gr-digital/lib/msk_timing_recovery_cc_impl.cc b/gr-digital/lib/msk_timing_recovery_cc_impl.cc
+diff -uNr a/gr-digital/lib/msk_timing_recovery_cc_impl.cc b/gr-digital/lib/msk_timing_recovery_cc_impl.cc
 --- a/gr-digital/lib/msk_timing_recovery_cc_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-digital/lib/msk_timing_recovery_cc_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -133,7 +133,7 @@ int msk_timing_recovery_cc_impl::general
++++ b/gr-digital/lib/msk_timing_recovery_cc_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -133,7 +133,7 @@
  
      while (oidx < noutput_items && iidx < ninp) {
          // check to see if there's a tag to reset the timing estimate
@@ -1592,10 +1614,10 @@ diff -uNrp a/gr-digital/lib/msk_timing_recovery_cc_impl.cc b/gr-digital/lib/msk_
              int offset = tags[0].offset - nitems_read(0);
              if ((offset >= iidx) && (offset < (iidx + d_sps))) {
                  float center = (float)pmt::to_double(tags[0].value);
-diff -uNrp a/gr-digital/lib/ofdm_chanest_vcvc_impl.cc b/gr-digital/lib/ofdm_chanest_vcvc_impl.cc
+diff -uNr a/gr-digital/lib/ofdm_chanest_vcvc_impl.cc b/gr-digital/lib/ofdm_chanest_vcvc_impl.cc
 --- a/gr-digital/lib/ofdm_chanest_vcvc_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-digital/lib/ofdm_chanest_vcvc_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -60,8 +60,8 @@ ofdm_chanest_vcvc_impl::ofdm_chanest_vcv
++++ b/gr-digital/lib/ofdm_chanest_vcvc_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -60,8 +60,8 @@
        d_n_data_syms(n_data_symbols),
        d_n_sync_syms(1),
        d_eq_noise_red_len(eq_noise_red_len),
@@ -1606,7 +1628,7 @@ diff -uNrp a/gr-digital/lib/ofdm_chanest_vcvc_impl.cc b/gr-digital/lib/ofdm_chan
        d_corr_v(sync_symbol2),
        d_known_symbol_diffs(0, 0),
        d_new_symbol_diffs(0, 0),
-@@ -84,7 +84,7 @@ ofdm_chanest_vcvc_impl::ofdm_chanest_vcv
+@@ -84,7 +84,7 @@
      }
  
      // Sanity checks
@@ -1615,7 +1637,7 @@ diff -uNrp a/gr-digital/lib/ofdm_chanest_vcvc_impl.cc b/gr-digital/lib/ofdm_chan
          if (sync_symbol1.size() != sync_symbol2.size()) {
              throw std::invalid_argument("sync symbols must have equal length.");
          }
-@@ -149,7 +149,7 @@ int ofdm_chanest_vcvc_impl::get_carr_off
+@@ -149,7 +149,7 @@
                                              const gr_complex* sync_sym2)
  {
      int carr_offset = 0;
@@ -1624,10 +1646,10 @@ diff -uNrp a/gr-digital/lib/ofdm_chanest_vcvc_impl.cc b/gr-digital/lib/ofdm_chan
          // Use Schmidl & Cox method
          float Bg_max = 0;
          // g here is 2g in the paper
-diff -uNrp a/gr-digital/lib/ofdm_equalizer_base.cc b/gr-digital/lib/ofdm_equalizer_base.cc
+diff -uNr a/gr-digital/lib/ofdm_equalizer_base.cc b/gr-digital/lib/ofdm_equalizer_base.cc
 --- a/gr-digital/lib/ofdm_equalizer_base.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-digital/lib/ofdm_equalizer_base.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -57,7 +57,7 @@ ofdm_equalizer_1d_pilots::ofdm_equalizer
++++ b/gr-digital/lib/ofdm_equalizer_base.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -57,7 +57,7 @@
      if (input_is_shifted) {
          fft_shift_width = fft_len / 2;
      }
@@ -1636,7 +1658,7 @@ diff -uNrp a/gr-digital/lib/ofdm_equalizer_base.cc b/gr-digital/lib/ofdm_equaliz
          std::fill(d_occupied_carriers.begin(), d_occupied_carriers.end(), true);
      } else {
          for (unsigned i = 0; i < occupied_carriers.size(); i++) {
-@@ -73,7 +73,7 @@ ofdm_equalizer_1d_pilots::ofdm_equalizer
+@@ -73,7 +73,7 @@
              }
          }
      }
@@ -1645,10 +1667,10 @@ diff -uNrp a/gr-digital/lib/ofdm_equalizer_base.cc b/gr-digital/lib/ofdm_equaliz
          for (unsigned i = 0; i < pilot_carriers.size(); i++) {
              if (pilot_carriers[i].size() != pilot_symbols[i].size()) {
                  throw std::invalid_argument("pilot carriers and -symbols do not match.");
-diff -uNrp a/gr-digital/lib/pfb_clock_sync_ccf_impl.cc b/gr-digital/lib/pfb_clock_sync_ccf_impl.cc
+diff -uNr a/gr-digital/lib/pfb_clock_sync_ccf_impl.cc b/gr-digital/lib/pfb_clock_sync_ccf_impl.cc
 --- a/gr-digital/lib/pfb_clock_sync_ccf_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-digital/lib/pfb_clock_sync_ccf_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -68,7 +68,7 @@ pfb_clock_sync_ccf_impl::pfb_clock_sync_
++++ b/gr-digital/lib/pfb_clock_sync_ccf_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -68,7 +68,7 @@
        d_error(0),
        d_out_idx(0)
  {
@@ -1657,7 +1679,7 @@ diff -uNrp a/gr-digital/lib/pfb_clock_sync_ccf_impl.cc b/gr-digital/lib/pfb_cloc
          throw std::runtime_error("pfb_clock_sync_ccf: please specify a filter.\n");
  
      // Let scheduler adjust our relative_rate.
-@@ -382,7 +382,7 @@ int pfb_clock_sync_ccf_impl::general_wor
+@@ -382,7 +382,7 @@
  
      // produce output as long as we can and there are enough input samples
      while (i < noutput_items) {
@@ -1666,10 +1688,10 @@ diff -uNrp a/gr-digital/lib/pfb_clock_sync_ccf_impl.cc b/gr-digital/lib/pfb_cloc
              size_t offset = tags[0].offset - nitems_read(0);
              if ((offset >= (size_t)count) && (offset < (size_t)(count + d_sps))) {
                  float center = (float)pmt::to_double(tags[0].value);
-diff -uNrp a/gr-digital/lib/pfb_clock_sync_fff_impl.cc b/gr-digital/lib/pfb_clock_sync_fff_impl.cc
+diff -uNr a/gr-digital/lib/pfb_clock_sync_fff_impl.cc b/gr-digital/lib/pfb_clock_sync_fff_impl.cc
 --- a/gr-digital/lib/pfb_clock_sync_fff_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-digital/lib/pfb_clock_sync_fff_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -65,7 +65,7 @@ pfb_clock_sync_fff_impl::pfb_clock_sync_
++++ b/gr-digital/lib/pfb_clock_sync_fff_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -65,7 +65,7 @@
        d_error(0),
        d_out_idx(0)
  {
@@ -1678,10 +1700,10 @@ diff -uNrp a/gr-digital/lib/pfb_clock_sync_fff_impl.cc b/gr-digital/lib/pfb_cloc
          throw std::runtime_error("pfb_clock_sync_fff: please specify a filter.\n");
  
      // Let scheduler adjust our relative_rate.
-diff -uNrp a/gr-digital/lib/timing_error_detector.cc b/gr-digital/lib/timing_error_detector.cc
+diff -uNr a/gr-digital/lib/timing_error_detector.cc b/gr-digital/lib/timing_error_detector.cc
 --- a/gr-digital/lib/timing_error_detector.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-digital/lib/timing_error_detector.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -232,11 +232,9 @@ void timing_error_detector::sync_reset()
++++ b/gr-digital/lib/timing_error_detector.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -232,11 +232,9 @@
      d_input_derivative.assign(d_error_depth, gr_complex(0.0f, 0.0f));
  
      if (d_constellation) {
@@ -1696,9 +1718,9 @@ diff -uNrp a/gr-digital/lib/timing_error_detector.cc b/gr-digital/lib/timing_err
      }
  
      sync_reset_input_clock();
-diff -uNrp a/gr-dtv/lib/atsc/atsc_field_sync_mux_impl.cc b/gr-dtv/lib/atsc/atsc_field_sync_mux_impl.cc
+diff -uNr a/gr-dtv/lib/atsc/atsc_field_sync_mux_impl.cc b/gr-dtv/lib/atsc/atsc_field_sync_mux_impl.cc
 --- a/gr-dtv/lib/atsc/atsc_field_sync_mux_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-dtv/lib/atsc/atsc_field_sync_mux_impl.cc	2019-10-20 04:31:39.000000000 +0700
++++ b/gr-dtv/lib/atsc/atsc_field_sync_mux_impl.cc	2019-11-06 03:55:06.000000000 +0700
 @@ -29,8 +29,6 @@
  namespace gr {
  namespace dtv {
@@ -1708,10 +1730,10 @@ diff -uNrp a/gr-dtv/lib/atsc/atsc_field_sync_mux_impl.cc b/gr-dtv/lib/atsc/atsc_
  atsc_field_sync_mux::sptr atsc_field_sync_mux::make()
  {
      return gnuradio::get_initial_sptr(new atsc_field_sync_mux_impl());
-diff -uNrp a/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.cc b/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.cc
+diff -uNr a/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.cc b/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.cc
 --- a/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -34,9 +34,6 @@ static const int DIBITS_PER_BYTE = 4;
++++ b/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -34,9 +34,6 @@
  #define SEGOF(x) ((x) / ((SEGMENT_SIZE + 1) * DIBITS_PER_BYTE))
  #define SYMOF(x) (((x) % ((SEGMENT_SIZE + 1) * DIBITS_PER_BYTE)) - 4)
  
@@ -1721,7 +1743,7 @@ diff -uNrp a/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.cc b/gr-dtv/lib/atsc/atsc
  #define ENCODER_SEG_BUMP 4
  
  /* A Segment sync symbol is an 8VSB +5,-5,-5,+5 sequence that occurs at
-@@ -83,7 +80,7 @@ void atsc_trellis_encoder_impl::encode(a
+@@ -83,7 +80,7 @@
      assert(sizeof(in_copy) == sizeof(in[0].data) * NCODERS);
      assert(sizeof(out_copy) == sizeof(out[0].data) * NCODERS);
  
@@ -1730,7 +1752,7 @@ diff -uNrp a/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.cc b/gr-dtv/lib/atsc/atsc
      for (int i = 0; i < NCODERS; i++) {
          assert(in[i].pli.regular_seg_p());
          plinfo::sanity_check(in[i].pli);
-@@ -112,7 +109,7 @@ void atsc_trellis_encoder_impl::encode(a
+@@ -112,7 +109,7 @@
  }
  
  /*
@@ -1739,10 +1761,10 @@ diff -uNrp a/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.cc b/gr-dtv/lib/atsc/atsc
   * the correct answer. Maybe someday, when we've run out of better
   * things to do, rework to avoid the copying in encode.
   */
-diff -uNrp a/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.h b/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.h
+diff -uNr a/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.h b/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.h
 --- a/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.h	2019-10-20 04:31:39.000000000 +0700
-@@ -33,6 +33,7 @@ class atsc_trellis_encoder_impl : public
++++ b/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.h	2019-11-06 03:55:06.000000000 +0700
+@@ -33,6 +33,7 @@
  private:
      bool debug;
  
@@ -1750,10 +1772,10 @@ diff -uNrp a/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.h b/gr-dtv/lib/atsc/atsc_
      static const int NCODERS = 12;
      static const int SEGMENT_SIZE = ATSC_MPEG_RS_ENCODED_LENGTH;
      static const int INPUT_SIZE = (SEGMENT_SIZE * 12);
-diff -uNrp a/gr-dtv/lib/dvbt/dvbt_convolutional_deinterleaver_impl.cc b/gr-dtv/lib/dvbt/dvbt_convolutional_deinterleaver_impl.cc
+diff -uNr a/gr-dtv/lib/dvbt/dvbt_convolutional_deinterleaver_impl.cc b/gr-dtv/lib/dvbt/dvbt_convolutional_deinterleaver_impl.cc
 --- a/gr-dtv/lib/dvbt/dvbt_convolutional_deinterleaver_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-dtv/lib/dvbt/dvbt_convolutional_deinterleaver_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -110,7 +110,7 @@ int dvbt_convolutional_deinterleaver_imp
++++ b/gr-dtv/lib/dvbt/dvbt_convolutional_deinterleaver_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -110,7 +110,7 @@
                              nread + (noutput_items * d_I * d_blocks),
                              pmt::string_to_symbol("superframe_start"));
  
@@ -1762,10 +1784,10 @@ diff -uNrp a/gr-dtv/lib/dvbt/dvbt_convolutional_deinterleaver_impl.cc b/gr-dtv/l
          if (tags[0].offset - nread) {
              consume_each(tags[0].offset - nread);
              return (0);
-diff -uNrp a/gr-dtv/lib/dvbt/dvbt_demod_reference_signals_impl.cc b/gr-dtv/lib/dvbt/dvbt_demod_reference_signals_impl.cc
+diff -uNr a/gr-dtv/lib/dvbt/dvbt_demod_reference_signals_impl.cc b/gr-dtv/lib/dvbt/dvbt_demod_reference_signals_impl.cc
 --- a/gr-dtv/lib/dvbt/dvbt_demod_reference_signals_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-dtv/lib/dvbt/dvbt_demod_reference_signals_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -116,7 +116,7 @@ int dvbt_demod_reference_signals_impl::i
++++ b/gr-dtv/lib/dvbt/dvbt_demod_reference_signals_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -116,7 +116,7 @@
      this->get_tags_in_range(
          tags, 0, nread, nread + nitems, pmt::string_to_symbol("sync_start"));
  
@@ -1774,10 +1796,10 @@ diff -uNrp a/gr-dtv/lib/dvbt/dvbt_demod_reference_signals_impl.cc b/gr-dtv/lib/d
  }
  
  int dvbt_demod_reference_signals_impl::general_work(
-diff -uNrp a/gr-dtv/lib/dvbt/dvbt_ofdm_sym_acquisition_impl.cc b/gr-dtv/lib/dvbt/dvbt_ofdm_sym_acquisition_impl.cc
+diff -uNr a/gr-dtv/lib/dvbt/dvbt_ofdm_sym_acquisition_impl.cc b/gr-dtv/lib/dvbt/dvbt_ofdm_sym_acquisition_impl.cc
 --- a/gr-dtv/lib/dvbt/dvbt_ofdm_sym_acquisition_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-dtv/lib/dvbt/dvbt_ofdm_sym_acquisition_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -409,7 +409,7 @@ int dvbt_ofdm_sym_acquisition_impl::gene
++++ b/gr-dtv/lib/dvbt/dvbt_ofdm_sym_acquisition_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -409,7 +409,7 @@
              send_sync_start();
              d_initial_acquisition = 0;
  
@@ -1786,10 +1808,10 @@ diff -uNrp a/gr-dtv/lib/dvbt/dvbt_ofdm_sym_acquisition_impl.cc b/gr-dtv/lib/dvbt
              // This will prevent peak_detect to not detect anything
              d_to_consume = d_to_consume / 2;
              d_consumed += d_to_consume;
-diff -uNrp a/gr-dtv/lib/dvbt/dvbt_reference_signals_impl.h b/gr-dtv/lib/dvbt/dvbt_reference_signals_impl.h
+diff -uNr a/gr-dtv/lib/dvbt/dvbt_reference_signals_impl.h b/gr-dtv/lib/dvbt/dvbt_reference_signals_impl.h
 --- a/gr-dtv/lib/dvbt/dvbt_reference_signals_impl.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-dtv/lib/dvbt/dvbt_reference_signals_impl.h	2019-10-20 04:31:39.000000000 +0700
-@@ -218,7 +218,7 @@ public:
++++ b/gr-dtv/lib/dvbt/dvbt_reference_signals_impl.h	2019-11-06 03:55:06.000000000 +0700
+@@ -218,7 +218,7 @@
       * TODO
       * ETSI EN 300 744 Clause 4.5. \n
       * Extract data from a set of carriers using pilot signals. \n
@@ -1798,10 +1820,10 @@ diff -uNrp a/gr-dtv/lib/dvbt/dvbt_reference_signals_impl.h b/gr-dtv/lib/dvbt/dvb
       */
      int parse_input(const gr_complex* in,
                      gr_complex* out,
-diff -uNrp a/gr-dtv/lib/dvbt/dvbt_viterbi_decoder_impl.cc b/gr-dtv/lib/dvbt/dvbt_viterbi_decoder_impl.cc
+diff -uNr a/gr-dtv/lib/dvbt/dvbt_viterbi_decoder_impl.cc b/gr-dtv/lib/dvbt/dvbt_viterbi_decoder_impl.cc
 --- a/gr-dtv/lib/dvbt/dvbt_viterbi_decoder_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-dtv/lib/dvbt/dvbt_viterbi_decoder_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -644,7 +644,7 @@ int dvbt_viterbi_decoder_impl::general_w
++++ b/gr-dtv/lib/dvbt/dvbt_viterbi_decoder_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -644,7 +644,7 @@
                                  nread + (nblocks * d_nsymbols),
                                  pmt::string_to_symbol("superframe_start"));
  
@@ -1810,10 +1832,10 @@ diff -uNrp a/gr-dtv/lib/dvbt/dvbt_viterbi_decoder_impl.cc b/gr-dtv/lib/dvbt/dvbt
              d_init = 0;
  
  #ifdef DTV_SSE2
-diff -uNrp a/gr-fec/lib/conv_bit_corr_bb_impl.h b/gr-fec/lib/conv_bit_corr_bb_impl.h
+diff -uNr a/gr-fec/lib/conv_bit_corr_bb_impl.h b/gr-fec/lib/conv_bit_corr_bb_impl.h
 --- a/gr-fec/lib/conv_bit_corr_bb_impl.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-fec/lib/conv_bit_corr_bb_impl.h	2019-10-20 04:31:39.000000000 +0700
-@@ -64,7 +64,7 @@ private:
++++ b/gr-fec/lib/conv_bit_corr_bb_impl.h	2019-11-06 03:55:06.000000000 +0700
+@@ -64,7 +64,7 @@
      std::vector<int> get_corr()
      {
          std::vector<int> bits;
@@ -1822,10 +1844,10 @@ diff -uNrp a/gr-fec/lib/conv_bit_corr_bb_impl.h b/gr-fec/lib/conv_bit_corr_bb_im
              return bits;
          }
          for (size_t i = 0; i < d_correlator[0].size(); i++) {
-diff -uNrp a/gr-fec/lib/generic_decoder.cc b/gr-fec/lib/generic_decoder.cc
+diff -uNr a/gr-fec/lib/generic_decoder.cc b/gr-fec/lib/generic_decoder.cc
 --- a/gr-fec/lib/generic_decoder.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-fec/lib/generic_decoder.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -45,7 +45,7 @@ generic_decoder::generic_decoder(std::st
++++ b/gr-fec/lib/generic_decoder.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -45,7 +45,7 @@
  
      GR_LOG_GETLOGGER(LOG, "gr_log." + alias());
      GR_LOG_SET_LEVEL(LOG, log_level);
@@ -1834,10 +1856,10 @@ diff -uNrp a/gr-fec/lib/generic_decoder.cc b/gr-fec/lib/generic_decoder.cc
          if (log_file == "stdout") {
              GR_LOG_SET_CONSOLE_APPENDER(LOG, "stdout", "gr::log :%p: %c{1} - %m%n");
          } else if (log_file == "stderr") {
-diff -uNrp a/gr-fec/lib/generic_encoder.cc b/gr-fec/lib/generic_encoder.cc
+diff -uNr a/gr-fec/lib/generic_encoder.cc b/gr-fec/lib/generic_encoder.cc
 --- a/gr-fec/lib/generic_encoder.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-fec/lib/generic_encoder.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -45,7 +45,7 @@ generic_encoder::generic_encoder(std::st
++++ b/gr-fec/lib/generic_encoder.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -45,7 +45,7 @@
  
      GR_LOG_GETLOGGER(LOG, "gr_log." + alias());
      GR_LOG_SET_LEVEL(LOG, log_level);
@@ -1846,10 +1868,10 @@ diff -uNrp a/gr-fec/lib/generic_encoder.cc b/gr-fec/lib/generic_encoder.cc
          if (log_file == "stdout") {
              GR_LOG_SET_CONSOLE_APPENDER(LOG, "stdout", "gr::log :%p: %c{1} - %m%n");
          } else if (log_file == "stderr") {
-diff -uNrp a/gr-fec/lib/tpc_decoder.cc b/gr-fec/lib/tpc_decoder.cc
+diff -uNr a/gr-fec/lib/tpc_decoder.cc b/gr-fec/lib/tpc_decoder.cc
 --- a/gr-fec/lib/tpc_decoder.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-fec/lib/tpc_decoder.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -703,7 +703,7 @@ float tpc_decoder::constant_log_map(cons
++++ b/gr-fec/lib/tpc_decoder.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -703,7 +703,7 @@
  {
      // Return maximum of delta1 and delta2
      // and in correction value if |delta1-delta2| < TVALUE
@@ -1858,10 +1880,10 @@ diff -uNrp a/gr-fec/lib/tpc_decoder.cc b/gr-fec/lib/tpc_decoder.cc
      diff = delta2 - delta1;
  
      if (diff > TVALUE)
-diff -uNrp a/gr-fft/include/gnuradio/fft/fft_vcc.h b/gr-fft/include/gnuradio/fft/fft_vcc.h
+diff -uNr a/gr-fft/include/gnuradio/fft/fft_vcc.h b/gr-fft/include/gnuradio/fft/fft_vcc.h
 --- a/gr-fft/include/gnuradio/fft/fft_vcc.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-fft/include/gnuradio/fft/fft_vcc.h	2019-10-20 04:31:39.000000000 +0700
-@@ -51,7 +51,7 @@ namespace fft {
++++ b/gr-fft/include/gnuradio/fft/fft_vcc.h	2019-11-06 03:55:06.000000000 +0700
+@@ -51,7 +51,7 @@
   * \f$N-1\f$.
   *
   * \b Note, that due to the underlying FFTW library, the output of a FFT
@@ -1870,10 +1892,10 @@ diff -uNrp a/gr-fft/include/gnuradio/fft/fft_vcc.h b/gr-fft/include/gnuradio/fft
   * \f$FFT\{ \, IFFT\{x\} \,\} =  N \cdot x \neq x\f$.
   *
   * \see http://www.fftw.org/faq/section3.html#whyscaled
-diff -uNrp a/gr-fft/include/gnuradio/fft/fft_vfc.h b/gr-fft/include/gnuradio/fft/fft_vfc.h
+diff -uNr a/gr-fft/include/gnuradio/fft/fft_vfc.h b/gr-fft/include/gnuradio/fft/fft_vfc.h
 --- a/gr-fft/include/gnuradio/fft/fft_vfc.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-fft/include/gnuradio/fft/fft_vfc.h	2019-10-20 04:31:39.000000000 +0700
-@@ -51,7 +51,7 @@ namespace fft {
++++ b/gr-fft/include/gnuradio/fft/fft_vfc.h	2019-11-06 03:55:06.000000000 +0700
+@@ -51,7 +51,7 @@
   * \f$N-1\f$.
   *
   * \b Note, that due to the underlying FFTW library, the output of a FFT
@@ -1882,10 +1904,10 @@ diff -uNrp a/gr-fft/include/gnuradio/fft/fft_vfc.h b/gr-fft/include/gnuradio/fft
   * \f$FFT\{ \, IFFT\{x\} \,\} =  N \cdot x \neq x\f$.
   *
   * \see http://www.fftw.org/faq/section3.html#whyscaled
-diff -uNrp a/gr-fft/include/gnuradio/fft/window.h b/gr-fft/include/gnuradio/fft/window.h
+diff -uNr a/gr-fft/include/gnuradio/fft/window.h b/gr-fft/include/gnuradio/fft/window.h
 --- a/gr-fft/include/gnuradio/fft/window.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-fft/include/gnuradio/fft/window.h	2019-10-20 04:31:39.000000000 +0700
-@@ -177,7 +177,7 @@ public:
++++ b/gr-fft/include/gnuradio/fft/window.h	2019-11-06 03:55:06.000000000 +0700
+@@ -177,7 +177,7 @@
      static std::vector<float> blackman_harris(int ntaps, int atten = 92);
  
      /*!
@@ -1894,10 +1916,10 @@ diff -uNrp a/gr-fft/include/gnuradio/fft/window.h b/gr-fft/include/gnuradio/fft/
       */
      static std::vector<float> blackmanharris(int ntaps, int atten = 92);
  
-diff -uNrp a/gr-fft/lib/ctrlport_probe_psd_impl.cc b/gr-fft/lib/ctrlport_probe_psd_impl.cc
+diff -uNr a/gr-fft/lib/ctrlport_probe_psd_impl.cc b/gr-fft/lib/ctrlport_probe_psd_impl.cc
 --- a/gr-fft/lib/ctrlport_probe_psd_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-fft/lib/ctrlport_probe_psd_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -137,7 +137,7 @@ void ctrlport_probe_psd_impl::setup_rpc(
++++ b/gr-fft/lib/ctrlport_probe_psd_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -137,7 +137,7 @@
  {
  #ifdef GR_CTRLPORT
      int len = static_cast<int>(d_len);
@@ -1906,7 +1928,7 @@ diff -uNrp a/gr-fft/lib/ctrlport_probe_psd_impl.cc b/gr-fft/lib/ctrlport_probe_p
          new rpcbasic_register_get<ctrlport_probe_psd, std::vector<std::complex<float>>>(
              alias(),
              d_id.c_str(),
-@@ -148,9 +148,9 @@ void ctrlport_probe_psd_impl::setup_rpc(
+@@ -148,9 +148,9 @@
              "dB",
              d_desc.c_str(),
              RPC_PRIVLVL_MIN,
@@ -1918,7 +1940,7 @@ diff -uNrp a/gr-fft/lib/ctrlport_probe_psd_impl.cc b/gr-fft/lib/ctrlport_probe_p
          new rpcbasic_register_get<ctrlport_probe_psd, int>(alias(),
                                                             "length",
                                                             &ctrlport_probe_psd::length,
-@@ -160,13 +160,13 @@ void ctrlport_probe_psd_impl::setup_rpc(
+@@ -160,13 +160,13 @@
                                                             "samples",
                                                             "get vector length",
                                                             RPC_PRIVLVL_MIN,
@@ -1936,10 +1958,10 @@ diff -uNrp a/gr-fft/lib/ctrlport_probe_psd_impl.cc b/gr-fft/lib/ctrlport_probe_p
  #endif /* GR_CTRLPORT */
  }
  
-diff -uNrp a/gr-fft/lib/fft_vcc_fftw.cc b/gr-fft/lib/fft_vcc_fftw.cc
+diff -uNr a/gr-fft/lib/fft_vcc_fftw.cc b/gr-fft/lib/fft_vcc_fftw.cc
 --- a/gr-fft/lib/fft_vcc_fftw.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-fft/lib/fft_vcc_fftw.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -67,7 +67,7 @@ int fft_vcc_fftw::nthreads() const { ret
++++ b/gr-fft/lib/fft_vcc_fftw.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -67,7 +67,7 @@
  
  bool fft_vcc_fftw::set_window(const std::vector<float>& window)
  {
@@ -1948,7 +1970,7 @@ diff -uNrp a/gr-fft/lib/fft_vcc_fftw.cc b/gr-fft/lib/fft_vcc_fftw.cc
          d_window = window;
          return true;
      } else
-@@ -89,7 +89,7 @@ int fft_vcc_fftw::work(int noutput_items
+@@ -89,7 +89,7 @@
      while (count++ < noutput_items) {
  
          // copy input into optimally aligned buffer
@@ -1957,10 +1979,10 @@ diff -uNrp a/gr-fft/lib/fft_vcc_fftw.cc b/gr-fft/lib/fft_vcc_fftw.cc
              gr_complex* dst = d_fft->get_inbuf();
              if (!d_forward && d_shift) {
                  unsigned int offset = (!d_forward && d_shift) ? (d_fft_size / 2) : 0;
-diff -uNrp a/gr-fft/lib/fft_vfc_fftw.cc b/gr-fft/lib/fft_vfc_fftw.cc
+diff -uNr a/gr-fft/lib/fft_vfc_fftw.cc b/gr-fft/lib/fft_vfc_fftw.cc
 --- a/gr-fft/lib/fft_vfc_fftw.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-fft/lib/fft_vfc_fftw.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -62,7 +62,7 @@ int fft_vfc_fftw::nthreads() const { ret
++++ b/gr-fft/lib/fft_vfc_fftw.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -62,7 +62,7 @@
  
  bool fft_vfc_fftw::set_window(const std::vector<float>& window)
  {
@@ -1969,7 +1991,7 @@ diff -uNrp a/gr-fft/lib/fft_vfc_fftw.cc b/gr-fft/lib/fft_vfc_fftw.cc
          d_window = window;
          return true;
      } else
-@@ -83,7 +83,7 @@ int fft_vfc_fftw::work(int noutput_items
+@@ -83,7 +83,7 @@
      while (count++ < noutput_items) {
  
          // copy input into optimally aligned buffer
@@ -1978,10 +2000,10 @@ diff -uNrp a/gr-fft/lib/fft_vfc_fftw.cc b/gr-fft/lib/fft_vfc_fftw.cc
              gr_complex* dst = d_fft->get_inbuf();
              for (unsigned int i = 0; i < d_fft_size; i++) // apply window
                  dst[i] = in[i] * d_window[i];
-diff -uNrp a/gr-filter/grc/filter_pfb_channelizer.block.yml b/gr-filter/grc/filter_pfb_channelizer.block.yml
+diff -uNr a/gr-filter/grc/filter_pfb_channelizer.block.yml b/gr-filter/grc/filter_pfb_channelizer.block.yml
 --- a/gr-filter/grc/filter_pfb_channelizer.block.yml	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-filter/grc/filter_pfb_channelizer.block.yml	2019-10-20 04:31:39.000000000 +0700
-@@ -53,7 +53,8 @@ templates:
++++ b/gr-filter/grc/filter_pfb_channelizer.block.yml	2019-11-06 03:55:06.000000000 +0700
+@@ -53,7 +53,8 @@
              ${taps},
              ${osr},
              ${atten})
@@ -1991,10 +2013,10 @@ diff -uNrp a/gr-filter/grc/filter_pfb_channelizer.block.yml b/gr-filter/grc/filt
      callbacks:
      - set_taps(${taps})
      - set_channel_map(${ch_map})
-diff -uNrp a/gr-filter/lib/fft_filter.cc b/gr-filter/lib/fft_filter.cc
+diff -uNr a/gr-filter/lib/fft_filter.cc b/gr-filter/lib/fft_filter.cc
 --- a/gr-filter/lib/fft_filter.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-filter/lib/fft_filter.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -168,7 +168,7 @@ int fft_filter_fff::filter(int nitems, c
++++ b/gr-filter/lib/fft_filter.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -168,7 +168,7 @@
          dec_ctr = (j - d_nsamples);
  
          // stash the tail
@@ -2003,7 +2025,7 @@ diff -uNrp a/gr-filter/lib/fft_filter.cc b/gr-filter/lib/fft_filter.cc
              memcpy(&d_tail[0],
                     d_invfft->get_outbuf() + d_nsamples,
                     tailsize() * sizeof(float));
-@@ -315,7 +315,7 @@ int fft_filter_ccc::filter(int nitems, c
+@@ -315,7 +315,7 @@
          dec_ctr = (j - d_nsamples);
  
          // stash the tail
@@ -2012,7 +2034,7 @@ diff -uNrp a/gr-filter/lib/fft_filter.cc b/gr-filter/lib/fft_filter.cc
              memcpy(&d_tail[0],
                     d_invfft->get_outbuf() + d_nsamples,
                     tailsize() * sizeof(gr_complex));
-@@ -464,7 +464,7 @@ int fft_filter_ccf::filter(int nitems, c
+@@ -464,7 +464,7 @@
          dec_ctr = (j - d_nsamples);
  
          // stash the tail
@@ -2021,9 +2043,9 @@ diff -uNrp a/gr-filter/lib/fft_filter.cc b/gr-filter/lib/fft_filter.cc
              memcpy(&d_tail[0],
                     d_invfft->get_outbuf() + d_nsamples,
                     tailsize() * sizeof(gr_complex));
-diff -uNrp a/gr-filter/lib/fir_filter.cc b/gr-filter/lib/fir_filter.cc
+diff -uNr a/gr-filter/lib/fir_filter.cc b/gr-filter/lib/fir_filter.cc
 --- a/gr-filter/lib/fir_filter.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-filter/lib/fir_filter.cc	2019-10-20 04:31:39.000000000 +0700
++++ b/gr-filter/lib/fir_filter.cc	2019-11-06 03:55:06.000000000 +0700
 @@ -1,6 +1,6 @@
  /* -*- c++ -*- */
  /*
@@ -2032,7 +2054,7 @@ diff -uNrp a/gr-filter/lib/fir_filter.cc b/gr-filter/lib/fir_filter.cc
   *
   * This file is part of GNU Radio
   *
-@@ -80,7 +80,7 @@ void fir_filter<IN_T, OUT_T, TAP_T>::set
+@@ -80,7 +80,7 @@
      for (int i = 0; i < d_naligned; i++) {
          d_aligned_taps[i] =
              (TAP_T*)volk_malloc((d_ntaps + d_naligned - 1) * sizeof(TAP_T), d_align);
@@ -2041,9 +2063,9 @@ diff -uNrp a/gr-filter/lib/fir_filter.cc b/gr-filter/lib/fir_filter.cc
          for (unsigned int j = 0; j < d_ntaps; j++)
              d_aligned_taps[i][i + j] = d_taps[j];
      }
-diff -uNrp a/gr-filter/lib/fir_filter_with_buffer.cc b/gr-filter/lib/fir_filter_with_buffer.cc
+diff -uNr a/gr-filter/lib/fir_filter_with_buffer.cc b/gr-filter/lib/fir_filter_with_buffer.cc
 --- a/gr-filter/lib/fir_filter_with_buffer.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-filter/lib/fir_filter_with_buffer.cc	2019-10-20 04:31:39.000000000 +0700
++++ b/gr-filter/lib/fir_filter_with_buffer.cc	2019-11-06 03:55:06.000000000 +0700
 @@ -1,6 +1,6 @@
  /* -*- c++ -*- */
  /*
@@ -2052,7 +2074,7 @@ diff -uNrp a/gr-filter/lib/fir_filter_with_buffer.cc b/gr-filter/lib/fir_filter_
   *
   * This file is part of GNU Radio
   *
-@@ -242,7 +242,7 @@ void fir_filter_with_buffer_ccc::set_tap
+@@ -242,7 +242,7 @@
      // allocated space.
      d_buffer_ptr = (gr_complex*)volk_malloc(
          (2 * (d_ntaps + d_naligned)) * sizeof(gr_complex), d_align);
@@ -2061,7 +2083,7 @@ diff -uNrp a/gr-filter/lib/fir_filter_with_buffer.cc b/gr-filter/lib/fir_filter_
      d_buffer = d_buffer_ptr + d_naligned;
  
      // Allocate aligned taps
-@@ -250,7 +250,7 @@ void fir_filter_with_buffer_ccc::set_tap
+@@ -250,7 +250,7 @@
      for (int i = 0; i < d_naligned; i++) {
          d_aligned_taps[i] = (gr_complex*)volk_malloc(
              (d_ntaps + d_naligned - 1) * sizeof(gr_complex), d_align);
@@ -2070,7 +2092,7 @@ diff -uNrp a/gr-filter/lib/fir_filter_with_buffer.cc b/gr-filter/lib/fir_filter_
          for (unsigned int j = 0; j < d_ntaps; j++)
              d_aligned_taps[i][i + j] = d_taps[j];
      }
-@@ -386,7 +386,7 @@ void fir_filter_with_buffer_ccf::set_tap
+@@ -386,7 +386,7 @@
      // allocated space.
      d_buffer_ptr = (gr_complex*)volk_malloc(
          (2 * (d_ntaps + d_naligned)) * sizeof(gr_complex), d_align);
@@ -2079,10 +2101,10 @@ diff -uNrp a/gr-filter/lib/fir_filter_with_buffer.cc b/gr-filter/lib/fir_filter_
      d_buffer = d_buffer_ptr + d_naligned;
  
      // Allocate aligned taps
-diff -uNrp a/gr-filter/lib/interp_fir_filter_impl.cc b/gr-filter/lib/interp_fir_filter_impl.cc
+diff -uNr a/gr-filter/lib/interp_fir_filter_impl.cc b/gr-filter/lib/interp_fir_filter_impl.cc
 --- a/gr-filter/lib/interp_fir_filter_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-filter/lib/interp_fir_filter_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -55,7 +55,7 @@ interp_fir_filter_impl<IN_T, OUT_T, TAP_
++++ b/gr-filter/lib/interp_fir_filter_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -55,7 +55,7 @@
          throw std::out_of_range("interp_fir_filter_impl: interpolation must be > 0\n");
      }
  
@@ -2091,10 +2113,10 @@ diff -uNrp a/gr-filter/lib/interp_fir_filter_impl.cc b/gr-filter/lib/interp_fir_
          throw std::runtime_error("interp_fir_filter_impl: no filter taps provided.\n");
      }
  
-diff -uNrp a/gr-filter/lib/pfb_channelizer_ccf_impl.cc b/gr-filter/lib/pfb_channelizer_ccf_impl.cc
+diff -uNr a/gr-filter/lib/pfb_channelizer_ccf_impl.cc b/gr-filter/lib/pfb_channelizer_ccf_impl.cc
 --- a/gr-filter/lib/pfb_channelizer_ccf_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-filter/lib/pfb_channelizer_ccf_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -125,7 +125,7 @@ void pfb_channelizer_ccf_impl::set_chann
++++ b/gr-filter/lib/pfb_channelizer_ccf_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -125,7 +125,7 @@
  {
      gr::thread::scoped_lock guard(d_mutex);
  
@@ -2103,9 +2125,9 @@ diff -uNrp a/gr-filter/lib/pfb_channelizer_ccf_impl.cc b/gr-filter/lib/pfb_chann
          unsigned int max = (unsigned int)*std::max_element(map.begin(), map.end());
          if (max >= d_nfilts) {
              throw std::invalid_argument(
-diff -uNrp a/gr-filter/lib/pfb_synthesizer_ccf_impl.cc b/gr-filter/lib/pfb_synthesizer_ccf_impl.cc
+diff -uNr a/gr-filter/lib/pfb_synthesizer_ccf_impl.cc b/gr-filter/lib/pfb_synthesizer_ccf_impl.cc
 --- a/gr-filter/lib/pfb_synthesizer_ccf_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-filter/lib/pfb_synthesizer_ccf_impl.cc	2019-10-20 04:31:39.000000000 +0700
++++ b/gr-filter/lib/pfb_synthesizer_ccf_impl.cc	2019-11-06 03:55:06.000000000 +0700
 @@ -1,6 +1,6 @@
  /* -*- c++ -*- */
  /*
@@ -2122,7 +2144,7 @@ diff -uNrp a/gr-filter/lib/pfb_synthesizer_ccf_impl.cc b/gr-filter/lib/pfb_synth
  
  namespace gr {
  namespace filter {
-@@ -72,7 +73,7 @@ pfb_synthesizer_ccf_impl::pfb_synthesize
+@@ -72,7 +73,7 @@
  
      // Create the IFFT to handle the input channel rotations
      d_fft = new fft::fft_complex(d_twox * d_numchans, false);
@@ -2131,7 +2153,7 @@ diff -uNrp a/gr-filter/lib/pfb_synthesizer_ccf_impl.cc b/gr-filter/lib/pfb_synth
  
      set_output_multiple(d_numchans);
  }
-@@ -213,7 +214,7 @@ void pfb_synthesizer_ccf_impl::set_chann
+@@ -213,7 +214,7 @@
  {
      gr::thread::scoped_lock guard(d_mutex);
  
@@ -2140,7 +2162,7 @@ diff -uNrp a/gr-filter/lib/pfb_synthesizer_ccf_impl.cc b/gr-filter/lib/pfb_synth
          int max = *std::max_element(map.begin(), map.end());
          int min = *std::min_element(map.begin(), map.end());
          if ((max >= static_cast<int>(d_twox * d_numchans)) || (min < 0)) {
-@@ -223,7 +224,7 @@ void pfb_synthesizer_ccf_impl::set_chann
+@@ -223,7 +224,7 @@
          d_channel_map = map;
  
          // Zero out fft buffer so that unused channels are always 0
@@ -2149,10 +2171,10 @@ diff -uNrp a/gr-filter/lib/pfb_synthesizer_ccf_impl.cc b/gr-filter/lib/pfb_synth
      }
  }
  
-diff -uNrp a/gr-filter/lib/pm_remez.cc b/gr-filter/lib/pm_remez.cc
+diff -uNr a/gr-filter/lib/pm_remez.cc b/gr-filter/lib/pm_remez.cc
 --- a/gr-filter/lib/pm_remez.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-filter/lib/pm_remez.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -821,7 +821,7 @@ std::vector<double> pm_remez(int order,
++++ b/gr-filter/lib/pm_remez.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -821,7 +821,7 @@
      for (int i = 0; i < numbands; i++)
          weight[i] = 1.0;
  
@@ -2161,9 +2183,9 @@ diff -uNrp a/gr-filter/lib/pm_remez.cc b/gr-filter/lib/pm_remez.cc
          if ((int)arg_weight.size() != numbands)
              punt("gr_remez: need one weight for each band [=length(band)/2]");
          for (int i = 0; i < numbands; i++)
-diff -uNrp a/gr-filter/lib/qa_fir_filter_with_buffer.cc b/gr-filter/lib/qa_fir_filter_with_buffer.cc
+diff -uNr a/gr-filter/lib/qa_fir_filter_with_buffer.cc b/gr-filter/lib/qa_fir_filter_with_buffer.cc
 --- a/gr-filter/lib/qa_fir_filter_with_buffer.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-filter/lib/qa_fir_filter_with_buffer.cc	2019-10-20 04:31:39.000000000 +0700
++++ b/gr-filter/lib/qa_fir_filter_with_buffer.cc	2019-11-06 03:55:06.000000000 +0700
 @@ -1,6 +1,6 @@
  /* -*- c++ -*- */
  /*
@@ -2180,7 +2202,7 @@ diff -uNrp a/gr-filter/lib/qa_fir_filter_with_buffer.cc b/gr-filter/lib/qa_fir_f
  
  using std::vector;
  
-@@ -201,7 +202,7 @@ void test_decimate(unsigned int decimate
+@@ -201,7 +202,7 @@
          (gr_complex*)volk_malloc(OUTPUT_LEN * sizeof(gr_complex), align);
      tap_type* taps = (gr_complex*)volk_malloc(MAX_TAPS * sizeof(gr_complex), align);
  
@@ -2189,7 +2211,7 @@ diff -uNrp a/gr-filter/lib/qa_fir_filter_with_buffer.cc b/gr-filter/lib/qa_fir_f
  
      for (int n = 0; n <= MAX_TAPS; n++) {
          for (int ol = 0; ol <= OUTPUT_LEN; ol++) {
-@@ -211,7 +212,7 @@ void test_decimate(unsigned int decimate
+@@ -211,7 +212,7 @@
              random_complex(taps, MAX_TAPS);
  
              // compute expected output values
@@ -2198,7 +2220,7 @@ diff -uNrp a/gr-filter/lib/qa_fir_filter_with_buffer.cc b/gr-filter/lib/qa_fir_f
              for (int o = 0; o < (int)(ol / decimate); o++) {
                  // use an actual delay line for this test
                  for (int dd = 0; dd < (int)decimate; dd++) {
-@@ -228,7 +229,7 @@ void test_decimate(unsigned int decimate
+@@ -228,7 +229,7 @@
                  new kernel::fir_filter_with_buffer_ccc(f1_taps);
  
              // zero the output, then do the filtering
@@ -2207,7 +2229,7 @@ diff -uNrp a/gr-filter/lib/qa_fir_filter_with_buffer.cc b/gr-filter/lib/qa_fir_f
              f1->filterNdec(actual_output, input, ol / decimate, decimate);
  
              // check results
-@@ -302,7 +303,7 @@ void test_decimate(unsigned int decimate
+@@ -302,7 +303,7 @@
          (gr_complex*)volk_malloc(OUTPUT_LEN * sizeof(gr_complex), align);
      tap_type* taps = (float*)volk_malloc(MAX_TAPS * sizeof(float), align);
  
@@ -2216,7 +2238,7 @@ diff -uNrp a/gr-filter/lib/qa_fir_filter_with_buffer.cc b/gr-filter/lib/qa_fir_f
  
      for (int n = 0; n <= MAX_TAPS; n++) {
          for (int ol = 0; ol <= OUTPUT_LEN; ol++) {
-@@ -312,7 +313,7 @@ void test_decimate(unsigned int decimate
+@@ -312,7 +313,7 @@
              random_floats(taps, MAX_TAPS);
  
              // compute expected output values
@@ -2225,7 +2247,7 @@ diff -uNrp a/gr-filter/lib/qa_fir_filter_with_buffer.cc b/gr-filter/lib/qa_fir_f
              for (int o = 0; o < (int)(ol / decimate); o++) {
                  // use an actual delay line for this test
                  for (int dd = 0; dd < (int)decimate; dd++) {
-@@ -329,7 +330,7 @@ void test_decimate(unsigned int decimate
+@@ -329,7 +330,7 @@
                  new kernel::fir_filter_with_buffer_ccf(f1_taps);
  
              // zero the output, then do the filtering
@@ -2234,10 +2256,10 @@ diff -uNrp a/gr-filter/lib/qa_fir_filter_with_buffer.cc b/gr-filter/lib/qa_fir_f
              f1->filterNdec(actual_output, input, ol / decimate, decimate);
  
              // check results
-diff -uNrp a/gr-filter/python/filter/design/filter_design.py b/gr-filter/python/filter/design/filter_design.py
+diff -uNr a/gr-filter/python/filter/design/filter_design.py b/gr-filter/python/filter/design/filter_design.py
 --- a/gr-filter/python/filter/design/filter_design.py	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-filter/python/filter/design/filter_design.py	2019-10-20 04:31:39.000000000 +0700
-@@ -33,16 +33,26 @@ from optparse import OptionParser
++++ b/gr-filter/python/filter/design/filter_design.py	2019-11-06 03:55:06.000000000 +0700
+@@ -33,16 +33,26 @@
  from gnuradio import filter
  
  try:
@@ -2270,7 +2292,7 @@ diff -uNrp a/gr-filter/python/filter/design/filter_design.py b/gr-filter/python/
  
  try:
      from PyQt5 import Qt, QtCore, QtWidgets
-@@ -950,10 +960,10 @@ class gr_plot_filter(QtGui.QMainWindow):
+@@ -950,10 +960,10 @@
      def iir_plot_all(self,z,p,k):
          self.b,self.a = signal.zpk2tf(z,p,k)
          w,h = signal.freqz(self.b,self.a)
@@ -2284,7 +2306,7 @@ diff -uNrp a/gr-filter/python/filter/design/filter_design.py b/gr-filter/python/
          self.phaseDelay = -self.fftDeg[1:] / self.freq[1:]
          if self.gridview:
              self.set_mfmagresponse()
-@@ -985,17 +995,17 @@ class gr_plot_filter(QtGui.QMainWindow):
+@@ -985,17 +995,17 @@
  
      def get_fft(self, fs, taps, Npts):
          Ts = 1.0 / fs
@@ -2308,7 +2330,7 @@ diff -uNrp a/gr-filter/python/filter/design/filter_design.py b/gr-filter/python/
          self.phaseDelay = -self.fftDeg[1:] / self.freq[1:]
  
      def update_time_curves(self):
-@@ -1014,14 +1024,14 @@ class gr_plot_filter(QtGui.QMainWindow):
+@@ -1014,14 +1024,14 @@
  
          if self.mttaps:
              if(type(self.taps[0]) == scipy.complex128):
@@ -2326,7 +2348,7 @@ diff -uNrp a/gr-filter/python/filter/design/filter_design.py b/gr-filter/python/
                                                  np.dstack((np.zeros(self.taps.imag.shape[0], dtype=int),
                                                              self.taps.imag)).flatten())
  
-@@ -1062,15 +1072,15 @@ class gr_plot_filter(QtGui.QMainWindow):
+@@ -1062,15 +1072,15 @@
          else:
              stepres = self.step_response(self.taps)
  
@@ -2346,7 +2368,7 @@ diff -uNrp a/gr-filter/python/filter/design/filter_design.py b/gr-filter/python/
                                                np.dstack((np.zeros(stepres.imag.shape[0], dtype=int),
                                                           stepres.imag)).flatten())
  
-@@ -1085,15 +1095,15 @@ class gr_plot_filter(QtGui.QMainWindow):
+@@ -1085,15 +1095,15 @@
              self.steprescurve_i.setData([],[])
  
          if self.mtstep:
@@ -2366,7 +2388,7 @@ diff -uNrp a/gr-filter/python/filter/design/filter_design.py b/gr-filter/python/
                                                  np.dstack((np.zeros(stepres.imag.shape[0], dtype=int),
                                                              stepres.imag)).flatten())
  
-@@ -1131,15 +1141,15 @@ class gr_plot_filter(QtGui.QMainWindow):
+@@ -1131,15 +1141,15 @@
          else:
              impres = self.impulse_response(self.taps)
  
@@ -2386,7 +2408,7 @@ diff -uNrp a/gr-filter/python/filter/design/filter_design.py b/gr-filter/python/
                                               np.dstack((np.zeros(impres.imag.shape[0], dtype=int),
                                                          impres.imag)).flatten())
  
-@@ -1150,15 +1160,15 @@ class gr_plot_filter(QtGui.QMainWindow):
+@@ -1150,15 +1160,15 @@
                                                        impres)).flatten())
  
          if self.mtimpulse:
@@ -2406,7 +2428,7 @@ diff -uNrp a/gr-filter/python/filter/design/filter_design.py b/gr-filter/python/
                                                  np.dstack((np.zeros(impres.imag.shape[0], dtype=int),
                                                              impres.imag)).flatten())
  
-@@ -1639,7 +1649,7 @@ class gr_plot_filter(QtGui.QMainWindow):
+@@ -1639,7 +1649,7 @@
  
      def update_fft(self, taps, params):
          self.params = params
@@ -2415,7 +2437,7 @@ diff -uNrp a/gr-filter/python/filter/design/filter_design.py b/gr-filter/python/
          self.get_fft(self.params["fs"], self.taps, self.nfftpts)
  
      def set_mfoverlay(self):
-@@ -1942,9 +1952,9 @@ class gr_plot_filter(QtGui.QMainWindow):
+@@ -1942,9 +1952,9 @@
          length = len(b)
          if self.iir:
              length = 50
@@ -2427,7 +2449,7 @@ diff -uNrp a/gr-filter/python/filter/design/filter_design.py b/gr-filter/python/
          response = signal.lfilter(b, a, impulse)
          return response
  
-@@ -1952,11 +1962,11 @@ class gr_plot_filter(QtGui.QMainWindow):
+@@ -1952,11 +1962,11 @@
          length = len(b)
          if self.iir:
              length = 50
@@ -2442,7 +2464,7 @@ diff -uNrp a/gr-filter/python/filter/design/filter_design.py b/gr-filter/python/
          return step
  
      def update_fcoeff(self):
-@@ -2192,7 +2202,7 @@ class gr_plot_filter(QtGui.QMainWindow):
+@@ -2192,7 +2202,7 @@
  
      def draw_plots(self, taps, params):
          self.params = params
@@ -2451,10 +2473,10 @@ diff -uNrp a/gr-filter/python/filter/design/filter_design.py b/gr-filter/python/
          if self.params:
              self.get_fft(self.params["fs"], self.taps, self.nfftpts)
              self.update_time_curves()
-diff -uNrp a/gr-qtgui/grc/qtgui_edit_box_msg.block.yml b/gr-qtgui/grc/qtgui_edit_box_msg.block.yml
+diff -uNr a/gr-qtgui/grc/qtgui_edit_box_msg.block.yml b/gr-qtgui/grc/qtgui_edit_box_msg.block.yml
 --- a/gr-qtgui/grc/qtgui_edit_box_msg.block.yml	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/grc/qtgui_edit_box_msg.block.yml	2019-10-20 04:31:39.000000000 +0700
-@@ -39,7 +39,7 @@ parameters:
++++ b/gr-qtgui/grc/qtgui_edit_box_msg.block.yml	2019-11-06 03:55:06.000000000 +0700
+@@ -39,7 +39,7 @@
      hide: part
  
  asserts:
@@ -2463,9 +2485,9 @@ diff -uNrp a/gr-qtgui/grc/qtgui_edit_box_msg.block.yml b/gr-qtgui/grc/qtgui_edit
  
  inputs:
  -   domain: message
-diff -uNrp a/gr-qtgui/grc/qtgui_tab_widget.block.yml b/gr-qtgui/grc/qtgui_tab_widget.block.yml
+diff -uNr a/gr-qtgui/grc/qtgui_tab_widget.block.yml b/gr-qtgui/grc/qtgui_tab_widget.block.yml
 --- a/gr-qtgui/grc/qtgui_tab_widget.block.yml	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/grc/qtgui_tab_widget.block.yml	2019-10-20 04:31:39.000000000 +0700
++++ b/gr-qtgui/grc/qtgui_tab_widget.block.yml	2019-11-06 03:55:06.000000000 +0700
 @@ -1,6 +1,6 @@
  id: qtgui_tab_widget
  label: QT GUI Tab Widget
@@ -2474,10 +2496,10 @@ diff -uNrp a/gr-qtgui/grc/qtgui_tab_widget.block.yml b/gr-qtgui/grc/qtgui_tab_wi
  
  parameters:
  -   id: num_tabs
-diff -uNrp a/gr-qtgui/include/gnuradio/qtgui/form_menus.h b/gr-qtgui/include/gnuradio/qtgui/form_menus.h
+diff -uNr a/gr-qtgui/include/gnuradio/qtgui/form_menus.h b/gr-qtgui/include/gnuradio/qtgui/form_menus.h
 --- a/gr-qtgui/include/gnuradio/qtgui/form_menus.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/include/gnuradio/qtgui/form_menus.h	2019-10-20 04:31:39.000000000 +0700
-@@ -700,7 +700,6 @@ public slots:
++++ b/gr-qtgui/include/gnuradio/qtgui/form_menus.h	2019-11-06 03:55:06.000000000 +0700
+@@ -700,7 +700,6 @@
  
  private:
      QList<QAction*> d_act;
@@ -2485,7 +2507,7 @@ diff -uNrp a/gr-qtgui/include/gnuradio/qtgui/form_menus.h b/gr-qtgui/include/gnu
      QActionGroup* d_grp;
  };
  
-@@ -807,7 +806,6 @@ public slots:
+@@ -807,7 +806,6 @@
  
  private:
      QList<QAction*> d_act;
@@ -2493,7 +2515,7 @@ diff -uNrp a/gr-qtgui/include/gnuradio/qtgui/form_menus.h b/gr-qtgui/include/gnu
      QActionGroup* d_grp;
      float d_off, d_high, d_medium, d_low;
  };
-@@ -929,7 +927,6 @@ public slots:
+@@ -929,7 +927,6 @@
  private:
      QList<QAction*> d_act;
      QActionGroup* d_grp;
@@ -2501,7 +2523,7 @@ diff -uNrp a/gr-qtgui/include/gnuradio/qtgui/form_menus.h b/gr-qtgui/include/gnu
  };
  
  
-@@ -1078,7 +1075,6 @@ public slots:
+@@ -1078,7 +1075,6 @@
  private:
      QActionGroup* d_grp;
      QList<QAction*> d_act;
@@ -2509,10 +2531,10 @@ diff -uNrp a/gr-qtgui/include/gnuradio/qtgui/form_menus.h b/gr-qtgui/include/gnu
      QColor d_max_value, d_min_value;
      int d_which;
  };
-diff -uNrp a/gr-qtgui/include/gnuradio/qtgui/freq_sink_c.h b/gr-qtgui/include/gnuradio/qtgui/freq_sink_c.h
+diff -uNr a/gr-qtgui/include/gnuradio/qtgui/freq_sink_c.h b/gr-qtgui/include/gnuradio/qtgui/freq_sink_c.h
 --- a/gr-qtgui/include/gnuradio/qtgui/freq_sink_c.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/include/gnuradio/qtgui/freq_sink_c.h	2019-10-20 04:31:39.000000000 +0700
-@@ -45,7 +45,7 @@ namespace qtgui {
++++ b/gr-qtgui/include/gnuradio/qtgui/freq_sink_c.h	2019-11-06 03:55:06.000000000 +0700
+@@ -45,7 +45,7 @@
   * This is a QT-based graphical sink the takes set of a complex
   * streams and plots the PSD. Each signal is plotted with a
   * different color, and the \a set_title and \a set_color
@@ -2521,10 +2543,10 @@ diff -uNrp a/gr-qtgui/include/gnuradio/qtgui/freq_sink_c.h b/gr-qtgui/include/gn
   * input number.
   *
   * The sink supports plotting streaming complex data or
-diff -uNrp a/gr-qtgui/include/gnuradio/qtgui/freq_sink_f.h b/gr-qtgui/include/gnuradio/qtgui/freq_sink_f.h
+diff -uNr a/gr-qtgui/include/gnuradio/qtgui/freq_sink_f.h b/gr-qtgui/include/gnuradio/qtgui/freq_sink_f.h
 --- a/gr-qtgui/include/gnuradio/qtgui/freq_sink_f.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/include/gnuradio/qtgui/freq_sink_f.h	2019-10-20 04:31:39.000000000 +0700
-@@ -45,7 +45,7 @@ namespace qtgui {
++++ b/gr-qtgui/include/gnuradio/qtgui/freq_sink_f.h	2019-11-06 03:55:06.000000000 +0700
+@@ -45,7 +45,7 @@
   * This is a QT-based graphical sink the takes set of a floating
   * point streams and plots the PSD. Each signal is plotted with a
   * different color, and the \a set_title and \a set_color
@@ -2533,10 +2555,10 @@ diff -uNrp a/gr-qtgui/include/gnuradio/qtgui/freq_sink_f.h b/gr-qtgui/include/gn
   * input number.
   *
   * The sink supports plotting streaming float data or
-diff -uNrp a/gr-qtgui/include/gnuradio/qtgui/plot_raster.h b/gr-qtgui/include/gnuradio/qtgui/plot_raster.h
+diff -uNr a/gr-qtgui/include/gnuradio/qtgui/plot_raster.h b/gr-qtgui/include/gnuradio/qtgui/plot_raster.h
 --- a/gr-qtgui/include/gnuradio/qtgui/plot_raster.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/include/gnuradio/qtgui/plot_raster.h	2019-10-20 04:31:39.000000000 +0700
-@@ -69,11 +69,6 @@ public:
++++ b/gr-qtgui/include/gnuradio/qtgui/plot_raster.h	2019-11-06 03:55:06.000000000 +0700
+@@ -69,11 +69,6 @@
  
      virtual int rtti() const;
  
@@ -2548,10 +2570,10 @@ diff -uNrp a/gr-qtgui/include/gnuradio/qtgui/plot_raster.h b/gr-qtgui/include/gn
  protected:
  #if QWT_VERSION < 0x060000
      QImage renderImage(const QwtScaleMap& xMap,
-diff -uNrp a/gr-qtgui/include/gnuradio/qtgui/plot_waterfall.h b/gr-qtgui/include/gnuradio/qtgui/plot_waterfall.h
+diff -uNr a/gr-qtgui/include/gnuradio/qtgui/plot_waterfall.h b/gr-qtgui/include/gnuradio/qtgui/plot_waterfall.h
 --- a/gr-qtgui/include/gnuradio/qtgui/plot_waterfall.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/include/gnuradio/qtgui/plot_waterfall.h	2019-10-20 04:31:39.000000000 +0700
-@@ -64,11 +64,6 @@ public:
++++ b/gr-qtgui/include/gnuradio/qtgui/plot_waterfall.h	2019-11-06 03:55:06.000000000 +0700
+@@ -64,11 +64,6 @@
  
      virtual int rtti() const;
  
@@ -2563,10 +2585,10 @@ diff -uNrp a/gr-qtgui/include/gnuradio/qtgui/plot_waterfall.h b/gr-qtgui/include
  protected:
  #if QWT_VERSION < 0x060000
      QImage renderImage(const QwtScaleMap& xMap,
-diff -uNrp a/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_b.h b/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_b.h
+diff -uNr a/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_b.h b/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_b.h
 --- a/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_b.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_b.h	2019-10-20 04:31:39.000000000 +0700
-@@ -98,7 +98,7 @@ public:
++++ b/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_b.h	2019-11-06 03:55:06.000000000 +0700
+@@ -98,7 +98,7 @@
  
      virtual void set_update_time(double t) = 0;
      virtual void set_title(const std::string& title) = 0;
@@ -2575,10 +2597,10 @@ diff -uNrp a/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_b.h b/gr-qtgui/inc
      virtual void set_line_color(unsigned int which, const std::string& color) = 0;
      virtual void set_line_width(unsigned int which, int width) = 0;
      virtual void set_line_style(unsigned int which, Qt::PenStyle style) = 0;
-diff -uNrp a/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_f.h b/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_f.h
+diff -uNr a/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_f.h b/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_f.h
 --- a/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_f.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_f.h	2019-10-20 04:31:39.000000000 +0700
-@@ -94,7 +94,7 @@ public:
++++ b/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_f.h	2019-11-06 03:55:06.000000000 +0700
+@@ -94,7 +94,7 @@
  
      virtual void set_update_time(double t) = 0;
      virtual void set_title(const std::string& title) = 0;
@@ -2587,10 +2609,10 @@ diff -uNrp a/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_f.h b/gr-qtgui/inc
      virtual void set_line_color(unsigned int which, const std::string& color) = 0;
      virtual void set_line_width(unsigned int which, int width) = 0;
      virtual void set_line_style(unsigned int which, Qt::PenStyle style) = 0;
-diff -uNrp a/gr-qtgui/include/gnuradio/qtgui/time_sink_c.h b/gr-qtgui/include/gnuradio/qtgui/time_sink_c.h
+diff -uNr a/gr-qtgui/include/gnuradio/qtgui/time_sink_c.h b/gr-qtgui/include/gnuradio/qtgui/time_sink_c.h
 --- a/gr-qtgui/include/gnuradio/qtgui/time_sink_c.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/include/gnuradio/qtgui/time_sink_c.h	2019-10-20 04:31:39.000000000 +0700
-@@ -45,7 +45,7 @@ namespace qtgui {
++++ b/gr-qtgui/include/gnuradio/qtgui/time_sink_c.h	2019-11-06 03:55:06.000000000 +0700
+@@ -45,7 +45,7 @@
   * streams and plots them in the time domain. For each signal, both
   * the signal's I and Q parts are plotted, and they are all plotted
   * with a different color, and the \a set_title and \a set_color
@@ -2599,10 +2621,10 @@ diff -uNrp a/gr-qtgui/include/gnuradio/qtgui/time_sink_c.h b/gr-qtgui/include/gn
   * input number.
   *
   * The sink supports plotting streaming complex data or
-diff -uNrp a/gr-qtgui/include/gnuradio/qtgui/time_sink_f.h b/gr-qtgui/include/gnuradio/qtgui/time_sink_f.h
+diff -uNr a/gr-qtgui/include/gnuradio/qtgui/time_sink_f.h b/gr-qtgui/include/gnuradio/qtgui/time_sink_f.h
 --- a/gr-qtgui/include/gnuradio/qtgui/time_sink_f.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/include/gnuradio/qtgui/time_sink_f.h	2019-10-20 04:31:39.000000000 +0700
-@@ -44,7 +44,7 @@ namespace qtgui {
++++ b/gr-qtgui/include/gnuradio/qtgui/time_sink_f.h	2019-11-06 03:55:06.000000000 +0700
+@@ -44,7 +44,7 @@
   * This is a QT-based graphical sink the takes set of a float streams
   * and plots them in the time domain. Each signal is plotted with a
   * different color, and the \a set_title and \a set_color functions
@@ -2611,10 +2633,10 @@ diff -uNrp a/gr-qtgui/include/gnuradio/qtgui/time_sink_f.h b/gr-qtgui/include/gn
   *
   * The sink supports plotting streaming float data or
   * messages. The message port is named "in". The two modes cannot
-diff -uNrp a/gr-qtgui/lib/TimeDomainDisplayPlot.cc b/gr-qtgui/lib/TimeDomainDisplayPlot.cc
+diff -uNr a/gr-qtgui/lib/TimeDomainDisplayPlot.cc b/gr-qtgui/lib/TimeDomainDisplayPlot.cc
 --- a/gr-qtgui/lib/TimeDomainDisplayPlot.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/TimeDomainDisplayPlot.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -260,7 +260,7 @@ void TimeDomainDisplayPlot::plotNewData(
++++ b/gr-qtgui/lib/TimeDomainDisplayPlot.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -260,7 +260,7 @@
              // Plot and attach any new tags found.
              // First test if this was a complex input where real/imag get
              // split here into two stream.
@@ -2623,10 +2645,10 @@ diff -uNrp a/gr-qtgui/lib/TimeDomainDisplayPlot.cc b/gr-qtgui/lib/TimeDomainDisp
                  bool cmplx = false;
                  unsigned int mult = d_nplots / tags.size();
                  if (mult == 2)
-diff -uNrp a/gr-qtgui/lib/ber_sink_b_impl.cc b/gr-qtgui/lib/ber_sink_b_impl.cc
+diff -uNr a/gr-qtgui/lib/ber_sink_b_impl.cc b/gr-qtgui/lib/ber_sink_b_impl.cc
 --- a/gr-qtgui/lib/ber_sink_b_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/ber_sink_b_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -109,7 +109,7 @@ ber_sink_b_impl::ber_sink_b_impl(std::ve
++++ b/gr-qtgui/lib/ber_sink_b_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -109,7 +109,7 @@
  
      if (curvenames.size() == (unsigned int)curves) {
          for (int j = 0; j < curves; j++) {
@@ -2635,10 +2657,10 @@ diff -uNrp a/gr-qtgui/lib/ber_sink_b_impl.cc b/gr-qtgui/lib/ber_sink_b_impl.cc
                  set_line_label(j, curvenames[j]);
              }
          }
-diff -uNrp a/gr-qtgui/lib/const_sink_c_impl.cc b/gr-qtgui/lib/const_sink_c_impl.cc
+diff -uNr a/gr-qtgui/lib/const_sink_c_impl.cc b/gr-qtgui/lib/const_sink_c_impl.cc
 --- a/gr-qtgui/lib/const_sink_c_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/const_sink_c_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -138,7 +138,7 @@ void const_sink_c_impl::initialize()
++++ b/gr-qtgui/lib/const_sink_c_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -138,7 +138,7 @@
      d_main_gui = new ConstellationDisplayForm(numplots, d_parent);
      d_main_gui->setNPoints(d_size);
  
@@ -2647,7 +2669,7 @@ diff -uNrp a/gr-qtgui/lib/const_sink_c_impl.cc b/gr-qtgui/lib/const_sink_c_impl.
          set_title(d_name);
  
      // initialize update time to 10 times a second
-@@ -364,7 +364,7 @@ void const_sink_c_impl::_test_trigger_ta
+@@ -364,7 +364,7 @@
      uint64_t nr = nitems_read(d_trigger_channel);
      std::vector<gr::tag_t> tags;
      get_tags_in_range(tags, d_trigger_channel, nr, nr + nitems, d_trigger_tag_key);
@@ -2656,10 +2678,10 @@ diff -uNrp a/gr-qtgui/lib/const_sink_c_impl.cc b/gr-qtgui/lib/const_sink_c_impl.
          d_triggered = true;
          trigger_index = tags[0].offset - nr;
          d_start = d_index + trigger_index;
-diff -uNrp a/gr-qtgui/lib/edit_box_msg_impl.cc b/gr-qtgui/lib/edit_box_msg_impl.cc
+diff -uNr a/gr-qtgui/lib/edit_box_msg_impl.cc b/gr-qtgui/lib/edit_box_msg_impl.cc
 --- a/gr-qtgui/lib/edit_box_msg_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/edit_box_msg_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -106,7 +106,7 @@ edit_box_msg_impl::edit_box_msg_impl(dat
++++ b/gr-qtgui/lib/edit_box_msg_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -106,7 +106,7 @@
              d_key->setFixedWidth(width);
  
              // Verify that a default key has been set or emit an error
@@ -2668,7 +2690,7 @@ diff -uNrp a/gr-qtgui/lib/edit_box_msg_impl.cc b/gr-qtgui/lib/edit_box_msg_impl.
                  throw std::runtime_error(
                      "When using static + pair mode, please set a default key.");
              }
-@@ -118,7 +118,7 @@ edit_box_msg_impl::edit_box_msg_impl(dat
+@@ -118,7 +118,7 @@
      }
  
      d_label = NULL;
@@ -2677,7 +2699,7 @@ diff -uNrp a/gr-qtgui/lib/edit_box_msg_impl.cc b/gr-qtgui/lib/edit_box_msg_impl.
          d_label = new QLabel(QString(label.c_str()));
          d_vlayout->addWidget(d_label);
      }
-@@ -481,7 +481,6 @@ void edit_box_msg_impl::edit_finished()
+@@ -481,7 +481,6 @@
          std::vector<gr_complex> xv;
          QStringList text_list = text.split(",");
          bool even = false;
@@ -2685,7 +2707,7 @@ diff -uNrp a/gr-qtgui/lib/edit_box_msg_impl.cc b/gr-qtgui/lib/edit_box_msg_impl.
          float re, im;
          for (int i = 0; i < text_list.size(); ++i) {
              QString s = text_list.at(i);
-@@ -492,7 +491,7 @@ void edit_box_msg_impl::edit_finished()
+@@ -492,7 +491,7 @@
              if (conv_ok) {
                  if (even) {
                      im = t;
@@ -2694,9 +2716,9 @@ diff -uNrp a/gr-qtgui/lib/edit_box_msg_impl.cc b/gr-qtgui/lib/edit_box_msg_impl.
                      even = false;
                  } else {
                      re = t;
-diff -uNrp a/gr-qtgui/lib/freq_sink_c_impl.cc b/gr-qtgui/lib/freq_sink_c_impl.cc
+diff -uNr a/gr-qtgui/lib/freq_sink_c_impl.cc b/gr-qtgui/lib/freq_sink_c_impl.cc
 --- a/gr-qtgui/lib/freq_sink_c_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/freq_sink_c_impl.cc	2019-10-20 04:31:39.000000000 +0700
++++ b/gr-qtgui/lib/freq_sink_c_impl.cc	2019-11-06 03:55:06.000000000 +0700
 @@ -1,6 +1,6 @@
  /* -*- c++ -*- */
  /*
@@ -2713,7 +2735,7 @@ diff -uNrp a/gr-qtgui/lib/freq_sink_c_impl.cc b/gr-qtgui/lib/freq_sink_c_impl.cc
  
  namespace gr {
  namespace qtgui {
-@@ -111,7 +112,7 @@ freq_sink_c_impl::freq_sink_c_impl(int f
+@@ -111,7 +112,7 @@
          d_magbufs.push_back(
              (double*)volk_malloc(d_fftsize * sizeof(double), volk_get_alignment()));
  
@@ -2722,7 +2744,7 @@ diff -uNrp a/gr-qtgui/lib/freq_sink_c_impl.cc b/gr-qtgui/lib/freq_sink_c_impl.cc
          memset(d_magbufs[i], 0, d_fftsize * sizeof(double));
      }
  
-@@ -119,7 +120,7 @@ freq_sink_c_impl::freq_sink_c_impl(int f
+@@ -119,7 +120,7 @@
          (gr_complex*)volk_malloc(d_fftsize * sizeof(gr_complex), volk_get_alignment()));
      d_pdu_magbuf = (double*)volk_malloc(d_fftsize * sizeof(double), volk_get_alignment());
      d_magbufs.push_back(d_pdu_magbuf);
@@ -2731,7 +2753,7 @@ diff -uNrp a/gr-qtgui/lib/freq_sink_c_impl.cc b/gr-qtgui/lib/freq_sink_c_impl.cc
      memset(d_pdu_magbuf, 0, d_fftsize * sizeof(double));
  
      buildwindow();
-@@ -171,7 +172,7 @@ void freq_sink_c_impl::initialize()
+@@ -171,7 +172,7 @@
      set_fft_size(d_fftsize);
      set_frequency_range(d_center_freq, d_bandwidth);
  
@@ -2740,7 +2762,7 @@ diff -uNrp a/gr-qtgui/lib/freq_sink_c_impl.cc b/gr-qtgui/lib/freq_sink_c_impl.cc
          set_title(d_name);
  
      set_output_multiple(d_fftsize);
-@@ -387,7 +388,7 @@ void freq_sink_c_impl::_reset()
+@@ -387,7 +388,7 @@
  
  void freq_sink_c_impl::fft(float* data_out, const gr_complex* data_in, int size)
  {
@@ -2749,7 +2771,7 @@ diff -uNrp a/gr-qtgui/lib/freq_sink_c_impl.cc b/gr-qtgui/lib/freq_sink_c_impl.cc
          volk_32fc_32f_multiply_32fc(d_fft->get_inbuf(), data_in, &d_window.front(), size);
      } else {
          memcpy(d_fft->get_inbuf(), data_in, sizeof(gr_complex) * size);
-@@ -442,7 +443,7 @@ bool freq_sink_c_impl::fftresize()
+@@ -442,7 +443,7 @@
              d_magbufs[i] =
                  (double*)volk_malloc(newfftsize * sizeof(double), volk_get_alignment());
  
@@ -2758,7 +2780,7 @@ diff -uNrp a/gr-qtgui/lib/freq_sink_c_impl.cc b/gr-qtgui/lib/freq_sink_c_impl.cc
              memset(d_magbufs[i], 0, newfftsize * sizeof(double));
          }
  
-@@ -529,7 +530,7 @@ void freq_sink_c_impl::_test_trigger_tag
+@@ -529,7 +530,7 @@
      std::vector<gr::tag_t> tags;
      get_tags_in_range(
          tags, d_trigger_channel, nr + start, nr + start + nitems, d_trigger_tag_key);
@@ -2767,7 +2789,7 @@ diff -uNrp a/gr-qtgui/lib/freq_sink_c_impl.cc b/gr-qtgui/lib/freq_sink_c_impl.cc
          d_triggered = true;
          d_index = tags[0].offset - nr;
          d_trigger_count = 0;
-@@ -672,7 +673,7 @@ void freq_sink_c_impl::handle_pdus(pmt::
+@@ -672,7 +673,7 @@
          size_t max = std::min(d_fftsize, static_cast<int>(len));
          for (int n = 0; n < nffts; n++) {
              // Clear in case (max-min) < d_fftsize
@@ -2776,10 +2798,10 @@ diff -uNrp a/gr-qtgui/lib/freq_sink_c_impl.cc b/gr-qtgui/lib/freq_sink_c_impl.cc
  
              // Copy in as much of the input samples as we can
              memcpy(
-diff -uNrp a/gr-qtgui/lib/freq_sink_f_impl.cc b/gr-qtgui/lib/freq_sink_f_impl.cc
+diff -uNr a/gr-qtgui/lib/freq_sink_f_impl.cc b/gr-qtgui/lib/freq_sink_f_impl.cc
 --- a/gr-qtgui/lib/freq_sink_f_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/freq_sink_f_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -172,7 +172,7 @@ void freq_sink_f_impl::initialize()
++++ b/gr-qtgui/lib/freq_sink_f_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -172,7 +172,7 @@
      set_fft_size(d_fftsize);
      set_frequency_range(d_center_freq, d_bandwidth);
  
@@ -2788,7 +2810,7 @@ diff -uNrp a/gr-qtgui/lib/freq_sink_f_impl.cc b/gr-qtgui/lib/freq_sink_f_impl.cc
          set_title(d_name);
  
      set_output_multiple(d_fftsize);
-@@ -394,7 +394,7 @@ void freq_sink_f_impl::fft(float* data_o
+@@ -394,7 +394,7 @@
      for (int i = 0; i < size; i++)
          dst[i] = data_in[i];
  
@@ -2797,7 +2819,7 @@ diff -uNrp a/gr-qtgui/lib/freq_sink_f_impl.cc b/gr-qtgui/lib/freq_sink_f_impl.cc
          volk_32fc_32f_multiply_32fc(d_fft->get_inbuf(), dst, &d_window.front(), size);
      }
  
-@@ -533,7 +533,7 @@ void freq_sink_f_impl::_test_trigger_tag
+@@ -533,7 +533,7 @@
      std::vector<gr::tag_t> tags;
      get_tags_in_range(
          tags, d_trigger_channel, nr + start, nr + start + nitems, d_trigger_tag_key);
@@ -2806,10 +2828,10 @@ diff -uNrp a/gr-qtgui/lib/freq_sink_f_impl.cc b/gr-qtgui/lib/freq_sink_f_impl.cc
          d_triggered = true;
          d_index = tags[0].offset - nr;
          d_trigger_count = 0;
-diff -uNrp a/gr-qtgui/lib/freqdisplayform.cc b/gr-qtgui/lib/freqdisplayform.cc
+diff -uNr a/gr-qtgui/lib/freqdisplayform.cc b/gr-qtgui/lib/freqdisplayform.cc
 --- a/gr-qtgui/lib/freqdisplayform.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/freqdisplayform.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -423,7 +423,7 @@ void FreqDisplayForm::updateTrigger(gr::
++++ b/gr-qtgui/lib/freqdisplayform.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -423,7 +423,7 @@
      }
  
      // if tag mode, popup tag key box to set
@@ -2818,10 +2840,10 @@ diff -uNrp a/gr-qtgui/lib/freqdisplayform.cc b/gr-qtgui/lib/freqdisplayform.cc
          d_tr_tag_key_act->activate(QAction::Trigger);
  
      emit signalReplot();
-diff -uNrp a/gr-qtgui/lib/histogram_sink_f_impl.cc b/gr-qtgui/lib/histogram_sink_f_impl.cc
+diff -uNr a/gr-qtgui/lib/histogram_sink_f_impl.cc b/gr-qtgui/lib/histogram_sink_f_impl.cc
 --- a/gr-qtgui/lib/histogram_sink_f_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/histogram_sink_f_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -137,7 +137,7 @@ void histogram_sink_f_impl::initialize()
++++ b/gr-qtgui/lib/histogram_sink_f_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -137,7 +137,7 @@
      d_main_gui->setNPoints(d_size);
      d_main_gui->setXaxis(d_xmin, d_xmax);
  
@@ -2830,10 +2852,10 @@ diff -uNrp a/gr-qtgui/lib/histogram_sink_f_impl.cc b/gr-qtgui/lib/histogram_sink
          set_title(d_name);
  
      // initialize update time to 10 times a second
-diff -uNrp a/gr-qtgui/lib/numberdisplayform.cc b/gr-qtgui/lib/numberdisplayform.cc
+diff -uNr a/gr-qtgui/lib/numberdisplayform.cc b/gr-qtgui/lib/numberdisplayform.cc
 --- a/gr-qtgui/lib/numberdisplayform.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/numberdisplayform.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -40,7 +40,7 @@ NumberDisplayForm::NumberDisplayForm(int
++++ b/gr-qtgui/lib/numberdisplayform.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -40,7 +40,7 @@
          d_min.push_back(+1e32);
          d_max.push_back(-1e32);
          d_label.push_back(new QLabel(QString("Data %1").arg(i)));
@@ -2842,10 +2864,10 @@ diff -uNrp a/gr-qtgui/lib/numberdisplayform.cc b/gr-qtgui/lib/numberdisplayform.
          d_factor.push_back(1);
          d_text_box.push_back(new QLabel(QString("0")));
  
-diff -uNrp a/gr-qtgui/lib/plot_raster.cc b/gr-qtgui/lib/plot_raster.cc
+diff -uNr a/gr-qtgui/lib/plot_raster.cc b/gr-qtgui/lib/plot_raster.cc
 --- a/gr-qtgui/lib/plot_raster.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/plot_raster.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -299,22 +299,3 @@ QwtInterval PlotTimeRaster::interval(Qt:
++++ b/gr-qtgui/lib/plot_raster.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -299,22 +299,3 @@
  }
  #endif
  
@@ -2868,10 +2890,10 @@ diff -uNrp a/gr-qtgui/lib/plot_raster.cc b/gr-qtgui/lib/plot_raster.cc
 -{
 -    QwtPlotRasterItem::draw(painter, xMap, yMap, canvasRect);
 -}
-diff -uNrp a/gr-qtgui/lib/plot_waterfall.cc b/gr-qtgui/lib/plot_waterfall.cc
+diff -uNr a/gr-qtgui/lib/plot_waterfall.cc b/gr-qtgui/lib/plot_waterfall.cc
 --- a/gr-qtgui/lib/plot_waterfall.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/plot_waterfall.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -280,22 +280,3 @@ QImage PlotWaterfall::renderImage(const 
++++ b/gr-qtgui/lib/plot_waterfall.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -280,22 +280,3 @@
      return image;
  }
  
@@ -2894,10 +2916,10 @@ diff -uNrp a/gr-qtgui/lib/plot_waterfall.cc b/gr-qtgui/lib/plot_waterfall.cc
 -{
 -    QwtPlotRasterItem::draw(painter, xMap, yMap, canvasRect);
 -}
-diff -uNrp a/gr-qtgui/lib/qtgui_util.cc b/gr-qtgui/lib/qtgui_util.cc
+diff -uNr a/gr-qtgui/lib/qtgui_util.cc b/gr-qtgui/lib/qtgui_util.cc
 --- a/gr-qtgui/lib/qtgui_util.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/qtgui_util.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -104,7 +104,7 @@ QwtPickerMachine* QwtDblClickPlotPicker:
++++ b/gr-qtgui/lib/qtgui_util.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -104,7 +104,7 @@
  void check_set_qss(QApplication* app)
  {
      std::string qssfile = gr::prefs::singleton()->get_string("qtgui", "qss", "");
@@ -2906,10 +2928,10 @@ diff -uNrp a/gr-qtgui/lib/qtgui_util.cc b/gr-qtgui/lib/qtgui_util.cc
          QString sstext = get_qt_style_sheet(QString(qssfile.c_str()));
          app->setStyleSheet(sstext);
      }
-diff -uNrp a/gr-qtgui/lib/sink_c_impl.cc b/gr-qtgui/lib/sink_c_impl.cc
+diff -uNr a/gr-qtgui/lib/sink_c_impl.cc b/gr-qtgui/lib/sink_c_impl.cc
 --- a/gr-qtgui/lib/sink_c_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/sink_c_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -238,7 +238,7 @@ void sink_c_impl::set_update_time(double
++++ b/gr-qtgui/lib/sink_c_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -238,7 +238,7 @@
  
  void sink_c_impl::fft(float* data_out, const gr_complex* data_in, int size)
  {
@@ -2918,10 +2940,10 @@ diff -uNrp a/gr-qtgui/lib/sink_c_impl.cc b/gr-qtgui/lib/sink_c_impl.cc
          volk_32fc_32f_multiply_32fc(d_fft->get_inbuf(), data_in, &d_window.front(), size);
      } else {
          memcpy(d_fft->get_inbuf(), data_in, sizeof(gr_complex) * size);
-diff -uNrp a/gr-qtgui/lib/sink_f_impl.cc b/gr-qtgui/lib/sink_f_impl.cc
+diff -uNr a/gr-qtgui/lib/sink_f_impl.cc b/gr-qtgui/lib/sink_f_impl.cc
 --- a/gr-qtgui/lib/sink_f_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/sink_f_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -228,7 +228,7 @@ void sink_f_impl::set_update_time(double
++++ b/gr-qtgui/lib/sink_f_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -228,7 +228,7 @@
  
  void sink_f_impl::fft(float* data_out, const float* data_in, int size)
  {
@@ -2930,10 +2952,10 @@ diff -uNrp a/gr-qtgui/lib/sink_f_impl.cc b/gr-qtgui/lib/sink_f_impl.cc
          gr_complex* dst = d_fft->get_inbuf();
          for (int i = 0; i < size; i++) // apply window
              dst[i] = data_in[i] * d_window[i];
-diff -uNrp a/gr-qtgui/lib/spectrumdisplayform.cc b/gr-qtgui/lib/spectrumdisplayform.cc
+diff -uNr a/gr-qtgui/lib/spectrumdisplayform.cc b/gr-qtgui/lib/spectrumdisplayform.cc
 --- a/gr-qtgui/lib/spectrumdisplayform.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/spectrumdisplayform.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -484,7 +484,7 @@ void SpectrumDisplayForm::setAverageCoun
++++ b/gr-qtgui/lib/spectrumdisplayform.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -484,7 +484,7 @@
  void SpectrumDisplayForm::_averageHistory(const double* newBuffer)
  {
      if (_numRealDataPoints > 0) {
@@ -2942,10 +2964,10 @@ diff -uNrp a/gr-qtgui/lib/spectrumdisplayform.cc b/gr-qtgui/lib/spectrumdisplayf
              memcpy(_historyVector->operator[](_historyEntry),
                     newBuffer,
                     _numRealDataPoints * sizeof(double));
-diff -uNrp a/gr-qtgui/lib/time_raster_sink_b_impl.cc b/gr-qtgui/lib/time_raster_sink_b_impl.cc
+diff -uNr a/gr-qtgui/lib/time_raster_sink_b_impl.cc b/gr-qtgui/lib/time_raster_sink_b_impl.cc
 --- a/gr-qtgui/lib/time_raster_sink_b_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/time_raster_sink_b_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -146,7 +146,7 @@ void time_raster_sink_b_impl::initialize
++++ b/gr-qtgui/lib/time_raster_sink_b_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -146,7 +146,7 @@
      d_main_gui =
          new TimeRasterDisplayForm(numplots, d_samp_rate, d_rows, d_cols, 1, d_parent);
  
@@ -2954,7 +2976,7 @@ diff -uNrp a/gr-qtgui/lib/time_raster_sink_b_impl.cc b/gr-qtgui/lib/time_raster_
          set_title(d_name);
  
      // initialize update time to 10 times a second
-@@ -297,7 +297,7 @@ double time_raster_sink_b_impl::num_cols
+@@ -297,7 +297,7 @@
  
  void time_raster_sink_b_impl::set_multiplier(const std::vector<float>& mult)
  {
@@ -2963,7 +2985,7 @@ diff -uNrp a/gr-qtgui/lib/time_raster_sink_b_impl.cc b/gr-qtgui/lib/time_raster_
          for (int i = 0; i < d_nconnections + 1; i++) {
              d_mult[i] = 1.0f;
          }
-@@ -317,7 +317,7 @@ void time_raster_sink_b_impl::set_multip
+@@ -317,7 +317,7 @@
  
  void time_raster_sink_b_impl::set_offset(const std::vector<float>& offset)
  {
@@ -2972,10 +2994,10 @@ diff -uNrp a/gr-qtgui/lib/time_raster_sink_b_impl.cc b/gr-qtgui/lib/time_raster_
          for (int i = 0; i < d_nconnections + 1; i++) {
              d_offset[i] = 0.0f;
          }
-diff -uNrp a/gr-qtgui/lib/time_raster_sink_f_impl.cc b/gr-qtgui/lib/time_raster_sink_f_impl.cc
+diff -uNr a/gr-qtgui/lib/time_raster_sink_f_impl.cc b/gr-qtgui/lib/time_raster_sink_f_impl.cc
 --- a/gr-qtgui/lib/time_raster_sink_f_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/time_raster_sink_f_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -144,7 +144,7 @@ void time_raster_sink_f_impl::initialize
++++ b/gr-qtgui/lib/time_raster_sink_f_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -144,7 +144,7 @@
      d_main_gui =
          new TimeRasterDisplayForm(numplots, d_samp_rate, d_rows, d_cols, 1, d_parent);
  
@@ -2984,7 +3006,7 @@ diff -uNrp a/gr-qtgui/lib/time_raster_sink_f_impl.cc b/gr-qtgui/lib/time_raster_
          set_title(d_name);
  
      // initialize update time to 10 times a second
-@@ -300,7 +300,7 @@ double time_raster_sink_f_impl::num_cols
+@@ -300,7 +300,7 @@
  
  void time_raster_sink_f_impl::set_multiplier(const std::vector<float>& mult)
  {
@@ -2993,7 +3015,7 @@ diff -uNrp a/gr-qtgui/lib/time_raster_sink_f_impl.cc b/gr-qtgui/lib/time_raster_
          for (int i = 0; i < d_nconnections; i++) {
              d_mult[i] = 1.0f;
          }
-@@ -316,7 +316,7 @@ void time_raster_sink_f_impl::set_multip
+@@ -316,7 +316,7 @@
  
  void time_raster_sink_f_impl::set_offset(const std::vector<float>& offset)
  {
@@ -3002,9 +3024,9 @@ diff -uNrp a/gr-qtgui/lib/time_raster_sink_f_impl.cc b/gr-qtgui/lib/time_raster_
          for (int i = 0; i < d_nconnections; i++) {
              d_offset[i] = 0.0f;
          }
-diff -uNrp a/gr-qtgui/lib/time_sink_c_impl.cc b/gr-qtgui/lib/time_sink_c_impl.cc
+diff -uNr a/gr-qtgui/lib/time_sink_c_impl.cc b/gr-qtgui/lib/time_sink_c_impl.cc
 --- a/gr-qtgui/lib/time_sink_c_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/time_sink_c_impl.cc	2019-10-20 04:31:39.000000000 +0700
++++ b/gr-qtgui/lib/time_sink_c_impl.cc	2019-11-06 03:55:06.000000000 +0700
 @@ -1,6 +1,6 @@
  /* -*- c++ -*- */
  /*
@@ -3021,7 +3043,7 @@ diff -uNrp a/gr-qtgui/lib/time_sink_c_impl.cc b/gr-qtgui/lib/time_sink_c_impl.cc
  
  namespace gr {
  namespace qtgui {
-@@ -92,7 +93,7 @@ time_sink_c_impl::time_sink_c_impl(int s
+@@ -92,7 +93,7 @@
      for (unsigned int n = 0; n < d_nconnections / 2; n++) {
          d_cbuffers.push_back((gr_complex*)volk_malloc(d_buffer_size * sizeof(gr_complex),
                                                        volk_get_alignment()));
@@ -3030,7 +3052,7 @@ diff -uNrp a/gr-qtgui/lib/time_sink_c_impl.cc b/gr-qtgui/lib/time_sink_c_impl.cc
      }
  
      // Set alignment properties for VOLK
-@@ -151,7 +152,7 @@ void time_sink_c_impl::initialize()
+@@ -151,7 +152,7 @@
      d_main_gui->setNPoints(d_size);
      d_main_gui->setSampleRate(d_samp_rate);
  
@@ -3039,7 +3061,7 @@ diff -uNrp a/gr-qtgui/lib/time_sink_c_impl.cc b/gr-qtgui/lib/time_sink_c_impl.cc
          set_title(d_name);
  
      // initialize update time to 10 times a second
-@@ -323,7 +324,7 @@ void time_sink_c_impl::set_nsamps(const 
+@@ -323,7 +324,7 @@
              volk_free(d_cbuffers[n]);
              d_cbuffers[n] = (gr_complex*)volk_malloc(d_buffer_size * sizeof(gr_complex),
                                                       volk_get_alignment());
@@ -3048,7 +3070,7 @@ diff -uNrp a/gr-qtgui/lib/time_sink_c_impl.cc b/gr-qtgui/lib/time_sink_c_impl.cc
          }
  
          // If delay was set beyond the new boundary, pull it back.
-@@ -496,7 +497,7 @@ void time_sink_c_impl::_test_trigger_tag
+@@ -496,7 +497,7 @@
      std::vector<gr::tag_t> tags;
      get_tags_in_range(
          tags, d_trigger_channel / 2, nr, nr + nitems + 1, d_trigger_tag_key);
@@ -3057,10 +3079,10 @@ diff -uNrp a/gr-qtgui/lib/time_sink_c_impl.cc b/gr-qtgui/lib/time_sink_c_impl.cc
          trigger_index = tags[0].offset - nr;
          int start = d_index + trigger_index - d_trigger_delay - 1;
          if (start >= 0) {
-diff -uNrp a/gr-qtgui/lib/time_sink_c_impl.h b/gr-qtgui/lib/time_sink_c_impl.h
+diff -uNr a/gr-qtgui/lib/time_sink_c_impl.h b/gr-qtgui/lib/time_sink_c_impl.h
 --- a/gr-qtgui/lib/time_sink_c_impl.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/time_sink_c_impl.h	2019-10-20 04:31:39.000000000 +0700
-@@ -65,7 +65,6 @@ private:
++++ b/gr-qtgui/lib/time_sink_c_impl.h	2019-11-06 03:55:06.000000000 +0700
+@@ -65,7 +65,6 @@
      pmt::pmt_t d_trigger_tag_key;
      bool d_triggered;
      int d_trigger_count;
@@ -3068,10 +3090,10 @@ diff -uNrp a/gr-qtgui/lib/time_sink_c_impl.h b/gr-qtgui/lib/time_sink_c_impl.h
  
      void _reset();
      void _npoints_resize();
-diff -uNrp a/gr-qtgui/lib/time_sink_f_impl.cc b/gr-qtgui/lib/time_sink_f_impl.cc
+diff -uNr a/gr-qtgui/lib/time_sink_f_impl.cc b/gr-qtgui/lib/time_sink_f_impl.cc
 --- a/gr-qtgui/lib/time_sink_f_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/time_sink_f_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -147,7 +147,7 @@ void time_sink_f_impl::initialize()
++++ b/gr-qtgui/lib/time_sink_f_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -147,7 +147,7 @@
      d_main_gui->setNPoints(d_size);
      d_main_gui->setSampleRate(d_samp_rate);
  
@@ -3080,7 +3102,7 @@ diff -uNrp a/gr-qtgui/lib/time_sink_f_impl.cc b/gr-qtgui/lib/time_sink_f_impl.cc
          set_title(d_name);
  
      // initialize update time to 10 times a second
-@@ -489,7 +489,7 @@ void time_sink_f_impl::_test_trigger_tag
+@@ -489,7 +489,7 @@
      uint64_t nr = nitems_read(d_trigger_channel);
      std::vector<gr::tag_t> tags;
      get_tags_in_range(tags, d_trigger_channel, nr, nr + nitems + 1, d_trigger_tag_key);
@@ -3089,10 +3111,10 @@ diff -uNrp a/gr-qtgui/lib/time_sink_f_impl.cc b/gr-qtgui/lib/time_sink_f_impl.cc
          trigger_index = tags[0].offset - nr;
          int start = d_index + trigger_index - d_trigger_delay - 1;
          if (start >= 0) {
-diff -uNrp a/gr-qtgui/lib/time_sink_f_impl.h b/gr-qtgui/lib/time_sink_f_impl.h
+diff -uNr a/gr-qtgui/lib/time_sink_f_impl.h b/gr-qtgui/lib/time_sink_f_impl.h
 --- a/gr-qtgui/lib/time_sink_f_impl.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/time_sink_f_impl.h	2019-10-20 04:31:39.000000000 +0700
-@@ -63,7 +63,6 @@ private:
++++ b/gr-qtgui/lib/time_sink_f_impl.h	2019-11-06 03:55:06.000000000 +0700
+@@ -63,7 +63,6 @@
      pmt::pmt_t d_trigger_tag_key;
      bool d_triggered;
      int d_trigger_count;
@@ -3100,10 +3122,10 @@ diff -uNrp a/gr-qtgui/lib/time_sink_f_impl.h b/gr-qtgui/lib/time_sink_f_impl.h
  
      void _reset();
      void _npoints_resize();
-diff -uNrp a/gr-qtgui/lib/timedisplayform.cc b/gr-qtgui/lib/timedisplayform.cc
+diff -uNr a/gr-qtgui/lib/timedisplayform.cc b/gr-qtgui/lib/timedisplayform.cc
 --- a/gr-qtgui/lib/timedisplayform.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/timedisplayform.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -376,7 +376,7 @@ void TimeDisplayForm::updateTrigger(gr::
++++ b/gr-qtgui/lib/timedisplayform.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -376,7 +376,7 @@
      }
  
      // if tag mode, popup tag key box to set
@@ -3112,9 +3134,9 @@ diff -uNrp a/gr-qtgui/lib/timedisplayform.cc b/gr-qtgui/lib/timedisplayform.cc
          d_tr_tag_key_act->activate(QAction::Trigger);
  
      emit signalReplot();
-diff -uNrp a/gr-qtgui/lib/waterfall_sink_c_impl.cc b/gr-qtgui/lib/waterfall_sink_c_impl.cc
+diff -uNr a/gr-qtgui/lib/waterfall_sink_c_impl.cc b/gr-qtgui/lib/waterfall_sink_c_impl.cc
 --- a/gr-qtgui/lib/waterfall_sink_c_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/waterfall_sink_c_impl.cc	2019-10-20 04:31:39.000000000 +0700
++++ b/gr-qtgui/lib/waterfall_sink_c_impl.cc	2019-11-06 03:55:06.000000000 +0700
 @@ -1,6 +1,6 @@
  /* -*- c++ -*- */
  /*
@@ -3131,7 +3153,7 @@ diff -uNrp a/gr-qtgui/lib/waterfall_sink_c_impl.cc b/gr-qtgui/lib/waterfall_sink
  
  namespace gr {
  namespace qtgui {
-@@ -98,7 +99,7 @@ waterfall_sink_c_impl::waterfall_sink_c_
+@@ -98,7 +99,7 @@
                                                         volk_get_alignment()));
          d_magbufs.push_back(
              (double*)volk_malloc(d_fftsize * sizeof(double), volk_get_alignment()));
@@ -3140,7 +3162,7 @@ diff -uNrp a/gr-qtgui/lib/waterfall_sink_c_impl.cc b/gr-qtgui/lib/waterfall_sink
          memset(d_magbufs[i], 0, d_fftsize * sizeof(double));
      }
  
-@@ -108,7 +109,7 @@ waterfall_sink_c_impl::waterfall_sink_c_
+@@ -108,7 +109,7 @@
          (double*)volk_malloc(d_fftsize * sizeof(double) * d_nrows, volk_get_alignment());
      d_magbufs.push_back(d_pdu_magbuf);
      memset(d_pdu_magbuf, 0, d_fftsize * sizeof(double) * d_nrows);
@@ -3149,7 +3171,7 @@ diff -uNrp a/gr-qtgui/lib/waterfall_sink_c_impl.cc b/gr-qtgui/lib/waterfall_sink
  
      buildwindow();
  
-@@ -182,7 +183,7 @@ void waterfall_sink_c_impl::initialize()
+@@ -182,7 +183,7 @@
      set_fft_size(d_fftsize);
      set_frequency_range(d_center_freq, d_bandwidth);
  
@@ -3158,7 +3180,7 @@ diff -uNrp a/gr-qtgui/lib/waterfall_sink_c_impl.cc b/gr-qtgui/lib/waterfall_sink
          set_title(d_name);
  
      // initialize update time to 10 times a second
-@@ -318,7 +319,7 @@ void waterfall_sink_c_impl::disable_lege
+@@ -318,7 +319,7 @@
  
  void waterfall_sink_c_impl::fft(float* data_out, const gr_complex* data_in, int size)
  {
@@ -3167,7 +3189,7 @@ diff -uNrp a/gr-qtgui/lib/waterfall_sink_c_impl.cc b/gr-qtgui/lib/waterfall_sink
          volk_32fc_32f_multiply_32fc(d_fft->get_inbuf(), data_in, &d_window.front(), size);
      } else {
          memcpy(d_fft->get_inbuf(), data_in, sizeof(gr_complex) * size);
-@@ -371,7 +372,7 @@ void waterfall_sink_c_impl::fftresize()
+@@ -371,7 +372,7 @@
              d_magbufs[i] =
                  (double*)volk_malloc(newfftsize * sizeof(double), volk_get_alignment());
  
@@ -3176,7 +3198,7 @@ diff -uNrp a/gr-qtgui/lib/waterfall_sink_c_impl.cc b/gr-qtgui/lib/waterfall_sink
              memset(d_magbufs[i], 0, newfftsize * sizeof(double));
          }
  
-@@ -385,7 +386,7 @@ void waterfall_sink_c_impl::fftresize()
+@@ -385,7 +386,7 @@
          d_pdu_magbuf = (double*)volk_malloc(newfftsize * sizeof(double) * d_nrows,
                                              volk_get_alignment());
          d_magbufs[d_nconnections] = d_pdu_magbuf;
@@ -3185,7 +3207,7 @@ diff -uNrp a/gr-qtgui/lib/waterfall_sink_c_impl.cc b/gr-qtgui/lib/waterfall_sink
          memset(d_pdu_magbuf, 0, newfftsize * sizeof(double) * d_nrows);
  
          // Set new fft size and reset buffer index
-@@ -558,7 +559,7 @@ void waterfall_sink_c_impl::handle_pdus(
+@@ -558,7 +559,7 @@
          size_t max = std::min(d_fftsize, static_cast<int>(len));
          for (size_t i = 0; j < d_nrows; i += stride) {
              // Clear residbufs if len < d_fftsize
@@ -3194,10 +3216,10 @@ diff -uNrp a/gr-qtgui/lib/waterfall_sink_c_impl.cc b/gr-qtgui/lib/waterfall_sink
  
              // Copy in as much of the input samples as we can
              memcpy(
-diff -uNrp a/gr-qtgui/lib/waterfall_sink_f_impl.cc b/gr-qtgui/lib/waterfall_sink_f_impl.cc
+diff -uNr a/gr-qtgui/lib/waterfall_sink_f_impl.cc b/gr-qtgui/lib/waterfall_sink_f_impl.cc
 --- a/gr-qtgui/lib/waterfall_sink_f_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-qtgui/lib/waterfall_sink_f_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -181,7 +181,7 @@ void waterfall_sink_f_impl::initialize()
++++ b/gr-qtgui/lib/waterfall_sink_f_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -181,7 +181,7 @@
      set_fft_size(d_fftsize);
      set_frequency_range(d_center_freq, d_bandwidth);
  
@@ -3206,7 +3228,7 @@ diff -uNrp a/gr-qtgui/lib/waterfall_sink_f_impl.cc b/gr-qtgui/lib/waterfall_sink
          set_title(d_name);
  
      // initialize update time to 10 times a second
-@@ -327,7 +327,7 @@ void waterfall_sink_f_impl::fft(float* d
+@@ -327,7 +327,7 @@
      for (int i = 0; i < size; i++)
          dst[i] = data_in[i];
  
@@ -3215,10 +3237,10 @@ diff -uNrp a/gr-qtgui/lib/waterfall_sink_f_impl.cc b/gr-qtgui/lib/waterfall_sink
          volk_32fc_32f_multiply_32fc(d_fft->get_inbuf(), dst, &d_window.front(), size);
      }
  
-diff -uNrp a/gr-trellis/docs/gr-trellis.xml b/gr-trellis/docs/gr-trellis.xml
+diff -uNr a/gr-trellis/docs/gr-trellis.xml b/gr-trellis/docs/gr-trellis.xml
 --- a/gr-trellis/docs/gr-trellis.xml	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-trellis/docs/gr-trellis.xml	2019-10-20 04:31:39.000000000 +0700
-@@ -52,7 +52,7 @@ convolutional
++++ b/gr-trellis/docs/gr-trellis.xml	2019-11-06 03:55:06.000000000 +0700
+@@ -52,7 +52,7 @@
  code (CC), a trellis code (TC), an inter-symbol interference (ISI)
  channel, or any
  other communication system that can be modeled with an FSM.
@@ -3227,7 +3249,7 @@ diff -uNrp a/gr-trellis/docs/gr-trellis.xml b/gr-trellis/docs/gr-trellis.xml
  rest of the model details. For instance, in the case of a rate 2/3 TC,
  the FSM should not involve details about the modulation used (it can
  be an 8-ary PAM, or 8-PSK, etc). Similarly, when attempting maximum likelihood
-@@ -272,7 +272,7 @@ y<subscript>j</subscript> (e.g., in the 
+@@ -272,7 +272,7 @@
  
  <listitem>
  <para>
@@ -3236,7 +3258,7 @@ diff -uNrp a/gr-trellis/docs/gr-trellis.xml b/gr-trellis/docs/gr-trellis.xml
  </para>
  <programlisting>
    fsm(const int mod_size, const int ch_length);
-@@ -365,7 +365,7 @@ The output of this block is a sequence o
+@@ -365,7 +365,7 @@
  The input is a sequence of K x FSM.O( ) floats, where the k x K + i
  float represents the cost associated with the k-th
  step in the trellis and the i-th FSM output.
@@ -3245,7 +3267,7 @@ diff -uNrp a/gr-trellis/docs/gr-trellis.xml b/gr-trellis/docs/gr-trellis.xml
  </para>
  </sect2>
  
-@@ -393,7 +393,7 @@ evaluates
+@@ -393,7 +393,7 @@
  ||r<subscript>k</subscript>-c<subscript>i</subscript>||<superscript>2</superscript> = sum<subscript>j=1</subscript><superscript>D</superscript> |r<subscript>k,j</subscript>-c<subscript>i,j</subscript>|<superscript>2</superscript>
  </para>
  <para>
@@ -3254,7 +3276,7 @@ diff -uNrp a/gr-trellis/docs/gr-trellis.xml b/gr-trellis/docs/gr-trellis.xml
  symbols c<subscript>i</subscript> = (c<subscript>i,1</subscript>,c<subscript>i,2</subscript>,...,c<subscript>i,D</subscript>) defined in the vector TABLE,
  where TABLE[i * D + j] = c<subscript>i,j</subscript>.
  </para></listitem>
-@@ -446,7 +446,7 @@ d<subscript>i</subscript> is the bitwise
+@@ -446,7 +446,7 @@
  Although the separation of metric calculation and Viterbi algorithm blocks
  is consistent with our goal of providing general blocks that can be easily
  reused, this separation might result in large input/output buffer sizes
@@ -3263,7 +3285,7 @@ diff -uNrp a/gr-trellis/docs/gr-trellis.xml b/gr-trellis/docs/gr-trellis.xml
  output of the metric block/input of the Viterbi block is FSM.O( ) floats for
  each trellis step. Sometimes this results in buffer overflow even for
  moderate sequence lengths.
-@@ -522,7 +522,7 @@ symbols that will drive the FSM encoder.
+@@ -522,7 +522,7 @@
  
  
  <para>
@@ -3272,7 +3294,7 @@ diff -uNrp a/gr-trellis/docs/gr-trellis.xml b/gr-trellis/docs/gr-trellis.xml
  modulation is completely specified by a set of M, D-dimensional real vectors. In "fsm_utils.py" file we give a number of useful modulations with the following format: modulation = (D,constellation), where
  constellation=[c11,c12,...,c1D,c21,c22,...,c2D,...,cM1,cM2,...cMD].
  The meaning of the above is that every constellation point c_i
-@@ -882,7 +882,7 @@ Although these can be generated by exist
+@@ -882,7 +882,7 @@
  the SISO blocks, as done in some of the python examples) there is an advantage
  in having this functionality as a single block. To see why, think of a turbo decoder with 10 iterations. Previously we needed to concatenate 10 x 2 SISO blocks
  (for a sccc decoder) to emulate the passing of soft information between SISOs over 10 iterartions. With the new block however, only a single such block is needed that internally loops through 10 iterations; this results in space savings
@@ -3281,16 +3303,16 @@ diff -uNrp a/gr-trellis/docs/gr-trellis.xml b/gr-trellis/docs/gr-trellis.xml
  
  
  Still need to document them...
-diff -uNrp a/gr-uhd/apps/uhd_fft b/gr-uhd/apps/uhd_fft
+diff -uNr a/gr-uhd/apps/uhd_fft b/gr-uhd/apps/uhd_fft
 --- a/gr-uhd/apps/uhd_fft	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-uhd/apps/uhd_fft	2019-10-20 04:31:39.000000000 +0700
++++ b/gr-uhd/apps/uhd_fft	2019-11-06 03:55:06.000000000 +0700
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env python2
 +#!/usr/bin/env python
  #
  # Copyright 2015-2016,2018 Free Software Foundation, Inc.
  #
-@@ -34,6 +34,8 @@ UHD FFT: Simple Spectrum Analyzer for UH
+@@ -34,6 +34,8 @@
  # Note this is a heavily modified version of a
  # the uhd_fft.grc example.
  
@@ -3299,7 +3321,7 @@ diff -uNrp a/gr-uhd/apps/uhd_fft b/gr-uhd/apps/uhd_fft
  import ctypes
  import sys
  import sip
-@@ -244,9 +246,9 @@ class uhd_fft(UHDApp, gr.top_block, Qt.Q
+@@ -244,9 +246,9 @@
          self.qtgui_time_sink_x_0.disable_legend()
          for i in range(2*len(self.channels)):
              if(i % 2 == 0):
@@ -3311,15 +3333,15 @@ diff -uNrp a/gr-uhd/apps/uhd_fft b/gr-uhd/apps/uhd_fft
              self.qtgui_time_sink_x_0.set_line_width(i, widths[i])
              self.qtgui_time_sink_x_0.set_line_color(i, colors[i])
              self.qtgui_time_sink_x_0.set_line_style(i, styles[i])
-@@ -510,4 +512,3 @@ if __name__ == '__main__':
+@@ -510,4 +512,3 @@
          except:
              print("Warning: failed to XInitThreads()")
      main()
 -
-diff -uNrp a/gr-uhd/apps/uhd_rx_cfile b/gr-uhd/apps/uhd_rx_cfile
+diff -uNr a/gr-uhd/apps/uhd_rx_cfile b/gr-uhd/apps/uhd_rx_cfile
 --- a/gr-uhd/apps/uhd_rx_cfile	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-uhd/apps/uhd_rx_cfile	2019-10-20 04:31:39.000000000 +0700
-@@ -26,6 +26,7 @@ outputs single precision complex float v
++++ b/gr-uhd/apps/uhd_rx_cfile	2019-11-06 03:55:06.000000000 +0700
+@@ -26,6 +26,7 @@
  (interleaved 16 bit signed short integers).
  """
  
@@ -3327,7 +3349,7 @@ diff -uNrp a/gr-uhd/apps/uhd_rx_cfile b/gr-uhd/apps/uhd_rx_cfile
  import sys
  import os
  import pmt
-@@ -179,13 +180,13 @@ class rx_cfile_block(gr.top_block):
+@@ -179,13 +180,13 @@
                      rx_serial = info["rx_serial"]
                  rx_antenna = info["rx_antenna"]
                  rx_subdev_spec = info["rx_subdev_spec"]
@@ -3345,10 +3367,10 @@ diff -uNrp a/gr-uhd/apps/uhd_rx_cfile b/gr-uhd/apps/uhd_rx_cfile
              print("[UHD_RX] Receiving on {} channels.".format(len(self.channels)))
              print("[UHD_RX] Rx gain:               {gain}".format(gain=gain))
              print("[UHD_RX] Rx frequency:          {freq}".format(freq=freq))
-diff -uNrp a/gr-uhd/apps/uhd_rx_nogui b/gr-uhd/apps/uhd_rx_nogui
+diff -uNr a/gr-uhd/apps/uhd_rx_nogui b/gr-uhd/apps/uhd_rx_nogui
 --- a/gr-uhd/apps/uhd_rx_nogui	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-uhd/apps/uhd_rx_nogui	2019-10-20 04:31:39.000000000 +0700
-@@ -32,7 +32,7 @@ RFSQL - RF squelch zeroing output when i
++++ b/gr-uhd/apps/uhd_rx_nogui	2019-11-06 03:55:06.000000000 +0700
+@@ -32,7 +32,7 @@
  AGC   - Automatic gain control leveling signal at [-1.0, +1.0]
  DEMOD - Demodulation block appropriate to selected signal type.
          This converts the complex baseband to real audio frequencies,
@@ -3357,7 +3379,7 @@ diff -uNrp a/gr-uhd/apps/uhd_rx_nogui b/gr-uhd/apps/uhd_rx_nogui
  CTCSS - Optional tone squelch zeroing output when tone is not present.
  RSAMP - Resampler block to convert audio sample rate to user specified
          sound card output rate.
-@@ -40,8 +40,8 @@ AUDIO - Audio sink for playing final out
+@@ -40,8 +40,8 @@
  
  The following are required command line parameters:
  
@@ -3368,7 +3390,7 @@ diff -uNrp a/gr-uhd/apps/uhd_rx_nogui b/gr-uhd/apps/uhd_rx_nogui
  
  The following are optional command line parameters:
  
-@@ -51,8 +51,8 @@ The following are optional command line 
+@@ -51,8 +51,8 @@
  -g GAIN         Daughterboard gain setting. Defaults to mid-range.
  -o RATE         Sound card output rate. Defaults to 32000. Useful if
                  your sound card only accepts particular sample rates.
@@ -3379,7 +3401,7 @@ diff -uNrp a/gr-uhd/apps/uhd_rx_nogui b/gr-uhd/apps/uhd_rx_nogui
  
  Once the program is running, ctrl-break (Ctrl-C) stops operation.
  
-@@ -61,6 +61,7 @@ blocks.
+@@ -61,6 +61,7 @@
  """
  
  from __future__ import print_function
@@ -3387,7 +3409,7 @@ diff -uNrp a/gr-uhd/apps/uhd_rx_nogui b/gr-uhd/apps/uhd_rx_nogui
  import sys
  from argparse import ArgumentParser
  from gnuradio import gr, gru, uhd, audio
-@@ -72,10 +73,10 @@ from gnuradio.eng_option import eng_opti
+@@ -72,10 +73,10 @@
  
  # (device_rate, channel_rate, audio_rate, channel_pass, channel_stop, demod)
  DEMOD_PARAMS = {
@@ -3402,7 +3424,7 @@ diff -uNrp a/gr-uhd/apps/uhd_rx_nogui b/gr-uhd/apps/uhd_rx_nogui
  
  class uhd_src(gr.hier_block2):
      """
-@@ -140,37 +141,37 @@ class app_top_block(gr.top_block):
+@@ -140,37 +141,37 @@
          dev = uhd_src(options.args,             # UHD device address
                        options.spec,             # device subdev spec
                        options.antenna,          # device antenna
@@ -3451,7 +3473,7 @@ diff -uNrp a/gr-uhd/apps/uhd_rx_nogui b/gr-uhd/apps/uhd_rx_nogui
  
          demod = demod(channel_rate, audio_decim)
  
-@@ -188,8 +189,8 @@ class app_top_block(gr.top_block):
+@@ -188,8 +189,8 @@
  
          if options.output_rate != audio_rate:
              out_lcm = gru.lcm(audio_rate, options.output_rate)
@@ -3462,10 +3484,10 @@ diff -uNrp a/gr-uhd/apps/uhd_rx_nogui b/gr-uhd/apps/uhd_rx_nogui
              rsamp = filter.rational_resampler_fff(out_interp, out_decim)
              self.connect(tail, rsamp)
              tail = rsamp
-diff -uNrp a/gr-uhd/examples/c++/tag_source_demo.h b/gr-uhd/examples/c++/tag_source_demo.h
+diff -uNr a/gr-uhd/examples/c++/tag_source_demo.h b/gr-uhd/examples/c++/tag_source_demo.h
 --- a/gr-uhd/examples/c++/tag_source_demo.h	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-uhd/examples/c++/tag_source_demo.h	2019-10-20 04:31:39.000000000 +0700
-@@ -109,10 +109,11 @@ public:
++++ b/gr-uhd/examples/c++/tag_source_demo.h	2019-11-06 03:55:06.000000000 +0700
+@@ -109,10 +109,11 @@
              _do_new_burst = false;
              _samps_left_in_burst = _samps_per_burst;
  
@@ -3479,7 +3501,7 @@ diff -uNrp a/gr-uhd/examples/c++/tag_source_demo.h b/gr-uhd/examples/c++/tag_sou
                  this->make_length_tag(this->nitems_written(0), _samps_left_in_burst);
  #else
                  // Test usrp_sink's ability to cancel remainder of burst if new length_tag
-@@ -123,6 +124,7 @@ public:
+@@ -123,6 +124,7 @@
                  this->make_length_tag(this->nitems_written(0),
                                        uint64_t(1.1 * _samp_rate * _cycle_duration));
  #endif
@@ -3487,10 +3509,10 @@ diff -uNrp a/gr-uhd/examples/c++/tag_source_demo.h b/gr-uhd/examples/c++/tag_sou
              this->make_time_tag(this->nitems_written(0));
  
              _time_fracs += _cycle_duration;
-diff -uNrp a/gr-uhd/lib/usrp_block_impl.cc b/gr-uhd/lib/usrp_block_impl.cc
+diff -uNr a/gr-uhd/lib/usrp_block_impl.cc b/gr-uhd/lib/usrp_block_impl.cc
 --- a/gr-uhd/lib/usrp_block_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-uhd/lib/usrp_block_impl.cc	2019-10-20 04:31:39.000000000 +0700
-@@ -238,7 +238,7 @@ bool usrp_block_impl::_unpack_chan_comma
++++ b/gr-uhd/lib/usrp_block_impl.cc	2019-11-06 03:55:06.000000000 +0700
+@@ -238,7 +238,7 @@
          } else {
              return false;
          }
@@ -3499,10 +3521,10 @@ diff -uNrp a/gr-uhd/lib/usrp_block_impl.cc b/gr-uhd/lib/usrp_block_impl.cc
          return false;
      }
      return true;
-diff -uNrp a/gr-utils/octave/write_complex_binary.m b/gr-utils/octave/write_complex_binary.m
+diff -uNr a/gr-utils/octave/write_complex_binary.m b/gr-utils/octave/write_complex_binary.m
 --- a/gr-utils/octave/write_complex_binary.m	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-utils/octave/write_complex_binary.m	2019-10-20 04:31:39.000000000 +0700
-@@ -26,7 +26,7 @@ function v = write_complex_binary (data,
++++ b/gr-utils/octave/write_complex_binary.m	2019-11-06 03:55:06.000000000 +0700
+@@ -26,7 +26,7 @@
    %%  open filename and write data to it
    %%  Format is interleaved float IQ e.g. each
    %%  I,Q 32-bit float IQIQIQ....
@@ -3511,10 +3533,32 @@ diff -uNrp a/gr-utils/octave/write_complex_binary.m b/gr-utils/octave/write_comp
    %%
  
    m = nargchk (2,2,nargin);
-diff -uNrp a/gr-utils/python/modtool/cli/base.py b/gr-utils/python/modtool/cli/base.py
+diff -uNr a/gr-utils/python/modtool/cli/add.py b/gr-utils/python/modtool/cli/add.py
+--- a/gr-utils/python/modtool/cli/add.py	2019-08-10 04:15:36.000000000 +0700
++++ b/gr-utils/python/modtool/cli/add.py	2019-11-06 03:55:06.000000000 +0700
+@@ -124,10 +124,17 @@
+         click.secho("For GNU Radio components the FSF is added as copyright holder",
+                     fg='cyan')
+ 
++
+ def get_arglist(self):
+     """ Get the argument list of the block to be added """
+     if self.info['arglist'] is not None:
+-        self.info['arglist'] = click.prompt(click.style('Enter valid argument list, including default arguments: \n', fg='cyan'), prompt_suffix='')
++        self.info['arglist'] = click.prompt(click.style(
++            'Enter valid argument list, including default arguments: \n',
++            fg='cyan'),
++                                            prompt_suffix='',
++                                            default='',
++                                            show_default=False)
++
+ 
+ def get_py_qa(self):
+     """ Get a boolean value for addition of py_qa """
+diff -uNr a/gr-utils/python/modtool/cli/base.py b/gr-utils/python/modtool/cli/base.py
 --- a/gr-utils/python/modtool/cli/base.py	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-utils/python/modtool/cli/base.py	2019-10-20 04:31:39.000000000 +0700
-@@ -122,7 +122,11 @@ def setup_cli_logger(logger):
++++ b/gr-utils/python/modtool/cli/base.py	2019-11-06 03:55:06.000000000 +0700
+@@ -122,7 +122,11 @@
  
  def cli_input(msg):
      """ Returns enhanced input """
@@ -3527,10 +3571,10 @@ diff -uNrp a/gr-utils/python/modtool/cli/base.py b/gr-utils/python/modtool/cli/b
  
  
  def common_params(func):
-diff -uNrp a/gr-utils/python/modtool/core/rename.py b/gr-utils/python/modtool/core/rename.py
+diff -uNr a/gr-utils/python/modtool/core/rename.py b/gr-utils/python/modtool/core/rename.py
 --- a/gr-utils/python/modtool/core/rename.py	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-utils/python/modtool/core/rename.py	2019-10-20 04:31:39.000000000 +0700
-@@ -175,7 +175,7 @@ class ModToolRename(ModTool):
++++ b/gr-utils/python/modtool/core/rename.py	2019-11-06 03:55:06.000000000 +0700
+@@ -175,7 +175,7 @@
          if not os.path.isfile(filename):
              return False
          else:
@@ -3539,10 +3583,10 @@ diff -uNrp a/gr-utils/python/modtool/core/rename.py b/gr-utils/python/modtool/co
  
          with open(filename) as f:
              cfile = f.read()
-diff -uNrp a/gr-utils/python/modtool/templates/templates.py b/gr-utils/python/modtool/templates/templates.py
+diff -uNr a/gr-utils/python/modtool/templates/templates.py b/gr-utils/python/modtool/templates/templates.py
 --- a/gr-utils/python/modtool/templates/templates.py	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-utils/python/modtool/templates/templates.py	2019-10-20 04:31:39.000000000 +0700
-@@ -550,11 +550,11 @@ templates:
++++ b/gr-utils/python/modtool/templates/templates.py	2019-11-06 03:55:06.000000000 +0700
+@@ -550,11 +550,11 @@
    imports: import ${modname}
    make: ${modname}.${blockname}(${strip_arg_types_grc(arglist)})
  
@@ -3558,7 +3602,7 @@ diff -uNrp a/gr-utils/python/modtool/templates/templates.py b/gr-utils/python/mo
  parameters:
  - id: ...
    label: ...
-@@ -563,27 +563,29 @@ parameters:
+@@ -563,27 +563,29 @@
    label: ...
    dtype: ...
  
@@ -3599,10 +3643,10 @@ diff -uNrp a/gr-utils/python/modtool/templates/templates.py b/gr-utils/python/mo
  file_format: 1
  '''
  
-diff -uNrp a/gr-utils/python/modtool/tools/util_functions.py b/gr-utils/python/modtool/tools/util_functions.py
+diff -uNr a/gr-utils/python/modtool/tools/util_functions.py b/gr-utils/python/modtool/tools/util_functions.py
 --- a/gr-utils/python/modtool/tools/util_functions.py	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-utils/python/modtool/tools/util_functions.py	2019-10-20 04:31:39.000000000 +0700
-@@ -143,8 +143,12 @@ def is_number(s):
++++ b/gr-utils/python/modtool/tools/util_functions.py	2019-11-06 03:55:06.000000000 +0700
+@@ -143,8 +143,12 @@
  def ask_yes_no(question, default):
      """ Asks a binary question. Returns True for yes, False for no.
      default is given as a boolean. """
@@ -3616,10 +3660,10 @@ diff -uNrp a/gr-utils/python/modtool/tools/util_functions.py b/gr-utils/python/m
          return default
      else:
          return not default
-diff -uNrp a/gr-vocoder/examples/cvsd_audio_loopback.py b/gr-vocoder/examples/cvsd_audio_loopback.py
+diff -uNr a/gr-vocoder/examples/cvsd_audio_loopback.py b/gr-vocoder/examples/cvsd_audio_loopback.py
 --- a/gr-vocoder/examples/cvsd_audio_loopback.py	2019-08-10 04:15:36.000000000 +0700
-+++ b/gr-vocoder/examples/cvsd_audio_loopback.py	2019-10-20 04:31:39.000000000 +0700
-@@ -52,15 +52,15 @@ def build_graph():
++++ b/gr-vocoder/examples/cvsd_audio_loopback.py	2019-11-06 03:55:06.000000000 +0700
+@@ -52,15 +52,15 @@
      tb.connect(enc, dec, s2f, decim, sink_scale, sink)
  
      if 0: # debug
@@ -3644,10 +3688,31 @@ diff -uNrp a/gr-vocoder/examples/cvsd_audio_loopback.py b/gr-vocoder/examples/cv
  
      return tb
  
-diff -uNrp a/grc/core/blocks/block.py b/grc/core/blocks/block.py
+diff -uNr a/gr-vocoder/include/gnuradio/vocoder/freedv_api.h b/gr-vocoder/include/gnuradio/vocoder/freedv_api.h
+--- a/gr-vocoder/include/gnuradio/vocoder/freedv_api.h	2019-08-10 04:15:36.000000000 +0700
++++ b/gr-vocoder/include/gnuradio/vocoder/freedv_api.h	2019-11-06 03:55:06.000000000 +0700
+@@ -25,11 +25,17 @@
+ 
+ #include <gnuradio/vocoder/api.h>
+ 
++// version >=0.9.1 contains fixes that doesn't require "extern C"
++// between 0.8.1 and 0.9.1 the build fail
++#ifdef CODEC2_LEGACY
+ extern "C" {
++#endif
+ #include <codec2/codec2.h>
+ #include <codec2/freedv_api.h>
+ #include <codec2/modem_stats.h>
++#ifdef CODEC2_LEGACY
+ }
++#endif
+ 
+ namespace gr {
+ namespace vocoder {
+diff -uNr a/grc/core/blocks/block.py b/grc/core/blocks/block.py
 --- a/grc/core/blocks/block.py	2019-08-10 04:15:36.000000000 +0700
-+++ b/grc/core/blocks/block.py	2019-10-20 04:31:39.000000000 +0700
-@@ -207,6 +207,7 @@ class Block(Element):
++++ b/grc/core/blocks/block.py	2019-11-06 03:55:06.000000000 +0700
+@@ -207,6 +207,7 @@
      def _rewrite_nports(self, ports):
          for port in ports:
              if hasattr(port, 'master_port'):  # Not a master port and no left-over clones
@@ -3655,10 +3720,10 @@ diff -uNrp a/grc/core/blocks/block.py b/grc/core/blocks/block.py
                  continue
              nports = port.multiplicity
              for clone in port.clones[nports-1:]:
-diff -uNrp a/grc/core/generator/cpp_templates/flow_graph.hpp.mako b/grc/core/generator/cpp_templates/flow_graph.hpp.mako
+diff -uNr a/grc/core/generator/cpp_templates/flow_graph.hpp.mako b/grc/core/generator/cpp_templates/flow_graph.hpp.mako
 --- a/grc/core/generator/cpp_templates/flow_graph.hpp.mako	2019-08-10 04:15:36.000000000 +0700
-+++ b/grc/core/generator/cpp_templates/flow_graph.hpp.mako	2019-10-20 04:31:39.000000000 +0700
-@@ -92,8 +92,8 @@ public:
++++ b/grc/core/generator/cpp_templates/flow_graph.hpp.mako	2019-11-06 03:55:06.000000000 +0700
+@@ -92,8 +92,8 @@
  % if not generate_options.startswith('hb'):
      top_block_sptr tb;
  % endif
@@ -3669,10 +3734,10 @@ diff -uNrp a/grc/core/generator/cpp_templates/flow_graph.hpp.mako b/grc/core/gen
  
  % for var in parameters + variables:
      ${var.vtype} get_${var.name} () const;
-diff -uNrp a/grc/core/generator/flow_graph.py.mako b/grc/core/generator/flow_graph.py.mako
+diff -uNr a/grc/core/generator/flow_graph.py.mako b/grc/core/generator/flow_graph.py.mako
 --- a/grc/core/generator/flow_graph.py.mako	2019-08-10 04:15:36.000000000 +0700
-+++ b/grc/core/generator/flow_graph.py.mako	2019-10-20 04:31:39.000000000 +0700
-@@ -190,18 +190,18 @@ gr.io_signaturev(${len(io_sigs)}, ${len(
++++ b/grc/core/generator/flow_graph.py.mako	2019-11-06 03:55:06.000000000 +0700
+@@ -190,18 +190,18 @@
          % if blk_make:
          ${ indent(blk_make.strip('\n')) }
          % endif
@@ -3703,10 +3768,10 @@ diff -uNrp a/grc/core/generator/flow_graph.py.mako b/grc/core/generator/flow_gra
          % endfor
  
  ##########################################################
-diff -uNrp a/grc/gui/Application.py b/grc/gui/Application.py
+diff -uNr a/grc/gui/Application.py b/grc/gui/Application.py
 --- a/grc/gui/Application.py	2019-08-10 04:15:36.000000000 +0700
-+++ b/grc/gui/Application.py	2019-10-20 04:31:39.000000000 +0700
-@@ -686,6 +686,7 @@ class Application(Gtk.Application):
++++ b/grc/gui/Application.py	2019-11-06 03:55:06.000000000 +0700
+@@ -686,6 +686,7 @@
              # Import the old data and mark the current as not saved
              new_flow_graph.import_data(previous.export_data())
              flow_graph_update(new_flow_graph)
