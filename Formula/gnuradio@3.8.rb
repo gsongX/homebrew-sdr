@@ -7,10 +7,10 @@ class GnuradioAT38 < Formula
 
   depends_on "cmake" => :build
   depends_on "ninja" => :build
-  depends_on "doxygen" => :build
+  #depends_on "doxygen" => :build
   depends_on "graphviz" => :build
   depends_on "pkg-config" => :build
-  depends_on "sphinx-doc" => :build
+  #depends_on "sphinx-doc" => :build
   depends_on "swig" => :build
   depends_on "boost"
   depends_on "fftw"
