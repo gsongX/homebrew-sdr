@@ -17,7 +17,7 @@ class GrIio < Formula
   depends_on "gsong2014/sdr/gnuradio@3.8"
   depends_on "gsong2014/sdr/libiio"
   depends_on "gsong2014/sdr/libad9361"
-  depends_on "log4cpp"
+  #depends_on "log4cpp"
   depends_on "swig"
 
   resource "Cheetah3" do
