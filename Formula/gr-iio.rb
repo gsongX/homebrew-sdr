@@ -12,8 +12,8 @@ class GrIio < Formula
   depends_on "flex" => :build
   depends_on "bison" => :build
   depends_on "python"
-  depends_on "gmp"
-  depends_on "mpir"
+  # depends_on "gmp"
+  # depends_on "mpir"
   depends_on "gsong2014/sdr/gnuradio@3.8"
   depends_on "gsong2014/sdr/libiio"
   depends_on "gsong2014/sdr/libad9361"
@@ -44,8 +44,6 @@ class GrIio < Formula
     args = %W[
       -DPYTHON_EXECUTABLE=#{python.bin}/python3
       -DAD9361_INCLUDE_DIRS=#{libad9361.prefix}/ad9361.framework/Headers
-      -DGMP_INCLUDE_DIRS=#{gmp.prefix}/include
-      -DGMP_LIBRARIES=#{gmp.prefix}/lib
       -DAD9361_LIBRARIES=#{libad9361.prefix}/ad9361.framework
       -DENABLE_DOXYGEN:bool=false
     ]
