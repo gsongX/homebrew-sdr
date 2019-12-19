@@ -7,13 +7,13 @@ class GrIio < Formula
   depends_on "swig" => :build
   depends_on "ninja" => :build
   depends_on "boost" => :build
-  #depends_on "doxygen" => :build
+  depends_on "doxygen" => :build
   depends_on "graphviz" => :build
   depends_on "flex" => :build
   depends_on "bison" => :build
   depends_on "python"
-  # depends_on "gmp"
-  # depends_on "mpir"
+  depends_on "gmp"
+  depends_on "mpir"
   depends_on "gsong2014/sdr/gnuradio@3.8"
   depends_on "gsong2014/sdr/libiio"
   depends_on "gsong2014/sdr/libad9361"
@@ -34,6 +34,9 @@ class GrIio < Formula
     libad9361 = Formulary.factory 'gsong2014/sdr/libad9361'
     pyver = 'python3.7'
 
+    gmp = Formulary.factory 'gmp'
+    mpir = Formulary.factory 'mpir'
+
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/#{pyver}/site-packages"
     ENV.append "CXXFLAGS", "-std=c++11"
 
@@ -45,6 +48,10 @@ class GrIio < Formula
       -DPYTHON_EXECUTABLE=#{python.bin}/python3
       -DAD9361_INCLUDE_DIRS=#{libad9361.prefix}/ad9361.framework/Headers
       -DAD9361_LIBRARIES=#{libad9361.prefix}/ad9361.framework
+      -DGMP_INCLUDE_DIRS=#{gmp.prefix}/include
+      -DGMP_LIBRARIES=#{gmp.prefix}/lib
+      -DMPIR_INCLUDE_DIRS=#{mpir.prefix}/include
+      -DMPIR_LIBRARIES=#{mpir.prefix}/lib
       -DENABLE_DOXYGEN:bool=false
     ]
 
