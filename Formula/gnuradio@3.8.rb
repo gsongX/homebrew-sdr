@@ -58,8 +58,8 @@ class GnuradioAT38 < Formula
 
   # cheetah starts here
   resource "Markdown" do
-    url "https://files.pythonhosted.org/packages/51/3f/92f9d2f4a1d5da51e7808a469ab40c6cfdf3ba1013f56abb1f46677a655c/Markdown-3.1.tar.gz"
-    sha256 "fc4a6f69a656b8d858d7503bda633f4dd63c2d70cf80abdc6eafa64c4ae8c250"
+    url "https://files.pythonhosted.org/packages/ac/df/0ae25a9fd5bb528fe3c65af7143708160aa3b47970d5272003a1ad5c03c6/Markdown-3.1.1.tar.gz"
+    sha256 "2e50876bcdd74517e7b71f3e7a76102050edec255b3983403f1a63e7c8a41e7a"
   end
 
   resource "Cheetah3" do
@@ -69,8 +69,8 @@ class GnuradioAT38 < Formula
   # cheetah ends here
 
   resource "lxml" do
-    url "https://files.pythonhosted.org/packages/c4/43/3f1e7d742e2a7925be180b6af5e0f67d38de2f37560365ac1a0b9a04c015/lxml-4.4.1.tar.gz"
-    sha256 "c81cb40bff373ab7a7446d6bbca0190bccc5be3448b47b51d729e37799bb5692"
+    url "https://files.pythonhosted.org/packages/e4/19/8dfeef50623892577dc05245093e090bb2bab4c8aed5cad5b03208959563/lxml-4.4.2.tar.gz"
+    sha256 "eff69ddbf3ad86375c344339371168640951c302450c5d3e9936e98d6459db06"
   end
 
   resource "MarkupSafe" do
@@ -79,18 +79,18 @@ class GnuradioAT38 < Formula
   end
 
   resource "Mako" do
-    url "https://files.pythonhosted.org/packages/eb/69/6137c60cae2ab8c911bff510bb6d1d23a0189f75d114bb277606c6486b5f/Mako-1.0.8.tar.gz"
-    sha256 "04092940c0df49b01f43daea4f5adcecd0e50ef6a4b222be5ac003d5d84b2843"
+    url "https://files.pythonhosted.org/packages/b0/3c/8dcd6883d009f7cae0f3157fb53e9afb05a0d3d33b3db1268ec2e6f4a56b/Mako-1.1.0.tar.gz"
+    sha256 "a36919599a9b7dc5d86a7a8988f23a9a3a3d083070023bab23d64f7f1d1e0a4b"
   end
 
   resource "six" do
-    url "https://files.pythonhosted.org/packages/dd/bf/4138e7bfb757de47d1f4b6994648ec67a51efe58fa907c1e11e350cddfca/six-1.12.0.tar.gz"
-    sha256 "d16a0141ec1a18405cd4ce8b4613101da75da0e9a7aec5bdd4fa804d0e0eba73"
+    url "https://files.pythonhosted.org/packages/94/3e/edcf6fef41d89187df7e38e868b2dd2182677922b600e880baad7749c865/six-1.13.0.tar.gz"
+    sha256 "30f610279e8b2578cab6db20741130331735c781b56053c59c4076da27f06b66"
   end
 
   resource "pyyaml" do
-    url "https://files.pythonhosted.org/packages/e3/e8/b3212641ee2718d556df0f23f78de8303f068fe29cdaa7a91018849582fe/PyYAML-5.1.2.tar.gz"
-    sha256 "01adf0b6c6f61bd11af6e10ca52b7d4057dd0be0343eb9283c878cf3af56aee4"
+    url "https://files.pythonhosted.org/packages/8d/c9/e5be955a117a1ac548cdd31e37e8fd7b02ce987f9655f5c7563c656d5dcb/PyYAML-5.2.tar.gz"
+    sha256 "c0ee8eca2c582d29c3c2ec6e2c4f703d1b7f1fb10bc72317355a746057e7346c"
   end
 
   resource "click" do
@@ -160,9 +160,9 @@ class GnuradioAT38 < Formula
       -DPC_QWT_LIBDIR=#{qwt.lib}/qwt.framework
       -DPC_QWT_INCLUDEDIR=#{qwt.lib}/qwt.framework/Headers
       -DGMP_INCLUDE_DIR=#{gmp.prefix}/include
-      -DGMP_LIBRARIE=#{gmp.prefix}/lib
+      -DGMPXX_LIBRARY=#{gmp.prefix}/lib
       -DMPIR_INCLUDE_DIR=#{mpir.prefix}/include
-      -DMPIR_LIBRARIE=#{mpir.prefix}/lib
+      -DMPIRXX_LIBRARY=#{mpir.prefix}/lib
     ]
 
     # -DENABLE_DEFAULT=OFF
