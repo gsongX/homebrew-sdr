@@ -1,6 +1,6 @@
 class GrIio < Formula
   desc "Osmocom GNU Radio Blocks"
-  homepage "https://github.com/analogdevicesinc/gr-iio"
+  homepage "https://github.com/eblot/gr-iio"
   head "https://github.com/eblot/gr-iio.git", :branch => "gr3.8-py3"
 
   depends_on "cmake" => :build
@@ -17,7 +17,7 @@ class GrIio < Formula
   depends_on "gsong2014/sdr/gnuradio@3.8"
   depends_on "gsong2014/sdr/libiio"
   depends_on "gsong2014/sdr/libad9361"
-  #depends_on "log4cpp"
+  depends_on "log4cpp"
   depends_on "swig"
 
   resource "Cheetah3" do
