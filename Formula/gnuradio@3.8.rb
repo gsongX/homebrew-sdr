@@ -146,6 +146,9 @@ class GnuradioAT38 < Formula
 
     qwt = Formulary.factory 'qwt'
 
+    gmp = Formulary.factory 'gmp'
+    mpir = Formulary.factory 'mpir'
+
     args = std_cmake_args + %W[
       -DGR_PKG_CONF_DIR=#{etc}/gnuradio/conf.d
       -DGR_PREFSDIR=#{etc}/gnuradio/conf.d
@@ -156,6 +159,10 @@ class GnuradioAT38 < Formula
       -DPC_QWT_LIBRARIES=qwt
       -DPC_QWT_LIBDIR=#{qwt.lib}/qwt.framework
       -DPC_QWT_INCLUDEDIR=#{qwt.lib}/qwt.framework/Headers
+      -DGMP_INCLUDE_DIR=#{gmp.prefix}/include
+      -DGMP_LIBRARIE=#{gmp.prefix}/lib
+      -DMPIR_INCLUDE_DIR=#{mpir.prefix}/include
+      -DMPIR_LIBRARIE=#{mpir.prefix}/lib
     ]
 
     # -DENABLE_DEFAULT=OFF

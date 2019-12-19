@@ -34,8 +34,6 @@ class GrIio < Formula
     libad9361 = Formulary.factory 'gsong2014/sdr/libad9361'
     pyver = 'python3.7'
 
-    gmp = Formulary.factory 'gmp'
-    mpir = Formulary.factory 'mpir'
 
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/#{pyver}/site-packages"
     ENV.append "CXXFLAGS", "-std=c++11"
@@ -48,10 +46,6 @@ class GrIio < Formula
       -DPYTHON_EXECUTABLE=#{python.bin}/python3
       -DAD9361_INCLUDE_DIRS=#{libad9361.prefix}/ad9361.framework/Headers
       -DAD9361_LIBRARIES=#{libad9361.prefix}/ad9361.framework
-      -DGMP_INCLUDE_DIR=#{gmp.prefix}/include
-      -DGMP_LIBRARIE=#{gmp.prefix}/lib
-      -DMPIR_INCLUDE_DIR=#{mpir.prefix}/include
-      -DMPIR_LIBRARIE=#{mpir.prefix}/lib
       -DENABLE_DOXYGEN:bool=false
     ]
 
