@@ -8,7 +8,7 @@ class GrOsmosdr < Formula
   depends_on "swig" => :build
   depends_on "ninja" => :build
   depends_on "boost" => :build
-  depends_on "doxygen" => :build
+  #depends_on "doxygen" => :build
   depends_on "graphviz" => :build
   depends_on "uhd"
   depends_on "airspy"

@@ -7,7 +7,7 @@ class GrIio < Formula
   depends_on "swig" => :build
   depends_on "ninja" => :build
   depends_on "boost" => :build
-  depends_on "doxygen" => :build
+  #depends_on "doxygen" => :build
   depends_on "graphviz" => :build
   depends_on "flex" => :build
   depends_on "bison" => :build
@@ -44,7 +44,10 @@ class GrIio < Formula
     args = %W[
       -DPYTHON_EXECUTABLE=#{python.bin}/python3
       -DAD9361_INCLUDE_DIRS=#{libad9361.prefix}/ad9361.framework/Headers
+      -DGMP_INCLUDE_DIRS=#{gmp.prefix}/include
+      -DGMP_LIBRARIES=#{gmp.prefix}/lib
       -DAD9361_LIBRARIES=#{libad9361.prefix}/ad9361.framework
+      -DENABLE_DOXYGEN:bool=false
     ]
 
     mkdir "build" do
