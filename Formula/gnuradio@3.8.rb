@@ -54,6 +54,21 @@ class GnuradioAT38 < Formula
     sha256 "7d91fa9ebbb59a64d0d42b4ce47f8ebc3198c8c0796c859cef18a9ae1ea66c26"
   end
 
+  patch do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-C_CXX_STANDARD.next.diff"
+    sha256 "71e0fb7bc5e5f5a96d5e827bf5e2beed9f528b953686cf0d6b4eb7ed95445390"
+  end
+
+  patch do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-fixes_for-thrift.next.diff"
+    sha256 "626b59ee948f14cb5a1152280532b1b2a5aa885d90fa62b1addba81f2dc8158b"
+  end
+
+  patch do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-fix-GNURadioControlPortClient-usage.next.diff"
+    sha256 "fff82661a7643a2520b806b2e24d10a3d3fe7ff41d2afbd99a81d82e5c8228ef"
+  end
+
   patch :DATA
 
   # cheetah starts here
@@ -160,9 +175,11 @@ class GnuradioAT38 < Formula
       -DPC_QWT_LIBDIR=#{qwt.lib}/qwt.framework
       -DPC_QWT_INCLUDEDIR=#{qwt.lib}/qwt.framework/Headers
       -DGMP_INCLUDE_DIR=#{gmp.prefix}/include
-      -DGMPXX_LIBRARY=#{gmp.prefix}/lib
+      -DGMP_LIBRARY=#{gmp.prefix}/lib/libgmp.dylib
+      -DGMPXX_LIBRARY=#{gmp.prefix}/lib/libgmpxx.dylib
       -DMPIR_INCLUDE_DIR=#{mpir.prefix}/include
-      -DMPIRXX_LIBRARY=#{mpir.prefix}/lib
+      -DMPIRXX_LIBRARY=#{mpir.prefix}/lib/libmpirxx.dylib
+      -DMPIR_LIBRARY=#{mpir.prefix}/lib/libmpir.dylib
     ]
 
     # -DENABLE_DEFAULT=OFF
