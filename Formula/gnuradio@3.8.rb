@@ -174,10 +174,10 @@ class GnuradioAT38 < Formula
       -DPC_QWT_LIBRARIES=qwt
       -DPC_QWT_LIBDIR=#{qwt.lib}/qwt.framework
       -DPC_QWT_INCLUDEDIR=#{qwt.lib}/qwt.framework/Headers
-      -DGMP_INCLUDE_DIR=#{gmp.prefix}/include
+      -DGMP_INCLUDE_DIR=#{gmp.prefix}/include/gmpxx.h
       -DGMP_LIBRARY=#{gmp.prefix}/lib/libgmp.dylib
       -DGMPXX_LIBRARY=#{gmp.prefix}/lib/libgmpxx.dylib
-      -DMPIR_INCLUDE_DIR=#{mpir.prefix}/include
+      -DMPIR_INCLUDE_DIR=#{mpir.prefix}/include/mpirxx.h
       -DMPIRXX_LIBRARY=#{mpir.prefix}/lib/libmpirxx.dylib
       -DMPIR_LIBRARY=#{mpir.prefix}/lib/libmpir.dylib
     ]
