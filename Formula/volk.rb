@@ -3,9 +3,9 @@ class Volk < Formula
 
   desc "The Vector Optimized Library of Math Kernels"
   homepage "http://libvolk.org/"
-  url "https://github.com/gnuradio/volk/releases/download/v2.0.0/volk-v2.0.0.tar.gz"
+  url "https://github.com/gnuradio/volk/archive/v2.1.0.tar.gz"
   head "https://github.com/gnuradio/volk.git"
-  sha256 "d4274c4cb07d634f4d5f94f4845fb54156ad45ee03f4cd045496b91967b21c30"
+  sha256 "fe422f10b880d10cb72bdd1a3362a0f65d2d6d655dd1296459773c89fae51781"
   depends_on "cmake" => :build
   depends_on "ninja" => :build
   depends_on "python" => :build
@@ -16,8 +16,8 @@ class Volk < Formula
   end
 
   resource "Mako" do
-    url "https://files.pythonhosted.org/packages/eb/69/6137c60cae2ab8c911bff510bb6d1d23a0189f75d114bb277606c6486b5f/Mako-1.0.8.tar.gz"
-    sha256 "04092940c0df49b01f43daea4f5adcecd0e50ef6a4b222be5ac003d5d84b2843"
+    url "https://files.pythonhosted.org/packages/b0/3c/8dcd6883d009f7cae0f3157fb53e9afb05a0d3d33b3db1268ec2e6f4a56b/Mako-1.1.0.tar.gz"
+    sha256 "a36919599a9b7dc5d86a7a8988f23a9a3a3d083070023bab23d64f7f1d1e0a4b"
   end
 
   def install
