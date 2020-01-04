@@ -36,11 +36,6 @@ class GnuradioAT38 < Formula
   depends_on "sdl"
   depends_on "adwaita-icon-theme"
 
-  patch do
-    # log4cpp invalid module name
-    url "https://github.com/eblot/gnuradio/commit/45f1e21c952a194103b2460be72a6ceec160ceb3.patch"
-    sha256 "9ca4f76c92ae29de0d9b75a13e328798f61525ac28f7a7c29f9c86fcd9a308b6"
-  end
 
   patch do
     # block drag 'n drop does not work on GRC (Quartz backend)
@@ -125,8 +120,8 @@ class GnuradioAT38 < Formula
 
     # fix
   patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-maint-3.8-00-2f5c81d.patch"
-    sha256 "057674baccadd1561222424a77868f89dd10c71670b85f7ce22eb461b820ab03"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-maint-3.8-00-c04ebf8.patch"
+    sha256 "619145b583099de75865ed8282dcb7b33a024e4949a7424b4a8a7bb5ff88dd4a"
   end
 
 
