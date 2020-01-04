@@ -43,12 +43,6 @@ class GnuradioAT38 < Formula
   end
 
   patch do
-    # log4cpp invalid module name
-    url "https://github.com/eblot/gnuradio/commit/45f1e21c952a194103b2460be72a6ceec160ceb3.patch"
-    sha256 "9ca4f76c92ae29de0d9b75a13e328798f61525ac28f7a7c29f9c86fcd9a308b6"
-  end
-
-  patch do
     # block drag 'n drop does not work on GRC (Quartz backend)
     url "https://github.com/eblot/gnuradio/commit/5ee92ee7e2a9936615a494aa814fa31eda0398e7.patch"
     sha256 "5fe771f7304ff9463d5a7ef4468ab72924bba298a75326bd8807c3ee80301f15"
