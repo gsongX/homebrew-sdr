@@ -1,6 +1,6 @@
 class GrIio < Formula
   desc "Osmocom GNU Radio Blocks"
-  homepage "https://github.com/eblot/gr-iio"
+  homepage "https://github.com/analogdevicesinc/gr-iio"
   head "https://github.com/eblot/gr-iio.git", :branch => "gr3.8-py3"
 
   depends_on "cmake" => :build

@@ -125,8 +125,8 @@ class GnuradioAT38 < Formula
 
     # fix
   patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-maint-3.8-00-2f5c81d.patch"
-    sha256 "057674baccadd1561222424a77868f89dd10c71670b85f7ce22eb461b820ab03"
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-maint-3.8-00-c04ebf8.patch"
+    sha256 "2cf52920a1d14ad7b5a21f4068efdbd522dfc9d504fb05f87a11937b29cc996a"
   end
 
 
