@@ -36,6 +36,12 @@ class GnuradioAT38 < Formula
   depends_on "sdl"
   depends_on "adwaita-icon-theme"
 
+   # fix
+  patch do
+    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-maint-3.8-00-c04ebf8.patch"
+    sha256 "2cf52920a1d14ad7b5a21f4068efdbd522dfc9d504fb05f87a11937b29cc996a"
+  end
+
   patch do
     # log4cpp invalid module name
     url "https://github.com/eblot/gnuradio/commit/45f1e21c952a194103b2460be72a6ceec160ceb3.patch"
@@ -121,12 +127,6 @@ class GnuradioAT38 < Formula
   resource "cppzmq" do
     url "https://raw.githubusercontent.com/zeromq/cppzmq/46fc0572c5e9f09a32a23d6f22fd79b841f77e00/zmq.hpp"
     sha256 "964031c0944f913933f55ad1610938105a6657a69d1ac5a6dd50e16a679104d5"
-  end
-
-    # fix
-  patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-maint-3.8-00-c04ebf8.patch"
-    sha256 "2cf52920a1d14ad7b5a21f4068efdbd522dfc9d504fb05f87a11937b29cc996a"
   end
 
 
