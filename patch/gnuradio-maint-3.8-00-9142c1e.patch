@@ -1,6 +1,6 @@
 diff -uNr gnuradio-3.8.0.0/.clang-tidy gnuradio-maint-3.8/.clang-tidy
 --- gnuradio-3.8.0.0/.clang-tidy	1970-01-01 07:00:00.000000000 +0700
-+++ gnuradio-maint-3.8/.clang-tidy	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/.clang-tidy	2020-01-05 09:47:33.000000000 +0700
 @@ -0,0 +1,10 @@
 +---
 +Checks:          '-*,misc-throw-by-value-catch-by-reference,misc-static-assert,readability-container-size-empty'
@@ -14,7 +14,7 @@ diff -uNr gnuradio-3.8.0.0/.clang-tidy gnuradio-maint-3.8/.clang-tidy
 +
 diff -uNr gnuradio-3.8.0.0/CMakeLists.txt gnuradio-maint-3.8/CMakeLists.txt
 --- gnuradio-3.8.0.0/CMakeLists.txt	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/CMakeLists.txt	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/CMakeLists.txt	2020-01-05 09:47:33.000000000 +0700
 @@ -46,6 +46,9 @@
  SET(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} CACHE STRING "")
  message(STATUS "Build type set to ${CMAKE_BUILD_TYPE}.")
@@ -46,7 +46,7 @@ diff -uNr gnuradio-3.8.0.0/CMakeLists.txt gnuradio-maint-3.8/CMakeLists.txt
    setup_target_for_coverage(coverage "ctest || exit 0" coverage)
 diff -uNr gnuradio-3.8.0.0/README.md gnuradio-maint-3.8/README.md
 --- gnuradio-3.8.0.0/README.md	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/README.md	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/README.md	2020-01-05 09:47:33.000000000 +0700
 @@ -4,7 +4,7 @@
  
  [![Build](https://shield.lwan.ws/img/p5UKbS/weekly_runner)](https://ci.gnuradio.org/buildbot/#/)
@@ -195,7 +195,7 @@ diff -uNr gnuradio-3.8.0.0/README.md gnuradio-maint-3.8/README.md
  
 diff -uNr gnuradio-3.8.0.0/cmake/Modules/FindCodec2.cmake gnuradio-maint-3.8/cmake/Modules/FindCodec2.cmake
 --- gnuradio-3.8.0.0/cmake/Modules/FindCodec2.cmake	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/cmake/Modules/FindCodec2.cmake	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/cmake/Modules/FindCodec2.cmake	2020-01-05 09:47:33.000000000 +0700
 @@ -61,6 +61,18 @@
    else()
      set(LIBCODEC2_HAS_FREEDV_API false)
@@ -217,7 +217,7 @@ diff -uNr gnuradio-3.8.0.0/cmake/Modules/FindCodec2.cmake gnuradio-maint-3.8/cma
  FIND_PACKAGE_HANDLE_STANDARD_ARGS(LIBCODEC2 DEFAULT_MSG LIBCODEC2_LIBRARIES LIBCODEC2_INCLUDE_DIRS)
 diff -uNr gnuradio-3.8.0.0/cmake/Modules/FindLOG4CPP.cmake gnuradio-maint-3.8/cmake/Modules/FindLOG4CPP.cmake
 --- gnuradio-3.8.0.0/cmake/Modules/FindLOG4CPP.cmake	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/cmake/Modules/FindLOG4CPP.cmake	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/cmake/Modules/FindLOG4CPP.cmake	2020-01-05 09:47:33.000000000 +0700
 @@ -12,15 +12,15 @@
  endif ()
  
@@ -248,7 +248,7 @@ diff -uNr gnuradio-3.8.0.0/cmake/Modules/FindLOG4CPP.cmake gnuradio-maint-3.8/cm
      INTERFACE_INCLUDE_DIRECTORIES "${LOG4CPP_INCLUDE_DIRS}"
 diff -uNr gnuradio-3.8.0.0/cmake/Modules/FindQwt.cmake gnuradio-maint-3.8/cmake/Modules/FindQwt.cmake
 --- gnuradio-3.8.0.0/cmake/Modules/FindQwt.cmake	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/cmake/Modules/FindQwt.cmake	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/cmake/Modules/FindQwt.cmake	2020-01-05 09:47:33.000000000 +0700
 @@ -29,7 +29,7 @@
  )
  
@@ -260,7 +260,7 @@ diff -uNr gnuradio-3.8.0.0/cmake/Modules/FindQwt.cmake gnuradio-maint-3.8/cmake/
    ${CMAKE_INSTALL_PREFIX}/lib
 diff -uNr gnuradio-3.8.0.0/cmake/Modules/GnuradioConfig.cmake.in gnuradio-maint-3.8/cmake/Modules/GnuradioConfig.cmake.in
 --- gnuradio-3.8.0.0/cmake/Modules/GnuradioConfig.cmake.in	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/cmake/Modules/GnuradioConfig.cmake.in	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/cmake/Modules/GnuradioConfig.cmake.in	2020-01-05 09:47:33.000000000 +0700
 @@ -24,15 +24,25 @@
  
  find_dependency(LOG4CPP)
@@ -292,7 +292,7 @@ diff -uNr gnuradio-3.8.0.0/cmake/Modules/GnuradioConfig.cmake.in gnuradio-maint-
  if(${ENABLE_PYTHON})
 diff -uNr gnuradio-3.8.0.0/cmake/Modules/GrBoost.cmake gnuradio-maint-3.8/cmake/Modules/GrBoost.cmake
 --- gnuradio-3.8.0.0/cmake/Modules/GrBoost.cmake	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/cmake/Modules/GrBoost.cmake	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/cmake/Modules/GrBoost.cmake	2020-01-05 09:47:33.000000000 +0700
 @@ -33,9 +33,12 @@
      system
      regex
@@ -333,7 +333,7 @@ diff -uNr gnuradio-3.8.0.0/cmake/Modules/GrBoost.cmake gnuradio-maint-3.8/cmake/
  
 diff -uNr gnuradio-3.8.0.0/cmake/Modules/GrPython.cmake gnuradio-maint-3.8/cmake/Modules/GrPython.cmake
 --- gnuradio-3.8.0.0/cmake/Modules/GrPython.cmake	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/cmake/Modules/GrPython.cmake	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/cmake/Modules/GrPython.cmake	2020-01-05 09:47:33.000000000 +0700
 @@ -109,12 +109,8 @@
  ########################################################################
  if(NOT DEFINED GR_PYTHON_DIR)
@@ -351,7 +351,7 @@ diff -uNr gnuradio-3.8.0.0/cmake/Modules/GrPython.cmake gnuradio-maint-3.8/cmake
  endif()
 diff -uNr gnuradio-3.8.0.0/dtools/bin/roll-tarball.sh gnuradio-maint-3.8/dtools/bin/roll-tarball.sh
 --- gnuradio-3.8.0.0/dtools/bin/roll-tarball.sh	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/dtools/bin/roll-tarball.sh	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/dtools/bin/roll-tarball.sh	2020-01-05 09:47:33.000000000 +0700
 @@ -21,7 +21,6 @@
  setopt ERR_EXIT
  
@@ -397,7 +397,7 @@ diff -uNr gnuradio-3.8.0.0/dtools/bin/roll-tarball.sh gnuradio-maint-3.8/dtools/
  echo "…all clean."
 diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/apps/gnuradio-config-info.cc gnuradio-maint-3.8/gnuradio-runtime/apps/gnuradio-config-info.cc
 --- gnuradio-3.8.0.0/gnuradio-runtime/apps/gnuradio-config-info.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gnuradio-runtime/apps/gnuradio-config-info.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gnuradio-runtime/apps/gnuradio-config-info.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -61,7 +61,7 @@
          return 1;
      }
@@ -409,7 +409,7 @@ diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/apps/gnuradio-config-info.cc gnuradi
      }
 diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/basic_block.h gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/basic_block.h
 --- gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/basic_block.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/basic_block.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/basic_block.h	2020-01-05 09:47:33.000000000 +0700
 @@ -38,9 +38,7 @@
  #include <map>
  #include <string>
@@ -431,7 +431,7 @@ diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/basic_block.h gnura
  
 diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/block_gateway.h gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/block_gateway.h
 --- gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/block_gateway.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/block_gateway.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/block_gateway.h	2020-01-05 09:47:33.000000000 +0700
 @@ -310,7 +310,11 @@
  
      bool has_msg_handler(pmt::pmt_t which_port)
@@ -447,7 +447,7 @@ diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/block_gateway.h gnu
      void dispatch_msg(pmt::pmt_t which_port, pmt::pmt_t msg)
 diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/block_registry.h gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/block_registry.h
 --- gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/block_registry.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/block_registry.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/block_registry.h	2020-01-05 09:47:33.000000000 +0700
 @@ -25,6 +25,7 @@
  
  #include <gnuradio/api.h>
@@ -458,7 +458,7 @@ diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/block_registry.h gn
  namespace gr {
 diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/pycallback_object.h gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/pycallback_object.h
 --- gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/pycallback_object.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/pycallback_object.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/pycallback_object.h	2020-01-05 09:47:33.000000000 +0700
 @@ -150,7 +150,7 @@
          return (dummy);
      };
@@ -470,7 +470,7 @@ diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/pycallback_object.h
  };
 diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/random.h gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/random.h
 --- gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/random.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/random.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/random.h	2020-01-05 09:47:33.000000000 +0700
 @@ -96,7 +96,9 @@
      float rayleigh();
  
@@ -484,7 +484,7 @@ diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/random.h gnuradio-m
  
 diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/rpcserver_aggregator.h gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/rpcserver_aggregator.h
 --- gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/rpcserver_aggregator.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/rpcserver_aggregator.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/rpcserver_aggregator.h	2020-01-05 09:47:33.000000000 +0700
 @@ -60,8 +60,8 @@
          }
  
@@ -547,7 +547,7 @@ diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/rpcserver_aggregato
  
 diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/tag_checker.h gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/tag_checker.h
 --- gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/tag_checker.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/tag_checker.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/tag_checker.h	2020-01-05 09:47:33.000000000 +0700
 @@ -41,7 +41,7 @@
      {
          d_tags = tags;
@@ -559,7 +559,7 @@ diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/tag_checker.h gnura
          }
 diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/thrift_application_base.h gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/thrift_application_base.h
 --- gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/thrift_application_base.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/thrift_application_base.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gnuradio-runtime/include/gnuradio/thrift_application_base.h	2020-01-05 09:47:33.000000000 +0700
 @@ -53,13 +53,13 @@
  {
  public:
@@ -605,7 +605,7 @@ diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/include/gnuradio/thrift_application_
      return d_application->i_impl();
 diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/block.cc gnuradio-maint-3.8/gnuradio-runtime/lib/block.cc
 --- gnuradio-3.8.0.0/gnuradio-runtime/lib/block.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gnuradio-runtime/lib/block.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gnuradio-runtime/lib/block.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -667,26 +667,26 @@
      d_pc_rpc_set = true;
  #if defined(GR_CTRLPORT) && defined(GR_PERFORMANCE_COUNTERS)
@@ -950,7 +950,7 @@ diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/block.cc gnuradio-maint-3.8/gnur
  
 diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/block_detail.cc gnuradio-maint-3.8/gnuradio-runtime/lib/block_detail.cc
 --- gnuradio-3.8.0.0/gnuradio-runtime/lib/block_detail.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gnuradio-runtime/lib/block_detail.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gnuradio-runtime/lib/block_detail.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -231,9 +231,8 @@
      if (threaded) {
          try {
@@ -964,7 +964,7 @@ diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/block_detail.cc gnuradio-maint-3
  }
 diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/block_executor.cc gnuradio-maint-3.8/gnuradio-runtime/lib/block_executor.cc
 --- gnuradio-3.8.0.0/gnuradio-runtime/lib/block_executor.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gnuradio-runtime/lib/block_executor.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gnuradio-runtime/lib/block_executor.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -124,10 +124,11 @@
              d->get_tags_in_range(
                  rtags, i, start_nitems_read[i], d->nitems_read(i), block_id);
@@ -992,7 +992,7 @@ diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/block_executor.cc gnuradio-maint
  
 diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/flowgraph.cc gnuradio-maint-3.8/gnuradio-runtime/lib/flowgraph.cc
 --- gnuradio-3.8.0.0/gnuradio-runtime/lib/flowgraph.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gnuradio-runtime/lib/flowgraph.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gnuradio-runtime/lib/flowgraph.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -328,7 +328,7 @@
      basic_block_vector_t blocks = calc_used_blocks();
      basic_block_vector_t graph;
@@ -1042,7 +1042,7 @@ diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/flowgraph.cc gnuradio-maint-3.8/
      return out.str();
 diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/hier_block2.cc gnuradio-maint-3.8/gnuradio-runtime/lib/hier_block2.cc
 --- gnuradio-3.8.0.0/gnuradio-runtime/lib/hier_block2.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gnuradio-runtime/lib/hier_block2.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gnuradio-runtime/lib/hier_block2.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -171,9 +171,10 @@
  void hier_block2::set_max_output_buffer(int max_output_buffer)
  {
@@ -1102,7 +1102,7 @@ diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/hier_block2.cc gnuradio-maint-3.
          if (d_detail->d_max_output_buffer[0] != d_detail->d_max_output_buffer[idx])
 diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/hier_block2_detail.cc gnuradio-maint-3.8/gnuradio-runtime/lib/hier_block2_detail.cc
 --- gnuradio-3.8.0.0/gnuradio-runtime/lib/hier_block2_detail.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gnuradio-runtime/lib/hier_block2_detail.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gnuradio-runtime/lib/hier_block2_detail.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -288,7 +288,7 @@
          }
      }
@@ -1132,7 +1132,7 @@ diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/hier_block2_detail.cc gnuradio-m
              throw std::runtime_error(msg.str());
 diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/io_signature.cc gnuradio-maint-3.8/gnuradio-runtime/lib/io_signature.cc
 --- gnuradio-3.8.0.0/gnuradio-runtime/lib/io_signature.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gnuradio-runtime/lib/io_signature.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gnuradio-runtime/lib/io_signature.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -79,8 +79,9 @@
      if (min_streams < 0 || (max_streams != IO_INFINITE && max_streams < min_streams))
          throw std::invalid_argument("gr::io_signature(1)");
@@ -1146,7 +1146,7 @@ diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/io_signature.cc gnuradio-maint-3
          if (max_streams != 0 && sizeof_stream_items[i] < 1)
 diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/logger.cc gnuradio-maint-3.8/gnuradio-runtime/lib/logger.cc
 --- gnuradio-3.8.0.0/gnuradio-runtime/lib/logger.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gnuradio-runtime/lib/logger.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gnuradio-runtime/lib/logger.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -157,7 +157,7 @@
  
  bool logger_load_config(const std::string& config_filename)
@@ -1197,7 +1197,7 @@ diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/logger.cc gnuradio-maint-3.8/gnu
              GR_LOG_SET_CONSOLE_APPENDER(LOG, "stdout", boost::str(str % alias));
 diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/math/gen_sine_table.py gnuradio-maint-3.8/gnuradio-runtime/lib/math/gen_sine_table.py
 --- gnuradio-3.8.0.0/gnuradio-runtime/lib/math/gen_sine_table.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gnuradio-runtime/lib/math/gen_sine_table.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gnuradio-runtime/lib/math/gen_sine_table.py	2020-01-05 09:47:33.000000000 +0700
 @@ -20,7 +20,6 @@
  # Boston, MA 02110-1301, USA.
  #
@@ -1226,7 +1226,7 @@ diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/math/gen_sine_table.py gnuradio-
  
 diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/prefs.cc gnuradio-maint-3.8/gnuradio-runtime/lib/prefs.cc
 --- gnuradio-3.8.0.0/gnuradio-runtime/lib/prefs.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gnuradio-runtime/lib/prefs.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gnuradio-runtime/lib/prefs.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -110,7 +110,7 @@
                      std::string value = o.value[0];
                      d_config_map[section][key] = value;
@@ -1265,7 +1265,7 @@ diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/prefs.cc gnuradio-maint-3.8/gnur
          std::stringstream sstr(str);
 diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/top_block.cc gnuradio-maint-3.8/gnuradio-runtime/lib/top_block.cc
 --- gnuradio-3.8.0.0/gnuradio-runtime/lib/top_block.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gnuradio-runtime/lib/top_block.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gnuradio-runtime/lib/top_block.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -109,14 +109,14 @@
          return;
  
@@ -1289,7 +1289,7 @@ diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/top_block.cc gnuradio-maint-3.8/
      add_rpc_variable(rpcbasic_sptr(
 diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/tpb_thread_body.cc gnuradio-maint-3.8/gnuradio-runtime/lib/tpb_thread_body.cc
 --- gnuradio-3.8.0.0/gnuradio-runtime/lib/tpb_thread_body.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gnuradio-runtime/lib/tpb_thread_body.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gnuradio-runtime/lib/tpb_thread_body.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -68,7 +68,7 @@
      GR_LOG_GETLOGGER(LOG, "gr_log.tpb_thread_body");
      GR_LOG_SET_LEVEL(LOG, log_level);
@@ -1310,7 +1310,7 @@ diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/lib/tpb_thread_body.cc gnuradio-main
  
 diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/python/gnuradio/gr_unittest.py gnuradio-maint-3.8/gnuradio-runtime/python/gnuradio/gr_unittest.py
 --- gnuradio-3.8.0.0/gnuradio-runtime/python/gnuradio/gr_unittest.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gnuradio-runtime/python/gnuradio/gr_unittest.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gnuradio-runtime/python/gnuradio/gr_unittest.py	2020-01-05 09:47:33.000000000 +0700
 @@ -82,10 +82,10 @@
          places.0
          """
@@ -1363,7 +1363,7 @@ diff -uNr gnuradio-3.8.0.0/gnuradio-runtime/python/gnuradio/gr_unittest.py gnura
  TestSuite = unittest.TestSuite
 diff -uNr gnuradio-3.8.0.0/gr-analog/grc/analog_agc2_xx.block.yml gnuradio-maint-3.8/gr-analog/grc/analog_agc2_xx.block.yml
 --- gnuradio-3.8.0.0/gr-analog/grc/analog_agc2_xx.block.yml	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-analog/grc/analog_agc2_xx.block.yml	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-analog/grc/analog_agc2_xx.block.yml	2020-01-05 09:47:33.000000000 +0700
 @@ -56,7 +56,7 @@
      declarations: 'analog::agc2_${type.fcn}::sptr ${id};'
      make: |-
@@ -1375,7 +1375,7 @@ diff -uNr gnuradio-3.8.0.0/gr-analog/grc/analog_agc2_xx.block.yml gnuradio-maint
      - set_decay_rate(${decay_rate})
 diff -uNr gnuradio-3.8.0.0/gr-analog/grc/analog_agc3_xx.block.yml gnuradio-maint-3.8/gr-analog/grc/analog_agc3_xx.block.yml
 --- gnuradio-3.8.0.0/gr-analog/grc/analog_agc3_xx.block.yml	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-analog/grc/analog_agc3_xx.block.yml	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-analog/grc/analog_agc3_xx.block.yml	2020-01-05 09:47:33.000000000 +0700
 @@ -60,7 +60,7 @@
      declarations: 'analog::agc3_${type.fcn}::sptr ${id};'
      make: |-
@@ -1387,7 +1387,7 @@ diff -uNr gnuradio-3.8.0.0/gr-analog/grc/analog_agc3_xx.block.yml gnuradio-maint
      - set_decay_rate(${decay_rate})
 diff -uNr gnuradio-3.8.0.0/gr-analog/grc/analog_agc_xx.block.yml gnuradio-maint-3.8/gr-analog/grc/analog_agc_xx.block.yml
 --- gnuradio-3.8.0.0/gr-analog/grc/analog_agc_xx.block.yml	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-analog/grc/analog_agc_xx.block.yml	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-analog/grc/analog_agc_xx.block.yml	2020-01-05 09:47:33.000000000 +0700
 @@ -51,7 +51,7 @@
      declarations: 'analog::agc_${type.fcn}::sptr ${id};'
      make: |-
@@ -1399,7 +1399,7 @@ diff -uNr gnuradio-3.8.0.0/gr-analog/grc/analog_agc_xx.block.yml gnuradio-maint-
      - set_reference(${reference})
 diff -uNr gnuradio-3.8.0.0/gr-analog/grc/analog_const_source_x.block.yml gnuradio-maint-3.8/gr-analog/grc/analog_const_source_x.block.yml
 --- gnuradio-3.8.0.0/gr-analog/grc/analog_const_source_x.block.yml	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-analog/grc/analog_const_source_x.block.yml	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-analog/grc/analog_const_source_x.block.yml	2020-01-05 09:47:33.000000000 +0700
 @@ -27,7 +27,8 @@
      - set_offset(${const})
  
@@ -1412,7 +1412,7 @@ diff -uNr gnuradio-3.8.0.0/gr-analog/grc/analog_const_source_x.block.yml gnuradi
      - set_offset(${const})
 diff -uNr gnuradio-3.8.0.0/gr-analog/grc/analog_frequency_modulator_fc.block.yml gnuradio-maint-3.8/gr-analog/grc/analog_frequency_modulator_fc.block.yml
 --- gnuradio-3.8.0.0/gr-analog/grc/analog_frequency_modulator_fc.block.yml	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-analog/grc/analog_frequency_modulator_fc.block.yml	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-analog/grc/analog_frequency_modulator_fc.block.yml	2020-01-05 09:47:33.000000000 +0700
 @@ -23,6 +23,7 @@
  
  cpp_templates:
@@ -1423,7 +1423,7 @@ diff -uNr gnuradio-3.8.0.0/gr-analog/grc/analog_frequency_modulator_fc.block.yml
      - set_sensitivity(${sensitivity})
 diff -uNr gnuradio-3.8.0.0/gr-analog/grc/analog_pwr_squelch_xx.block.yml gnuradio-maint-3.8/gr-analog/grc/analog_pwr_squelch_xx.block.yml
 --- gnuradio-3.8.0.0/gr-analog/grc/analog_pwr_squelch_xx.block.yml	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-analog/grc/analog_pwr_squelch_xx.block.yml	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-analog/grc/analog_pwr_squelch_xx.block.yml	2020-01-05 09:47:33.000000000 +0700
 @@ -53,4 +53,18 @@
          True: true
          False: false
@@ -1445,7 +1445,7 @@ diff -uNr gnuradio-3.8.0.0/gr-analog/grc/analog_pwr_squelch_xx.block.yml gnuradi
  file_format: 1
 diff -uNr gnuradio-3.8.0.0/gr-analog/grc/analog_wfm_tx.block.yml gnuradio-maint-3.8/gr-analog/grc/analog_wfm_tx.block.yml
 --- gnuradio-3.8.0.0/gr-analog/grc/analog_wfm_tx.block.yml	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-analog/grc/analog_wfm_tx.block.yml	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-analog/grc/analog_wfm_tx.block.yml	2020-01-05 09:47:33.000000000 +0700
 @@ -1,6 +1,6 @@
  id: analog_wfm_tx
  label: WBFM Transmit
@@ -1467,7 +1467,7 @@ diff -uNr gnuradio-3.8.0.0/gr-analog/grc/analog_wfm_tx.block.yml gnuradio-maint-
  file_format: 1
 diff -uNr gnuradio-3.8.0.0/gr-analog/include/gnuradio/analog/ctcss_squelch_ff.h gnuradio-maint-3.8/gr-analog/include/gnuradio/analog/ctcss_squelch_ff.h
 --- gnuradio-3.8.0.0/gr-analog/include/gnuradio/analog/ctcss_squelch_ff.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-analog/include/gnuradio/analog/ctcss_squelch_ff.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-analog/include/gnuradio/analog/ctcss_squelch_ff.h	2020-01-05 09:47:33.000000000 +0700
 @@ -51,7 +51,8 @@
       * \param freq frequency value to use as the squelch tone.
       * \param level threshold level for the squelch tone.
@@ -1480,7 +1480,7 @@ diff -uNr gnuradio-3.8.0.0/gr-analog/include/gnuradio/analog/ctcss_squelch_ff.h 
       */
 diff -uNr gnuradio-3.8.0.0/gr-analog/include/gnuradio/analog/pwr_squelch_cc.h gnuradio-maint-3.8/gr-analog/include/gnuradio/analog/pwr_squelch_cc.h
 --- gnuradio-3.8.0.0/gr-analog/include/gnuradio/analog/pwr_squelch_cc.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-analog/include/gnuradio/analog/pwr_squelch_cc.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-analog/include/gnuradio/analog/pwr_squelch_cc.h	2020-01-05 09:47:33.000000000 +0700
 @@ -49,7 +49,8 @@
       *
       * \param db threshold (in dB) for power squelch
@@ -1493,7 +1493,7 @@ diff -uNr gnuradio-3.8.0.0/gr-analog/include/gnuradio/analog/pwr_squelch_cc.h gn
       *
 diff -uNr gnuradio-3.8.0.0/gr-analog/include/gnuradio/analog/pwr_squelch_ff.h gnuradio-maint-3.8/gr-analog/include/gnuradio/analog/pwr_squelch_ff.h
 --- gnuradio-3.8.0.0/gr-analog/include/gnuradio/analog/pwr_squelch_ff.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-analog/include/gnuradio/analog/pwr_squelch_ff.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-analog/include/gnuradio/analog/pwr_squelch_ff.h	2020-01-05 09:47:33.000000000 +0700
 @@ -49,7 +49,8 @@
       *
       * \param db threshold (in dB) for power squelch
@@ -1506,7 +1506,7 @@ diff -uNr gnuradio-3.8.0.0/gr-analog/include/gnuradio/analog/pwr_squelch_ff.h gn
       *
 diff -uNr gnuradio-3.8.0.0/gr-analog/python/analog/fm_demod.py gnuradio-maint-3.8/gr-analog/python/analog/fm_demod.py
 --- gnuradio-3.8.0.0/gr-analog/python/analog/fm_demod.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-analog/python/analog/fm_demod.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-analog/python/analog/fm_demod.py	2020-01-05 09:47:33.000000000 +0700
 @@ -110,5 +110,4 @@
          fm_demod_cf.__init__(self, channel_rate, audio_decim,
                               75000,  # Deviation
@@ -1516,7 +1516,7 @@ diff -uNr gnuradio-3.8.0.0/gr-analog/python/analog/fm_demod.py gnuradio-maint-3.
 +                             16000)  # Audio stopband
 diff -uNr gnuradio-3.8.0.0/gr-analog/python/analog/qa_sig_source.py gnuradio-maint-3.8/gr-analog/python/analog/qa_sig_source.py
 --- gnuradio-3.8.0.0/gr-analog/python/analog/qa_sig_source.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-analog/python/analog/qa_sig_source.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-analog/python/analog/qa_sig_source.py	2020-01-05 09:47:33.000000000 +0700
 @@ -69,7 +69,7 @@
          tb.run()
          dst_data = dst1.data()
@@ -1539,7 +1539,7 @@ diff -uNr gnuradio-3.8.0.0/gr-analog/python/analog/qa_sig_source.py gnuradio-mai
          tb = self.tb
 diff -uNr gnuradio-3.8.0.0/gr-analog/python/analog/wfm_rcv_fmdet.py gnuradio-maint-3.8/gr-analog/python/analog/wfm_rcv_fmdet.py
 --- gnuradio-3.8.0.0/gr-analog/python/analog/wfm_rcv_fmdet.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-analog/python/analog/wfm_rcv_fmdet.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-analog/python/analog/wfm_rcv_fmdet.py	2020-01-05 09:47:33.000000000 +0700
 @@ -115,7 +115,7 @@
                                        stereo_carrier_filter_coeffs)
  
@@ -1551,7 +1551,7 @@ diff -uNr gnuradio-3.8.0.0/gr-analog/python/analog/wfm_rcv_fmdet.py gnuradio-mai
              # Pick off the rds signal
 diff -uNr gnuradio-3.8.0.0/gr-analog/python/analog/wfm_rcv_pll.py gnuradio-maint-3.8/gr-analog/python/analog/wfm_rcv_pll.py
 --- gnuradio-3.8.0.0/gr-analog/python/analog/wfm_rcv_pll.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-analog/python/analog/wfm_rcv_pll.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-analog/python/analog/wfm_rcv_pll.py	2020-01-05 09:47:33.000000000 +0700
 @@ -106,7 +106,7 @@
              self.stereo_carrier_filter = \
                  filter.fir_filter_fcc(audio_decimation, stereo_carrier_filter_coeffs)
@@ -1563,7 +1563,7 @@ diff -uNr gnuradio-3.8.0.0/gr-analog/python/analog/wfm_rcv_pll.py gnuradio-maint
  
 diff -uNr gnuradio-3.8.0.0/gr-audio/lib/jack/jack_sink.cc gnuradio-maint-3.8/gr-audio/lib/jack/jack_sink.cc
 --- gnuradio-3.8.0.0/gr-audio/lib/jack/jack_sink.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-audio/lib/jack/jack_sink.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-audio/lib/jack/jack_sink.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -99,7 +99,6 @@
            "audio_jack_sink", io_signature::make(0, 0, 0), io_signature::make(0, 0, 0)),
        d_sampling_rate(sampling_rate),
@@ -1574,7 +1574,7 @@ diff -uNr gnuradio-3.8.0.0/gr-audio/lib/jack/jack_sink.cc gnuradio-maint-3.8/gr-
        d_jack_output_port(),
 diff -uNr gnuradio-3.8.0.0/gr-audio/lib/jack/jack_sink.h gnuradio-maint-3.8/gr-audio/lib/jack/jack_sink.h
 --- gnuradio-3.8.0.0/gr-audio/lib/jack/jack_sink.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-audio/lib/jack/jack_sink.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-audio/lib/jack/jack_sink.h	2020-01-05 09:47:33.000000000 +0700
 @@ -52,7 +52,6 @@
  
      unsigned int d_sampling_rate;
@@ -1585,7 +1585,7 @@ diff -uNr gnuradio-3.8.0.0/gr-audio/lib/jack/jack_sink.h gnuradio-maint-3.8/gr-a
      static const int MAX_PORTS = 10;
 diff -uNr gnuradio-3.8.0.0/gr-audio/lib/jack/jack_source.cc gnuradio-maint-3.8/gr-audio/lib/jack/jack_source.cc
 --- gnuradio-3.8.0.0/gr-audio/lib/jack/jack_source.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-audio/lib/jack/jack_source.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-audio/lib/jack/jack_source.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -101,7 +101,6 @@
            "audio_jack_source", io_signature::make(0, 0, 0), io_signature::make(0, 0, 0)),
        d_sampling_rate(sampling_rate),
@@ -1596,7 +1596,7 @@ diff -uNr gnuradio-3.8.0.0/gr-audio/lib/jack/jack_source.cc gnuradio-maint-3.8/g
        d_jack_input_port(),
 diff -uNr gnuradio-3.8.0.0/gr-audio/lib/jack/jack_source.h gnuradio-maint-3.8/gr-audio/lib/jack/jack_source.h
 --- gnuradio-3.8.0.0/gr-audio/lib/jack/jack_source.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-audio/lib/jack/jack_source.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-audio/lib/jack/jack_source.h	2020-01-05 09:47:33.000000000 +0700
 @@ -52,7 +52,6 @@
  
      unsigned int d_sampling_rate;
@@ -1607,7 +1607,7 @@ diff -uNr gnuradio-3.8.0.0/gr-audio/lib/jack/jack_source.h gnuradio-maint-3.8/gr
      static const int MAX_PORTS = 10;
 diff -uNr gnuradio-3.8.0.0/gr-audio/lib/portaudio/portaudio_source.cc gnuradio-maint-3.8/gr-audio/lib/portaudio/portaudio_source.cc
 --- gnuradio-3.8.0.0/gr-audio/lib/portaudio/portaudio_source.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-audio/lib/portaudio/portaudio_source.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-audio/lib/portaudio/portaudio_source.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -106,7 +106,7 @@
  
          // copy from input buffer to ringbuffer
@@ -1619,7 +1619,7 @@ diff -uNr gnuradio-3.8.0.0/gr-audio/lib/portaudio/portaudio_source.cc gnuradio-m
                     inputBuffer,
 diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/ctrlport_probe2_b_impl.cc gnuradio-maint-3.8/gr-blocks/lib/ctrlport_probe2_b_impl.cc
 --- gnuradio-3.8.0.0/gr-blocks/lib/ctrlport_probe2_b_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-blocks/lib/ctrlport_probe2_b_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-blocks/lib/ctrlport_probe2_b_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -116,7 +116,7 @@
  {
  #ifdef GR_CTRLPORT
@@ -1664,7 +1664,7 @@ diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/ctrlport_probe2_b_impl.cc gnuradio-main
  
 diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/ctrlport_probe2_c_impl.cc gnuradio-maint-3.8/gr-blocks/lib/ctrlport_probe2_c_impl.cc
 --- gnuradio-3.8.0.0/gr-blocks/lib/ctrlport_probe2_c_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-blocks/lib/ctrlport_probe2_c_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-blocks/lib/ctrlport_probe2_c_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -116,7 +116,7 @@
  {
  #ifdef GR_CTRLPORT
@@ -1709,7 +1709,7 @@ diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/ctrlport_probe2_c_impl.cc gnuradio-main
  
 diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/ctrlport_probe2_f_impl.cc gnuradio-maint-3.8/gr-blocks/lib/ctrlport_probe2_f_impl.cc
 --- gnuradio-3.8.0.0/gr-blocks/lib/ctrlport_probe2_f_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-blocks/lib/ctrlport_probe2_f_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-blocks/lib/ctrlport_probe2_f_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -116,8 +116,8 @@
  {
  #ifdef GR_CTRLPORT
@@ -1756,7 +1756,7 @@ diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/ctrlport_probe2_f_impl.cc gnuradio-main
  
 diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/ctrlport_probe2_i_impl.cc gnuradio-maint-3.8/gr-blocks/lib/ctrlport_probe2_i_impl.cc
 --- gnuradio-3.8.0.0/gr-blocks/lib/ctrlport_probe2_i_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-blocks/lib/ctrlport_probe2_i_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-blocks/lib/ctrlport_probe2_i_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -115,8 +115,8 @@
  {
  #ifdef GR_CTRLPORT
@@ -1803,7 +1803,7 @@ diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/ctrlport_probe2_i_impl.cc gnuradio-main
  
 diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/ctrlport_probe2_s_impl.cc gnuradio-maint-3.8/gr-blocks/lib/ctrlport_probe2_s_impl.cc
 --- gnuradio-3.8.0.0/gr-blocks/lib/ctrlport_probe2_s_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-blocks/lib/ctrlport_probe2_s_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-blocks/lib/ctrlport_probe2_s_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -115,8 +115,8 @@
  {
  #ifdef GR_CTRLPORT
@@ -1850,7 +1850,7 @@ diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/ctrlport_probe2_s_impl.cc gnuradio-main
  
 diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/ctrlport_probe_c_impl.cc gnuradio-maint-3.8/gr-blocks/lib/ctrlport_probe_c_impl.cc
 --- gnuradio-3.8.0.0/gr-blocks/lib/ctrlport_probe_c_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-blocks/lib/ctrlport_probe_c_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-blocks/lib/ctrlport_probe_c_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -81,7 +81,7 @@
  void ctrlport_probe_c_impl::setup_rpc()
  {
@@ -1871,7 +1871,7 @@ diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/ctrlport_probe_c_impl.cc gnuradio-maint
  
 diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/file_meta_source_impl.cc gnuradio-maint-3.8/gr-blocks/lib/file_meta_source_impl.cc
 --- gnuradio-3.8.0.0/gr-blocks/lib/file_meta_source_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-blocks/lib/file_meta_source_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-blocks/lib/file_meta_source_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -258,7 +258,7 @@
      bool ret = true;
      if (d_state == STATE_DETACHED) {
@@ -1883,7 +1883,7 @@ diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/file_meta_source_impl.cc gnuradio-maint
              s = hdr_filename;
 diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/multiply_matrix_impl.cc gnuradio-maint-3.8/gr-blocks/lib/multiply_matrix_impl.cc
 --- gnuradio-3.8.0.0/gr-blocks/lib/multiply_matrix_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-blocks/lib/multiply_matrix_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-blocks/lib/multiply_matrix_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -212,7 +212,7 @@
  multiply_matrix<T>::make(std::vector<std::vector<T>> A,
                           gr::block::tag_propagation_policy_t tag_propagation_policy)
@@ -1895,7 +1895,7 @@ diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/multiply_matrix_impl.cc gnuradio-maint-
      return gnuradio::get_initial_sptr(
 diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/mute_impl.cc gnuradio-maint-3.8/gr-blocks/lib/mute_impl.cc
 --- gnuradio-3.8.0.0/gr-blocks/lib/mute_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-blocks/lib/mute_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-blocks/lib/mute_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -1,6 +1,6 @@
  /* -*- c++ -*- */
  /*
@@ -1923,7 +1923,7 @@ diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/mute_impl.cc gnuradio-maint-3.8/gr-bloc
              *optr++ = *iptr++;
 diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/nop_impl.cc gnuradio-maint-3.8/gr-blocks/lib/nop_impl.cc
 --- gnuradio-3.8.0.0/gr-blocks/lib/nop_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-blocks/lib/nop_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-blocks/lib/nop_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -69,19 +69,18 @@
  void nop_impl::setup_rpc()
  {
@@ -1957,7 +1957,7 @@ diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/nop_impl.cc gnuradio-maint-3.8/gr-block
                                                            &nop::set_ctrlport_test,
 diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/qa_gr_flowgraph.cc gnuradio-maint-3.8/gr-blocks/lib/qa_gr_flowgraph.cc
 --- gnuradio-3.8.0.0/gr-blocks/lib/qa_gr_flowgraph.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-blocks/lib/qa_gr_flowgraph.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-blocks/lib/qa_gr_flowgraph.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -269,8 +269,8 @@
  
      fg->clear();
@@ -1971,7 +1971,7 @@ diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/qa_gr_flowgraph.cc gnuradio-maint-3.8/g
  BOOST_AUTO_TEST_CASE(t16_partition)
 diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/tag_debug_impl.cc gnuradio-maint-3.8/gr-blocks/lib/tag_debug_impl.cc
 --- gnuradio-3.8.0.0/gr-blocks/lib/tag_debug_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-blocks/lib/tag_debug_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-blocks/lib/tag_debug_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -71,7 +71,7 @@
  
  void tag_debug_impl::set_key_filter(const std::string& key_filter)
@@ -1992,7 +1992,7 @@ diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/tag_debug_impl.cc gnuradio-maint-3.8/gr
  
 diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/tag_gate_impl.cc gnuradio-maint-3.8/gr-blocks/lib/tag_gate_impl.cc
 --- gnuradio-3.8.0.0/gr-blocks/lib/tag_gate_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-blocks/lib/tag_gate_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-blocks/lib/tag_gate_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -64,7 +64,7 @@
  
  void tag_gate_impl::set_single_key(const std::string& single_key)
@@ -2004,7 +2004,7 @@ diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/tag_gate_impl.cc gnuradio-maint-3.8/gr-
      } else {
 diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/tagged_file_sink_impl.cc gnuradio-maint-3.8/gr-blocks/lib/tagged_file_sink_impl.cc
 --- gnuradio-3.8.0.0/gr-blocks/lib/tagged_file_sink_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-blocks/lib/tagged_file_sink_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-blocks/lib/tagged_file_sink_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -94,7 +94,7 @@
      // Look for a time tag and initialize d_timeval.
      std::vector<tag_t> time_tags_outer;
@@ -2025,7 +2025,7 @@ diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/tagged_file_sink_impl.cc gnuradio-maint
                          uint64_t time_nitems = tag.offset;
 diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/tagged_stream_align_impl.cc gnuradio-maint-3.8/gr-blocks/lib/tagged_stream_align_impl.cc
 --- gnuradio-3.8.0.0/gr-blocks/lib/tagged_stream_align_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-blocks/lib/tagged_stream_align_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-blocks/lib/tagged_stream_align_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -72,7 +72,7 @@
      } else {
          get_tags_in_range(
@@ -2037,7 +2037,7 @@ diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/tagged_stream_align_impl.cc gnuradio-ma
          } else {
 diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/throttle_impl.cc gnuradio-maint-3.8/gr-blocks/lib/throttle_impl.cc
 --- gnuradio-3.8.0.0/gr-blocks/lib/throttle_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-blocks/lib/throttle_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-blocks/lib/throttle_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -116,7 +116,7 @@
  void throttle_impl::setup_rpc()
  {
@@ -2070,7 +2070,7 @@ diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/throttle_impl.cc gnuradio-maint-3.8/gr-
  
 diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/udp_sink_impl.cc gnuradio-maint-3.8/gr-blocks/lib/udp_sink_impl.cc
 --- gnuradio-3.8.0.0/gr-blocks/lib/udp_sink_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-blocks/lib/udp_sink_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-blocks/lib/udp_sink_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -70,7 +70,7 @@
          disconnect();
  
@@ -2082,7 +2082,7 @@ diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/udp_sink_impl.cc gnuradio-maint-3.8/gr-
              host, s_port, boost::asio::ip::resolver_query_base::passive);
 diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/udp_source_impl.cc gnuradio-maint-3.8/gr-blocks/lib/udp_source_impl.cc
 --- gnuradio-3.8.0.0/gr-blocks/lib/udp_source_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-blocks/lib/udp_source_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-blocks/lib/udp_source_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -84,7 +84,7 @@
      std::string s_port;
      s_port = (boost::format("%d") % d_port).str();
@@ -2094,7 +2094,7 @@ diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/udp_source_impl.cc gnuradio-maint-3.8/g
              d_host, s_port, boost::asio::ip::resolver_query_base::passive);
 diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/vector_source_impl.cc gnuradio-maint-3.8/gr-blocks/lib/vector_source_impl.cc
 --- gnuradio-3.8.0.0/gr-blocks/lib/vector_source_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-blocks/lib/vector_source_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-blocks/lib/vector_source_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -57,7 +57,7 @@
        d_vlen(vlen),
        d_tags(tags)
@@ -2115,7 +2115,7 @@ diff -uNr gnuradio-3.8.0.0/gr-blocks/lib/vector_source_impl.cc gnuradio-maint-3.
          d_settags = true;
 diff -uNr gnuradio-3.8.0.0/gr-blocks/python/blocks/qa_python_message_passing.py gnuradio-maint-3.8/gr-blocks/python/blocks/qa_python_message_passing.py
 --- gnuradio-3.8.0.0/gr-blocks/python/blocks/qa_python_message_passing.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-blocks/python/blocks/qa_python_message_passing.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-blocks/python/blocks/qa_python_message_passing.py	2020-01-05 09:47:33.000000000 +0700
 @@ -103,13 +103,7 @@
          self.assertEqual('in_port' in pmt.to_python(msg_cons.message_ports_in()), True)
  
@@ -2133,7 +2133,7 @@ diff -uNr gnuradio-3.8.0.0/gr-blocks/python/blocks/qa_python_message_passing.py 
          self.assertEqual(num_msgs, len(msg_cons.msg_list))
 diff -uNr gnuradio-3.8.0.0/gr-digital/grc/digital_symbol_sync_xx.block.yml gnuradio-maint-3.8/gr-digital/grc/digital_symbol_sync_xx.block.yml
 --- gnuradio-3.8.0.0/gr-digital/grc/digital_symbol_sync_xx.block.yml	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-digital/grc/digital_symbol_sync_xx.block.yml	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-digital/grc/digital_symbol_sync_xx.block.yml	2020-01-05 09:47:33.000000000 +0700
 @@ -19,7 +19,7 @@
      options: [digital.TED_MUELLER_AND_MULLER, digital.TED_MOD_MUELLER_AND_MULLER,
          digital.TED_ZERO_CROSSING, digital.TED_GARDNER, digital.TED_EARLY_LATE, digital.TED_DANDREA_AND_MENGALI_GEN_MSK,
@@ -2154,9 +2154,59 @@ diff -uNr gnuradio-3.8.0.0/gr-digital/grc/digital_symbol_sync_xx.block.yml gnura
  -   id: nfilters
      label: Filterbank Arms
      dtype: int
+diff -uNr gnuradio-3.8.0.0/gr-digital/lib/additive_scrambler_bb_impl.cc gnuradio-maint-3.8/gr-digital/lib/additive_scrambler_bb_impl.cc
+--- gnuradio-3.8.0.0/gr-digital/lib/additive_scrambler_bb_impl.cc	2019-08-10 04:15:36.000000000 +0700
++++ gnuradio-maint-3.8/gr-digital/lib/additive_scrambler_bb_impl.cc	2020-01-05 09:47:33.000000000 +0700
+@@ -109,35 +109,19 @@
+     unsigned char* out = (unsigned char*)output_items[0];
+     int reset_index = _get_next_reset_index(noutput_items);
+ 
+-    if (d_count >= 0) {
+-        for (int i = 0; i < noutput_items; i++) {
+-            unsigned char scramble_byte = 0x00;
+-            for (int k = 0; k < d_bits_per_byte; k++) {
+-                scramble_byte ^= (d_lfsr.next_bit() << k);
+-            }
+-            out[i] = in[i] ^ scramble_byte;
+-            d_bytes++;
+-            if (i == reset_index) {
+-                d_lfsr.reset();
+-                d_bytes = 0;
+-                reset_index = _get_next_reset_index(noutput_items, reset_index);
+-            }
++    for (int i = 0; i < noutput_items; i++) {
++        // Reset should occur at/before the item associated with the tag.
++        if (i == reset_index) {
++            d_lfsr.reset();
++            d_bytes = 0;
++            reset_index = _get_next_reset_index(noutput_items, reset_index);
+         }
+-    } else {
+-        for (int i = 0; i < noutput_items; i++) {
+-            // Reset should occur at/before the item associated with the tag.
+-            if (i == reset_index) {
+-                d_lfsr.reset();
+-                d_bytes = 0;
+-                reset_index = _get_next_reset_index(noutput_items, reset_index);
+-            }
+-            unsigned char scramble_byte = 0x00;
+-            for (int k = 0; k < d_bits_per_byte; k++) {
+-                scramble_byte ^= (d_lfsr.next_bit() << k);
+-            }
+-            out[i] = in[i] ^ scramble_byte;
+-            d_bytes++;
++        unsigned char scramble_byte = 0x00;
++        for (int k = 0; k < d_bits_per_byte; k++) {
++            scramble_byte ^= (d_lfsr.next_bit() << k);
+         }
++        out[i] = in[i] ^ scramble_byte;
++        d_bytes++;
+     }
+ 
+     return noutput_items;
 diff -uNr gnuradio-3.8.0.0/gr-digital/lib/burst_shaper_impl.cc gnuradio-maint-3.8/gr-digital/lib/burst_shaper_impl.cc
 --- gnuradio-3.8.0.0/gr-digital/lib/burst_shaper_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-digital/lib/burst_shaper_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-digital/lib/burst_shaper_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -1,6 +1,6 @@
  /* -*- c++ -*- */
  /*
@@ -2184,7 +2234,7 @@ diff -uNr gnuradio-3.8.0.0/gr-digital/lib/burst_shaper_impl.cc gnuradio-maint-3.
      d_index += nprocess;
 diff -uNr gnuradio-3.8.0.0/gr-digital/lib/constellation.cc gnuradio-maint-3.8/gr-digital/lib/constellation.cc
 --- gnuradio-3.8.0.0/gr-digital/lib/constellation.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-digital/lib/constellation.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-digital/lib/constellation.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -69,7 +69,7 @@
              d_constellation[i] = d_constellation[i] * d_scalefactor;
          }
@@ -2205,7 +2255,7 @@ diff -uNr gnuradio-3.8.0.0/gr-digital/lib/constellation.cc gnuradio-maint-3.8/gr
  
 diff -uNr gnuradio-3.8.0.0/gr-digital/lib/costas_loop_cc_impl.cc gnuradio-maint-3.8/gr-digital/lib/costas_loop_cc_impl.cc
 --- gnuradio-3.8.0.0/gr-digital/lib/costas_loop_cc_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-digital/lib/costas_loop_cc_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-digital/lib/costas_loop_cc_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -180,7 +180,7 @@
                        pmt::intern("phase_est"));
  
@@ -2217,7 +2267,7 @@ diff -uNr gnuradio-3.8.0.0/gr-digital/lib/costas_loop_cc_impl.cc gnuradio-maint-
                  tags.erase(tags.begin());
 diff -uNr gnuradio-3.8.0.0/gr-digital/lib/fll_band_edge_cc_impl.cc gnuradio-maint-3.8/gr-digital/lib/fll_band_edge_cc_impl.cc
 --- gnuradio-3.8.0.0/gr-digital/lib/fll_band_edge_cc_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-digital/lib/fll_band_edge_cc_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-digital/lib/fll_band_edge_cc_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -226,7 +226,6 @@
      float error;
      gr_complex nco_out;
@@ -2228,7 +2278,7 @@ diff -uNr gnuradio-3.8.0.0/gr-digital/lib/fll_band_edge_cc_impl.cc gnuradio-main
          nco_out = gr_expj(d_phase);
 diff -uNr gnuradio-3.8.0.0/gr-digital/lib/hdlc_framer_pb_impl.cc gnuradio-maint-3.8/gr-digital/lib/hdlc_framer_pb_impl.cc
 --- gnuradio-3.8.0.0/gr-digital/lib/hdlc_framer_pb_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-digital/lib/hdlc_framer_pb_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-digital/lib/hdlc_framer_pb_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -114,7 +114,7 @@
      // partial packets., but if we're to preserve tag boundaries
      // this is much, much simpler.
@@ -2240,7 +2290,7 @@ diff -uNr gnuradio-3.8.0.0/gr-digital/lib/hdlc_framer_pb_impl.cc gnuradio-maint-
          memcpy(out + oidx, &d_leftovers[0][0], d_leftovers[0].size());
 diff -uNr gnuradio-3.8.0.0/gr-digital/lib/map_bb_impl.cc gnuradio-maint-3.8/gr-digital/lib/map_bb_impl.cc
 --- gnuradio-3.8.0.0/gr-digital/lib/map_bb_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-digital/lib/map_bb_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-digital/lib/map_bb_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -49,19 +49,22 @@
  {
      gr::thread::scoped_lock guard(d_mutex);
@@ -2270,7 +2320,7 @@ diff -uNr gnuradio-3.8.0.0/gr-digital/lib/map_bb_impl.cc gnuradio-maint-3.8/gr-d
  
 diff -uNr gnuradio-3.8.0.0/gr-digital/lib/map_bb_impl.h gnuradio-maint-3.8/gr-digital/lib/map_bb_impl.h
 --- gnuradio-3.8.0.0/gr-digital/lib/map_bb_impl.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-digital/lib/map_bb_impl.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-digital/lib/map_bb_impl.h	2020-01-05 09:47:33.000000000 +0700
 @@ -32,8 +32,9 @@
  class map_bb_impl : public map_bb
  {
@@ -2285,7 +2335,7 @@ diff -uNr gnuradio-3.8.0.0/gr-digital/lib/map_bb_impl.h gnuradio-maint-3.8/gr-di
      map_bb_impl(const std::vector<int>& map);
 diff -uNr gnuradio-3.8.0.0/gr-digital/lib/msk_timing_recovery_cc_impl.cc gnuradio-maint-3.8/gr-digital/lib/msk_timing_recovery_cc_impl.cc
 --- gnuradio-3.8.0.0/gr-digital/lib/msk_timing_recovery_cc_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-digital/lib/msk_timing_recovery_cc_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-digital/lib/msk_timing_recovery_cc_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -133,7 +133,7 @@
  
      while (oidx < noutput_items && iidx < ninp) {
@@ -2297,7 +2347,7 @@ diff -uNr gnuradio-3.8.0.0/gr-digital/lib/msk_timing_recovery_cc_impl.cc gnuradi
                  float center = (float)pmt::to_double(tags[0].value);
 diff -uNr gnuradio-3.8.0.0/gr-digital/lib/ofdm_chanest_vcvc_impl.cc gnuradio-maint-3.8/gr-digital/lib/ofdm_chanest_vcvc_impl.cc
 --- gnuradio-3.8.0.0/gr-digital/lib/ofdm_chanest_vcvc_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-digital/lib/ofdm_chanest_vcvc_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-digital/lib/ofdm_chanest_vcvc_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -60,8 +60,8 @@
        d_n_data_syms(n_data_symbols),
        d_n_sync_syms(1),
@@ -2329,7 +2379,7 @@ diff -uNr gnuradio-3.8.0.0/gr-digital/lib/ofdm_chanest_vcvc_impl.cc gnuradio-mai
          // g here is 2g in the paper
 diff -uNr gnuradio-3.8.0.0/gr-digital/lib/ofdm_equalizer_base.cc gnuradio-maint-3.8/gr-digital/lib/ofdm_equalizer_base.cc
 --- gnuradio-3.8.0.0/gr-digital/lib/ofdm_equalizer_base.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-digital/lib/ofdm_equalizer_base.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-digital/lib/ofdm_equalizer_base.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -57,7 +57,7 @@
      if (input_is_shifted) {
          fft_shift_width = fft_len / 2;
@@ -2350,7 +2400,7 @@ diff -uNr gnuradio-3.8.0.0/gr-digital/lib/ofdm_equalizer_base.cc gnuradio-maint-
                  throw std::invalid_argument("pilot carriers and -symbols do not match.");
 diff -uNr gnuradio-3.8.0.0/gr-digital/lib/pfb_clock_sync_ccf_impl.cc gnuradio-maint-3.8/gr-digital/lib/pfb_clock_sync_ccf_impl.cc
 --- gnuradio-3.8.0.0/gr-digital/lib/pfb_clock_sync_ccf_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-digital/lib/pfb_clock_sync_ccf_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-digital/lib/pfb_clock_sync_ccf_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -68,7 +68,7 @@
        d_error(0),
        d_out_idx(0)
@@ -2371,7 +2421,7 @@ diff -uNr gnuradio-3.8.0.0/gr-digital/lib/pfb_clock_sync_ccf_impl.cc gnuradio-ma
                  float center = (float)pmt::to_double(tags[0].value);
 diff -uNr gnuradio-3.8.0.0/gr-digital/lib/pfb_clock_sync_fff_impl.cc gnuradio-maint-3.8/gr-digital/lib/pfb_clock_sync_fff_impl.cc
 --- gnuradio-3.8.0.0/gr-digital/lib/pfb_clock_sync_fff_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-digital/lib/pfb_clock_sync_fff_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-digital/lib/pfb_clock_sync_fff_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -65,7 +65,7 @@
        d_error(0),
        d_out_idx(0)
@@ -2383,7 +2433,7 @@ diff -uNr gnuradio-3.8.0.0/gr-digital/lib/pfb_clock_sync_fff_impl.cc gnuradio-ma
      // Let scheduler adjust our relative_rate.
 diff -uNr gnuradio-3.8.0.0/gr-digital/lib/timing_error_detector.cc gnuradio-maint-3.8/gr-digital/lib/timing_error_detector.cc
 --- gnuradio-3.8.0.0/gr-digital/lib/timing_error_detector.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-digital/lib/timing_error_detector.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-digital/lib/timing_error_detector.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -232,11 +232,9 @@
      d_input_derivative.assign(d_error_depth, gr_complex(0.0f, 0.0f));
  
@@ -2399,9 +2449,51 @@ diff -uNr gnuradio-3.8.0.0/gr-digital/lib/timing_error_detector.cc gnuradio-main
      }
  
      sync_reset_input_clock();
+diff -uNr gnuradio-3.8.0.0/gr-digital/python/digital/qa_scrambler.py gnuradio-maint-3.8/gr-digital/python/digital/qa_scrambler.py
+--- gnuradio-3.8.0.0/gr-digital/python/digital/qa_scrambler.py	2019-08-10 04:15:36.000000000 +0700
++++ gnuradio-maint-3.8/gr-digital/python/digital/qa_scrambler.py	2020-01-05 09:47:33.000000000 +0700
+@@ -64,28 +64,24 @@
+         self.assertEqual(src_data, dst.data())
+ 
+     def test_additive_scrambler_reset(self):
+-        src_data = (1,)*1000
++        src_data = (1,)*200
+         src = blocks.vector_source_b(src_data, False)
+-        scrambler = digital.additive_scrambler_bb(0x8a, 0x7f, 7, 100)
+-        descrambler = digital.additive_scrambler_bb(0x8a, 0x7f, 7, 100)
++        scrambler = digital.additive_scrambler_bb(0x8a, 0x7f, 7, 50)
+         dst = blocks.vector_sink_b()
+-        self.tb.connect(src, scrambler, descrambler, dst)
++        self.tb.connect(src, scrambler, dst)
+         self.tb.run()
+-        self.assertEqual(src_data, dst.data())
++        output = dst.data()
++        self.assertEqual(output[:50] * 4, output)
+ 
+     def test_additive_scrambler_reset_3bpb(self):
+-        src_data = (5,)*2000
++        src_data = (5,)*200
+         src = blocks.vector_source_b(src_data, False)
+-        scrambler = digital.additive_scrambler_bb(0x8a, 0x7f, 7, 100, 3)
+-        descrambler = digital.additive_scrambler_bb(0x8a, 0x7f, 7, 100, 3)
++        scrambler = digital.additive_scrambler_bb(0x8a, 0x7f, 7, 50, 3)
+         dst = blocks.vector_sink_b()
+-        dst2 = blocks.vector_sink_b()
+-        self.tb.connect(src, scrambler, descrambler, dst)
+-        self.tb.connect(scrambler, dst2)
++        self.tb.connect(src, scrambler, dst)
+         self.tb.run()
+-        if not (src_data == dst.data()):
+-            self.fail('Not equal.')
+-        self.assertEqual(src_data, src_data)
++        output = dst.data()
++        self.assertEqual(output[:50] * 4, output)
+ 
+     def test_additive_scrambler_tags(self):
+         src_data = (1,)*1000
 diff -uNr gnuradio-3.8.0.0/gr-dtv/lib/atsc/atsc_field_sync_mux_impl.cc gnuradio-maint-3.8/gr-dtv/lib/atsc/atsc_field_sync_mux_impl.cc
 --- gnuradio-3.8.0.0/gr-dtv/lib/atsc/atsc_field_sync_mux_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-dtv/lib/atsc/atsc_field_sync_mux_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-dtv/lib/atsc/atsc_field_sync_mux_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -29,8 +29,6 @@
  namespace gr {
  namespace dtv {
@@ -2413,7 +2505,7 @@ diff -uNr gnuradio-3.8.0.0/gr-dtv/lib/atsc/atsc_field_sync_mux_impl.cc gnuradio-
      return gnuradio::get_initial_sptr(new atsc_field_sync_mux_impl());
 diff -uNr gnuradio-3.8.0.0/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.cc gnuradio-maint-3.8/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.cc
 --- gnuradio-3.8.0.0/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -34,9 +34,6 @@
  #define SEGOF(x) ((x) / ((SEGMENT_SIZE + 1) * DIBITS_PER_BYTE))
  #define SYMOF(x) (((x) % ((SEGMENT_SIZE + 1) * DIBITS_PER_BYTE)) - 4)
@@ -2444,7 +2536,7 @@ diff -uNr gnuradio-3.8.0.0/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.cc gnuradio
   */
 diff -uNr gnuradio-3.8.0.0/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.h gnuradio-maint-3.8/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.h
 --- gnuradio-3.8.0.0/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.h	2020-01-05 09:47:33.000000000 +0700
 @@ -33,6 +33,7 @@
  private:
      bool debug;
@@ -2455,7 +2547,7 @@ diff -uNr gnuradio-3.8.0.0/gr-dtv/lib/atsc/atsc_trellis_encoder_impl.h gnuradio-
      static const int INPUT_SIZE = (SEGMENT_SIZE * 12);
 diff -uNr gnuradio-3.8.0.0/gr-dtv/lib/dvbt/dvbt_convolutional_deinterleaver_impl.cc gnuradio-maint-3.8/gr-dtv/lib/dvbt/dvbt_convolutional_deinterleaver_impl.cc
 --- gnuradio-3.8.0.0/gr-dtv/lib/dvbt/dvbt_convolutional_deinterleaver_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-dtv/lib/dvbt/dvbt_convolutional_deinterleaver_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-dtv/lib/dvbt/dvbt_convolutional_deinterleaver_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -110,7 +110,7 @@
                              nread + (noutput_items * d_I * d_blocks),
                              pmt::string_to_symbol("superframe_start"));
@@ -2467,7 +2559,7 @@ diff -uNr gnuradio-3.8.0.0/gr-dtv/lib/dvbt/dvbt_convolutional_deinterleaver_impl
              return (0);
 diff -uNr gnuradio-3.8.0.0/gr-dtv/lib/dvbt/dvbt_demod_reference_signals_impl.cc gnuradio-maint-3.8/gr-dtv/lib/dvbt/dvbt_demod_reference_signals_impl.cc
 --- gnuradio-3.8.0.0/gr-dtv/lib/dvbt/dvbt_demod_reference_signals_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-dtv/lib/dvbt/dvbt_demod_reference_signals_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-dtv/lib/dvbt/dvbt_demod_reference_signals_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -116,7 +116,7 @@
      this->get_tags_in_range(
          tags, 0, nread, nread + nitems, pmt::string_to_symbol("sync_start"));
@@ -2479,7 +2571,7 @@ diff -uNr gnuradio-3.8.0.0/gr-dtv/lib/dvbt/dvbt_demod_reference_signals_impl.cc 
  int dvbt_demod_reference_signals_impl::general_work(
 diff -uNr gnuradio-3.8.0.0/gr-dtv/lib/dvbt/dvbt_ofdm_sym_acquisition_impl.cc gnuradio-maint-3.8/gr-dtv/lib/dvbt/dvbt_ofdm_sym_acquisition_impl.cc
 --- gnuradio-3.8.0.0/gr-dtv/lib/dvbt/dvbt_ofdm_sym_acquisition_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-dtv/lib/dvbt/dvbt_ofdm_sym_acquisition_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-dtv/lib/dvbt/dvbt_ofdm_sym_acquisition_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -409,7 +409,7 @@
              send_sync_start();
              d_initial_acquisition = 0;
@@ -2491,7 +2583,7 @@ diff -uNr gnuradio-3.8.0.0/gr-dtv/lib/dvbt/dvbt_ofdm_sym_acquisition_impl.cc gnu
              d_consumed += d_to_consume;
 diff -uNr gnuradio-3.8.0.0/gr-dtv/lib/dvbt/dvbt_reference_signals_impl.h gnuradio-maint-3.8/gr-dtv/lib/dvbt/dvbt_reference_signals_impl.h
 --- gnuradio-3.8.0.0/gr-dtv/lib/dvbt/dvbt_reference_signals_impl.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-dtv/lib/dvbt/dvbt_reference_signals_impl.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-dtv/lib/dvbt/dvbt_reference_signals_impl.h	2020-01-05 09:47:33.000000000 +0700
 @@ -218,7 +218,7 @@
       * TODO
       * ETSI EN 300 744 Clause 4.5. \n
@@ -2503,7 +2595,7 @@ diff -uNr gnuradio-3.8.0.0/gr-dtv/lib/dvbt/dvbt_reference_signals_impl.h gnuradi
                      gr_complex* out,
 diff -uNr gnuradio-3.8.0.0/gr-dtv/lib/dvbt/dvbt_viterbi_decoder_impl.cc gnuradio-maint-3.8/gr-dtv/lib/dvbt/dvbt_viterbi_decoder_impl.cc
 --- gnuradio-3.8.0.0/gr-dtv/lib/dvbt/dvbt_viterbi_decoder_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-dtv/lib/dvbt/dvbt_viterbi_decoder_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-dtv/lib/dvbt/dvbt_viterbi_decoder_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -644,7 +644,7 @@
                                  nread + (nblocks * d_nsymbols),
                                  pmt::string_to_symbol("superframe_start"));
@@ -2515,7 +2607,7 @@ diff -uNr gnuradio-3.8.0.0/gr-dtv/lib/dvbt/dvbt_viterbi_decoder_impl.cc gnuradio
  #ifdef DTV_SSE2
 diff -uNr gnuradio-3.8.0.0/gr-fec/lib/conv_bit_corr_bb_impl.h gnuradio-maint-3.8/gr-fec/lib/conv_bit_corr_bb_impl.h
 --- gnuradio-3.8.0.0/gr-fec/lib/conv_bit_corr_bb_impl.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-fec/lib/conv_bit_corr_bb_impl.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-fec/lib/conv_bit_corr_bb_impl.h	2020-01-05 09:47:33.000000000 +0700
 @@ -64,7 +64,7 @@
      std::vector<int> get_corr()
      {
@@ -2527,7 +2619,7 @@ diff -uNr gnuradio-3.8.0.0/gr-fec/lib/conv_bit_corr_bb_impl.h gnuradio-maint-3.8
          for (size_t i = 0; i < d_correlator[0].size(); i++) {
 diff -uNr gnuradio-3.8.0.0/gr-fec/lib/generic_decoder.cc gnuradio-maint-3.8/gr-fec/lib/generic_decoder.cc
 --- gnuradio-3.8.0.0/gr-fec/lib/generic_decoder.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-fec/lib/generic_decoder.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-fec/lib/generic_decoder.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -45,7 +45,7 @@
  
      GR_LOG_GETLOGGER(LOG, "gr_log." + alias());
@@ -2539,7 +2631,7 @@ diff -uNr gnuradio-3.8.0.0/gr-fec/lib/generic_decoder.cc gnuradio-maint-3.8/gr-f
          } else if (log_file == "stderr") {
 diff -uNr gnuradio-3.8.0.0/gr-fec/lib/generic_encoder.cc gnuradio-maint-3.8/gr-fec/lib/generic_encoder.cc
 --- gnuradio-3.8.0.0/gr-fec/lib/generic_encoder.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-fec/lib/generic_encoder.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-fec/lib/generic_encoder.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -45,7 +45,7 @@
  
      GR_LOG_GETLOGGER(LOG, "gr_log." + alias());
@@ -2551,7 +2643,7 @@ diff -uNr gnuradio-3.8.0.0/gr-fec/lib/generic_encoder.cc gnuradio-maint-3.8/gr-f
          } else if (log_file == "stderr") {
 diff -uNr gnuradio-3.8.0.0/gr-fec/lib/tpc_decoder.cc gnuradio-maint-3.8/gr-fec/lib/tpc_decoder.cc
 --- gnuradio-3.8.0.0/gr-fec/lib/tpc_decoder.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-fec/lib/tpc_decoder.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-fec/lib/tpc_decoder.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -703,7 +703,7 @@
  {
      // Return maximum of delta1 and delta2
@@ -2563,7 +2655,7 @@ diff -uNr gnuradio-3.8.0.0/gr-fec/lib/tpc_decoder.cc gnuradio-maint-3.8/gr-fec/l
      if (diff > TVALUE)
 diff -uNr gnuradio-3.8.0.0/gr-fft/include/gnuradio/fft/fft_vcc.h gnuradio-maint-3.8/gr-fft/include/gnuradio/fft/fft_vcc.h
 --- gnuradio-3.8.0.0/gr-fft/include/gnuradio/fft/fft_vcc.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-fft/include/gnuradio/fft/fft_vcc.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-fft/include/gnuradio/fft/fft_vcc.h	2020-01-05 09:47:33.000000000 +0700
 @@ -51,7 +51,7 @@
   * \f$N-1\f$.
   *
@@ -2575,7 +2667,7 @@ diff -uNr gnuradio-3.8.0.0/gr-fft/include/gnuradio/fft/fft_vcc.h gnuradio-maint-
   * \see http://www.fftw.org/faq/section3.html#whyscaled
 diff -uNr gnuradio-3.8.0.0/gr-fft/include/gnuradio/fft/fft_vfc.h gnuradio-maint-3.8/gr-fft/include/gnuradio/fft/fft_vfc.h
 --- gnuradio-3.8.0.0/gr-fft/include/gnuradio/fft/fft_vfc.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-fft/include/gnuradio/fft/fft_vfc.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-fft/include/gnuradio/fft/fft_vfc.h	2020-01-05 09:47:33.000000000 +0700
 @@ -51,7 +51,7 @@
   * \f$N-1\f$.
   *
@@ -2587,7 +2679,7 @@ diff -uNr gnuradio-3.8.0.0/gr-fft/include/gnuradio/fft/fft_vfc.h gnuradio-maint-
   * \see http://www.fftw.org/faq/section3.html#whyscaled
 diff -uNr gnuradio-3.8.0.0/gr-fft/include/gnuradio/fft/window.h gnuradio-maint-3.8/gr-fft/include/gnuradio/fft/window.h
 --- gnuradio-3.8.0.0/gr-fft/include/gnuradio/fft/window.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-fft/include/gnuradio/fft/window.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-fft/include/gnuradio/fft/window.h	2020-01-05 09:47:33.000000000 +0700
 @@ -177,7 +177,7 @@
      static std::vector<float> blackman_harris(int ntaps, int atten = 92);
  
@@ -2599,7 +2691,7 @@ diff -uNr gnuradio-3.8.0.0/gr-fft/include/gnuradio/fft/window.h gnuradio-maint-3
  
 diff -uNr gnuradio-3.8.0.0/gr-fft/lib/ctrlport_probe_psd_impl.cc gnuradio-maint-3.8/gr-fft/lib/ctrlport_probe_psd_impl.cc
 --- gnuradio-3.8.0.0/gr-fft/lib/ctrlport_probe_psd_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-fft/lib/ctrlport_probe_psd_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-fft/lib/ctrlport_probe_psd_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -137,7 +137,7 @@
  {
  #ifdef GR_CTRLPORT
@@ -2641,7 +2733,7 @@ diff -uNr gnuradio-3.8.0.0/gr-fft/lib/ctrlport_probe_psd_impl.cc gnuradio-maint-
  
 diff -uNr gnuradio-3.8.0.0/gr-fft/lib/fft_vcc_fftw.cc gnuradio-maint-3.8/gr-fft/lib/fft_vcc_fftw.cc
 --- gnuradio-3.8.0.0/gr-fft/lib/fft_vcc_fftw.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-fft/lib/fft_vcc_fftw.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-fft/lib/fft_vcc_fftw.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -67,7 +67,7 @@
  
  bool fft_vcc_fftw::set_window(const std::vector<float>& window)
@@ -2662,7 +2754,7 @@ diff -uNr gnuradio-3.8.0.0/gr-fft/lib/fft_vcc_fftw.cc gnuradio-maint-3.8/gr-fft/
                  unsigned int offset = (!d_forward && d_shift) ? (d_fft_size / 2) : 0;
 diff -uNr gnuradio-3.8.0.0/gr-fft/lib/fft_vfc_fftw.cc gnuradio-maint-3.8/gr-fft/lib/fft_vfc_fftw.cc
 --- gnuradio-3.8.0.0/gr-fft/lib/fft_vfc_fftw.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-fft/lib/fft_vfc_fftw.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-fft/lib/fft_vfc_fftw.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -62,7 +62,7 @@
  
  bool fft_vfc_fftw::set_window(const std::vector<float>& window)
@@ -2683,7 +2775,7 @@ diff -uNr gnuradio-3.8.0.0/gr-fft/lib/fft_vfc_fftw.cc gnuradio-maint-3.8/gr-fft/
                  dst[i] = in[i] * d_window[i];
 diff -uNr gnuradio-3.8.0.0/gr-filter/grc/filter_pfb_channelizer.block.yml gnuradio-maint-3.8/gr-filter/grc/filter_pfb_channelizer.block.yml
 --- gnuradio-3.8.0.0/gr-filter/grc/filter_pfb_channelizer.block.yml	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-filter/grc/filter_pfb_channelizer.block.yml	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-filter/grc/filter_pfb_channelizer.block.yml	2020-01-05 09:47:33.000000000 +0700
 @@ -53,7 +53,8 @@
              ${taps},
              ${osr},
@@ -2696,7 +2788,7 @@ diff -uNr gnuradio-3.8.0.0/gr-filter/grc/filter_pfb_channelizer.block.yml gnurad
      - set_channel_map(${ch_map})
 diff -uNr gnuradio-3.8.0.0/gr-filter/lib/fft_filter.cc gnuradio-maint-3.8/gr-filter/lib/fft_filter.cc
 --- gnuradio-3.8.0.0/gr-filter/lib/fft_filter.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-filter/lib/fft_filter.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-filter/lib/fft_filter.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -168,7 +168,7 @@
          dec_ctr = (j - d_nsamples);
  
@@ -2726,7 +2818,7 @@ diff -uNr gnuradio-3.8.0.0/gr-filter/lib/fft_filter.cc gnuradio-maint-3.8/gr-fil
                     tailsize() * sizeof(gr_complex));
 diff -uNr gnuradio-3.8.0.0/gr-filter/lib/fir_filter.cc gnuradio-maint-3.8/gr-filter/lib/fir_filter.cc
 --- gnuradio-3.8.0.0/gr-filter/lib/fir_filter.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-filter/lib/fir_filter.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-filter/lib/fir_filter.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -1,6 +1,6 @@
  /* -*- c++ -*- */
  /*
@@ -2746,7 +2838,7 @@ diff -uNr gnuradio-3.8.0.0/gr-filter/lib/fir_filter.cc gnuradio-maint-3.8/gr-fil
      }
 diff -uNr gnuradio-3.8.0.0/gr-filter/lib/fir_filter_with_buffer.cc gnuradio-maint-3.8/gr-filter/lib/fir_filter_with_buffer.cc
 --- gnuradio-3.8.0.0/gr-filter/lib/fir_filter_with_buffer.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-filter/lib/fir_filter_with_buffer.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-filter/lib/fir_filter_with_buffer.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -1,6 +1,6 @@
  /* -*- c++ -*- */
  /*
@@ -2784,7 +2876,7 @@ diff -uNr gnuradio-3.8.0.0/gr-filter/lib/fir_filter_with_buffer.cc gnuradio-main
      // Allocate aligned taps
 diff -uNr gnuradio-3.8.0.0/gr-filter/lib/interp_fir_filter_impl.cc gnuradio-maint-3.8/gr-filter/lib/interp_fir_filter_impl.cc
 --- gnuradio-3.8.0.0/gr-filter/lib/interp_fir_filter_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-filter/lib/interp_fir_filter_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-filter/lib/interp_fir_filter_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -55,7 +55,7 @@
          throw std::out_of_range("interp_fir_filter_impl: interpolation must be > 0\n");
      }
@@ -2796,7 +2888,7 @@ diff -uNr gnuradio-3.8.0.0/gr-filter/lib/interp_fir_filter_impl.cc gnuradio-main
  
 diff -uNr gnuradio-3.8.0.0/gr-filter/lib/pfb_channelizer_ccf_impl.cc gnuradio-maint-3.8/gr-filter/lib/pfb_channelizer_ccf_impl.cc
 --- gnuradio-3.8.0.0/gr-filter/lib/pfb_channelizer_ccf_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-filter/lib/pfb_channelizer_ccf_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-filter/lib/pfb_channelizer_ccf_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -125,7 +125,7 @@
  {
      gr::thread::scoped_lock guard(d_mutex);
@@ -2808,7 +2900,7 @@ diff -uNr gnuradio-3.8.0.0/gr-filter/lib/pfb_channelizer_ccf_impl.cc gnuradio-ma
              throw std::invalid_argument(
 diff -uNr gnuradio-3.8.0.0/gr-filter/lib/pfb_synthesizer_ccf_impl.cc gnuradio-maint-3.8/gr-filter/lib/pfb_synthesizer_ccf_impl.cc
 --- gnuradio-3.8.0.0/gr-filter/lib/pfb_synthesizer_ccf_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-filter/lib/pfb_synthesizer_ccf_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-filter/lib/pfb_synthesizer_ccf_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -1,6 +1,6 @@
  /* -*- c++ -*- */
  /*
@@ -2854,7 +2946,7 @@ diff -uNr gnuradio-3.8.0.0/gr-filter/lib/pfb_synthesizer_ccf_impl.cc gnuradio-ma
  
 diff -uNr gnuradio-3.8.0.0/gr-filter/lib/pm_remez.cc gnuradio-maint-3.8/gr-filter/lib/pm_remez.cc
 --- gnuradio-3.8.0.0/gr-filter/lib/pm_remez.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-filter/lib/pm_remez.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-filter/lib/pm_remez.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -821,7 +821,7 @@
      for (int i = 0; i < numbands; i++)
          weight[i] = 1.0;
@@ -2866,7 +2958,7 @@ diff -uNr gnuradio-3.8.0.0/gr-filter/lib/pm_remez.cc gnuradio-maint-3.8/gr-filte
          for (int i = 0; i < numbands; i++)
 diff -uNr gnuradio-3.8.0.0/gr-filter/lib/qa_fir_filter_with_buffer.cc gnuradio-maint-3.8/gr-filter/lib/qa_fir_filter_with_buffer.cc
 --- gnuradio-3.8.0.0/gr-filter/lib/qa_fir_filter_with_buffer.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-filter/lib/qa_fir_filter_with_buffer.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-filter/lib/qa_fir_filter_with_buffer.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -1,6 +1,6 @@
  /* -*- c++ -*- */
  /*
@@ -2939,7 +3031,7 @@ diff -uNr gnuradio-3.8.0.0/gr-filter/lib/qa_fir_filter_with_buffer.cc gnuradio-m
              // check results
 diff -uNr gnuradio-3.8.0.0/gr-filter/python/filter/design/filter_design.py gnuradio-maint-3.8/gr-filter/python/filter/design/filter_design.py
 --- gnuradio-3.8.0.0/gr-filter/python/filter/design/filter_design.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-filter/python/filter/design/filter_design.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-filter/python/filter/design/filter_design.py	2020-01-05 09:47:33.000000000 +0700
 @@ -33,16 +33,26 @@
  from gnuradio import filter
  
@@ -3156,7 +3248,7 @@ diff -uNr gnuradio-3.8.0.0/gr-filter/python/filter/design/filter_design.py gnura
              self.update_time_curves()
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/CMakeLists.txt gnuradio-maint-3.8/gr-qtgui/CMakeLists.txt
 --- gnuradio-3.8.0.0/gr-qtgui/CMakeLists.txt	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/CMakeLists.txt	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/CMakeLists.txt	2020-01-05 09:47:33.000000000 +0700
 @@ -22,8 +22,6 @@
  ########################################################################
  include(GrBoost)
@@ -3168,7 +3260,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/CMakeLists.txt gnuradio-maint-3.8/gr-qtgui/C
  # Note: gr-qtgui requires Qt5.
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/grc/qtgui_edit_box_msg.block.yml gnuradio-maint-3.8/gr-qtgui/grc/qtgui_edit_box_msg.block.yml
 --- gnuradio-3.8.0.0/gr-qtgui/grc/qtgui_edit_box_msg.block.yml	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/grc/qtgui_edit_box_msg.block.yml	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/grc/qtgui_edit_box_msg.block.yml	2020-01-05 09:47:33.000000000 +0700
 @@ -39,7 +39,7 @@
      hide: part
  
@@ -3180,7 +3272,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/grc/qtgui_edit_box_msg.block.yml gnuradio-ma
  -   domain: message
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/grc/qtgui_tab_widget.block.yml gnuradio-maint-3.8/gr-qtgui/grc/qtgui_tab_widget.block.yml
 --- gnuradio-3.8.0.0/gr-qtgui/grc/qtgui_tab_widget.block.yml	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/grc/qtgui_tab_widget.block.yml	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/grc/qtgui_tab_widget.block.yml	2020-01-05 09:47:33.000000000 +0700
 @@ -1,6 +1,6 @@
  id: qtgui_tab_widget
  label: QT GUI Tab Widget
@@ -3191,7 +3283,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/grc/qtgui_tab_widget.block.yml gnuradio-main
  -   id: num_tabs
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/form_menus.h gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/form_menus.h
 --- gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/form_menus.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/form_menus.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/form_menus.h	2020-01-05 09:47:33.000000000 +0700
 @@ -700,7 +700,6 @@
  
  private:
@@ -3226,7 +3318,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/form_menus.h gnuradio
  };
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/freq_sink_c.h gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/freq_sink_c.h
 --- gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/freq_sink_c.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/freq_sink_c.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/freq_sink_c.h	2020-01-05 09:47:33.000000000 +0700
 @@ -45,7 +45,7 @@
   * This is a QT-based graphical sink the takes set of a complex
   * streams and plots the PSD. Each signal is plotted with a
@@ -3238,7 +3330,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/freq_sink_c.h gnuradi
   * The sink supports plotting streaming complex data or
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/freq_sink_f.h gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/freq_sink_f.h
 --- gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/freq_sink_f.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/freq_sink_f.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/freq_sink_f.h	2020-01-05 09:47:33.000000000 +0700
 @@ -45,7 +45,7 @@
   * This is a QT-based graphical sink the takes set of a floating
   * point streams and plots the PSD. Each signal is plotted with a
@@ -3250,7 +3342,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/freq_sink_f.h gnuradi
   * The sink supports plotting streaming float data or
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/plot_raster.h gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/plot_raster.h
 --- gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/plot_raster.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/plot_raster.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/plot_raster.h	2020-01-05 09:47:33.000000000 +0700
 @@ -69,11 +69,6 @@
  
      virtual int rtti() const;
@@ -3265,7 +3357,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/plot_raster.h gnuradi
      QImage renderImage(const QwtScaleMap& xMap,
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/plot_waterfall.h gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/plot_waterfall.h
 --- gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/plot_waterfall.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/plot_waterfall.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/plot_waterfall.h	2020-01-05 09:47:33.000000000 +0700
 @@ -64,11 +64,6 @@
  
      virtual int rtti() const;
@@ -3280,7 +3372,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/plot_waterfall.h gnur
      QImage renderImage(const QwtScaleMap& xMap,
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_b.h gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_b.h
 --- gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_b.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_b.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_b.h	2020-01-05 09:47:33.000000000 +0700
 @@ -98,7 +98,7 @@
  
      virtual void set_update_time(double t) = 0;
@@ -3292,7 +3384,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_b.h 
      virtual void set_line_style(unsigned int which, Qt::PenStyle style) = 0;
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_f.h gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_f.h
 --- gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_f.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_f.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_f.h	2020-01-05 09:47:33.000000000 +0700
 @@ -94,7 +94,7 @@
  
      virtual void set_update_time(double t) = 0;
@@ -3304,7 +3396,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/time_raster_sink_f.h 
      virtual void set_line_style(unsigned int which, Qt::PenStyle style) = 0;
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/time_sink_c.h gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/time_sink_c.h
 --- gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/time_sink_c.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/time_sink_c.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/time_sink_c.h	2020-01-05 09:47:33.000000000 +0700
 @@ -45,7 +45,7 @@
   * streams and plots them in the time domain. For each signal, both
   * the signal's I and Q parts are plotted, and they are all plotted
@@ -3316,7 +3408,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/time_sink_c.h gnuradi
   * The sink supports plotting streaming complex data or
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/time_sink_f.h gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/time_sink_f.h
 --- gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/time_sink_f.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/time_sink_f.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/include/gnuradio/qtgui/time_sink_f.h	2020-01-05 09:47:33.000000000 +0700
 @@ -44,7 +44,7 @@
   * This is a QT-based graphical sink the takes set of a float streams
   * and plots them in the time domain. Each signal is plotted with a
@@ -3328,7 +3420,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/include/gnuradio/qtgui/time_sink_f.h gnuradi
   * messages. The message port is named "in". The two modes cannot
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/TimeDomainDisplayPlot.cc gnuradio-maint-3.8/gr-qtgui/lib/TimeDomainDisplayPlot.cc
 --- gnuradio-3.8.0.0/gr-qtgui/lib/TimeDomainDisplayPlot.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/TimeDomainDisplayPlot.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/TimeDomainDisplayPlot.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -260,7 +260,7 @@
              // Plot and attach any new tags found.
              // First test if this was a complex input where real/imag get
@@ -3340,7 +3432,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/TimeDomainDisplayPlot.cc gnuradio-maint-
                  if (mult == 2)
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/ber_sink_b_impl.cc gnuradio-maint-3.8/gr-qtgui/lib/ber_sink_b_impl.cc
 --- gnuradio-3.8.0.0/gr-qtgui/lib/ber_sink_b_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/ber_sink_b_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/ber_sink_b_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -109,7 +109,7 @@
  
      if (curvenames.size() == (unsigned int)curves) {
@@ -3352,7 +3444,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/ber_sink_b_impl.cc gnuradio-maint-3.8/gr
          }
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/const_sink_c_impl.cc gnuradio-maint-3.8/gr-qtgui/lib/const_sink_c_impl.cc
 --- gnuradio-3.8.0.0/gr-qtgui/lib/const_sink_c_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/const_sink_c_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/const_sink_c_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -138,7 +138,7 @@
      d_main_gui = new ConstellationDisplayForm(numplots, d_parent);
      d_main_gui->setNPoints(d_size);
@@ -3373,7 +3465,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/const_sink_c_impl.cc gnuradio-maint-3.8/
          d_start = d_index + trigger_index;
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/edit_box_msg_impl.cc gnuradio-maint-3.8/gr-qtgui/lib/edit_box_msg_impl.cc
 --- gnuradio-3.8.0.0/gr-qtgui/lib/edit_box_msg_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/edit_box_msg_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/edit_box_msg_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -106,7 +106,7 @@
              d_key->setFixedWidth(width);
  
@@ -3411,7 +3503,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/edit_box_msg_impl.cc gnuradio-maint-3.8/
                      re = t;
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/freq_sink_c_impl.cc gnuradio-maint-3.8/gr-qtgui/lib/freq_sink_c_impl.cc
 --- gnuradio-3.8.0.0/gr-qtgui/lib/freq_sink_c_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/freq_sink_c_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/freq_sink_c_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -1,6 +1,6 @@
  /* -*- c++ -*- */
  /*
@@ -3493,7 +3585,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/freq_sink_c_impl.cc gnuradio-maint-3.8/g
              memcpy(
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/freq_sink_f_impl.cc gnuradio-maint-3.8/gr-qtgui/lib/freq_sink_f_impl.cc
 --- gnuradio-3.8.0.0/gr-qtgui/lib/freq_sink_f_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/freq_sink_f_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/freq_sink_f_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -172,7 +172,7 @@
      set_fft_size(d_fftsize);
      set_frequency_range(d_center_freq, d_bandwidth);
@@ -3523,7 +3615,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/freq_sink_f_impl.cc gnuradio-maint-3.8/g
          d_trigger_count = 0;
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/freqdisplayform.cc gnuradio-maint-3.8/gr-qtgui/lib/freqdisplayform.cc
 --- gnuradio-3.8.0.0/gr-qtgui/lib/freqdisplayform.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/freqdisplayform.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/freqdisplayform.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -423,7 +423,7 @@
      }
  
@@ -3535,7 +3627,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/freqdisplayform.cc gnuradio-maint-3.8/gr
      emit signalReplot();
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/histogram_sink_f_impl.cc gnuradio-maint-3.8/gr-qtgui/lib/histogram_sink_f_impl.cc
 --- gnuradio-3.8.0.0/gr-qtgui/lib/histogram_sink_f_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/histogram_sink_f_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/histogram_sink_f_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -137,7 +137,7 @@
      d_main_gui->setNPoints(d_size);
      d_main_gui->setXaxis(d_xmin, d_xmax);
@@ -3547,7 +3639,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/histogram_sink_f_impl.cc gnuradio-maint-
      // initialize update time to 10 times a second
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/numberdisplayform.cc gnuradio-maint-3.8/gr-qtgui/lib/numberdisplayform.cc
 --- gnuradio-3.8.0.0/gr-qtgui/lib/numberdisplayform.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/numberdisplayform.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/numberdisplayform.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -40,7 +40,7 @@
          d_min.push_back(+1e32);
          d_max.push_back(-1e32);
@@ -3559,7 +3651,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/numberdisplayform.cc gnuradio-maint-3.8/
  
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/plot_raster.cc gnuradio-maint-3.8/gr-qtgui/lib/plot_raster.cc
 --- gnuradio-3.8.0.0/gr-qtgui/lib/plot_raster.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/plot_raster.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/plot_raster.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -299,22 +299,3 @@
  }
  #endif
@@ -3585,7 +3677,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/plot_raster.cc gnuradio-maint-3.8/gr-qtg
 -}
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/plot_waterfall.cc gnuradio-maint-3.8/gr-qtgui/lib/plot_waterfall.cc
 --- gnuradio-3.8.0.0/gr-qtgui/lib/plot_waterfall.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/plot_waterfall.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/plot_waterfall.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -280,22 +280,3 @@
      return image;
  }
@@ -3611,7 +3703,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/plot_waterfall.cc gnuradio-maint-3.8/gr-
 -}
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/qtgui_util.cc gnuradio-maint-3.8/gr-qtgui/lib/qtgui_util.cc
 --- gnuradio-3.8.0.0/gr-qtgui/lib/qtgui_util.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/qtgui_util.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/qtgui_util.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -104,7 +104,7 @@
  void check_set_qss(QApplication* app)
  {
@@ -3623,7 +3715,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/qtgui_util.cc gnuradio-maint-3.8/gr-qtgu
      }
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/sink_c_impl.cc gnuradio-maint-3.8/gr-qtgui/lib/sink_c_impl.cc
 --- gnuradio-3.8.0.0/gr-qtgui/lib/sink_c_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/sink_c_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/sink_c_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -238,7 +238,7 @@
  
  void sink_c_impl::fft(float* data_out, const gr_complex* data_in, int size)
@@ -3635,7 +3727,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/sink_c_impl.cc gnuradio-maint-3.8/gr-qtg
          memcpy(d_fft->get_inbuf(), data_in, sizeof(gr_complex) * size);
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/sink_f_impl.cc gnuradio-maint-3.8/gr-qtgui/lib/sink_f_impl.cc
 --- gnuradio-3.8.0.0/gr-qtgui/lib/sink_f_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/sink_f_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/sink_f_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -228,7 +228,7 @@
  
  void sink_f_impl::fft(float* data_out, const float* data_in, int size)
@@ -3647,7 +3739,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/sink_f_impl.cc gnuradio-maint-3.8/gr-qtg
              dst[i] = data_in[i] * d_window[i];
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/spectrumdisplayform.cc gnuradio-maint-3.8/gr-qtgui/lib/spectrumdisplayform.cc
 --- gnuradio-3.8.0.0/gr-qtgui/lib/spectrumdisplayform.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/spectrumdisplayform.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/spectrumdisplayform.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -484,7 +484,7 @@
  void SpectrumDisplayForm::_averageHistory(const double* newBuffer)
  {
@@ -3659,7 +3751,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/spectrumdisplayform.cc gnuradio-maint-3.
                     _numRealDataPoints * sizeof(double));
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/time_raster_sink_b_impl.cc gnuradio-maint-3.8/gr-qtgui/lib/time_raster_sink_b_impl.cc
 --- gnuradio-3.8.0.0/gr-qtgui/lib/time_raster_sink_b_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/time_raster_sink_b_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/time_raster_sink_b_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -146,7 +146,7 @@
      d_main_gui =
          new TimeRasterDisplayForm(numplots, d_samp_rate, d_rows, d_cols, 1, d_parent);
@@ -3689,7 +3781,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/time_raster_sink_b_impl.cc gnuradio-main
          }
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/time_raster_sink_f_impl.cc gnuradio-maint-3.8/gr-qtgui/lib/time_raster_sink_f_impl.cc
 --- gnuradio-3.8.0.0/gr-qtgui/lib/time_raster_sink_f_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/time_raster_sink_f_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/time_raster_sink_f_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -144,7 +144,7 @@
      d_main_gui =
          new TimeRasterDisplayForm(numplots, d_samp_rate, d_rows, d_cols, 1, d_parent);
@@ -3719,7 +3811,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/time_raster_sink_f_impl.cc gnuradio-main
          }
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/time_sink_c_impl.cc gnuradio-maint-3.8/gr-qtgui/lib/time_sink_c_impl.cc
 --- gnuradio-3.8.0.0/gr-qtgui/lib/time_sink_c_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/time_sink_c_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/time_sink_c_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -1,6 +1,6 @@
  /* -*- c++ -*- */
  /*
@@ -3774,7 +3866,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/time_sink_c_impl.cc gnuradio-maint-3.8/g
          if (start >= 0) {
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/time_sink_c_impl.h gnuradio-maint-3.8/gr-qtgui/lib/time_sink_c_impl.h
 --- gnuradio-3.8.0.0/gr-qtgui/lib/time_sink_c_impl.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/time_sink_c_impl.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/time_sink_c_impl.h	2020-01-05 09:47:33.000000000 +0700
 @@ -65,7 +65,6 @@
      pmt::pmt_t d_trigger_tag_key;
      bool d_triggered;
@@ -3785,7 +3877,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/time_sink_c_impl.h gnuradio-maint-3.8/gr
      void _npoints_resize();
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/time_sink_f_impl.cc gnuradio-maint-3.8/gr-qtgui/lib/time_sink_f_impl.cc
 --- gnuradio-3.8.0.0/gr-qtgui/lib/time_sink_f_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/time_sink_f_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/time_sink_f_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -147,7 +147,7 @@
      d_main_gui->setNPoints(d_size);
      d_main_gui->setSampleRate(d_samp_rate);
@@ -3806,7 +3898,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/time_sink_f_impl.cc gnuradio-maint-3.8/g
          if (start >= 0) {
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/time_sink_f_impl.h gnuradio-maint-3.8/gr-qtgui/lib/time_sink_f_impl.h
 --- gnuradio-3.8.0.0/gr-qtgui/lib/time_sink_f_impl.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/time_sink_f_impl.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/time_sink_f_impl.h	2020-01-05 09:47:33.000000000 +0700
 @@ -63,7 +63,6 @@
      pmt::pmt_t d_trigger_tag_key;
      bool d_triggered;
@@ -3817,7 +3909,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/time_sink_f_impl.h gnuradio-maint-3.8/gr
      void _npoints_resize();
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/timedisplayform.cc gnuradio-maint-3.8/gr-qtgui/lib/timedisplayform.cc
 --- gnuradio-3.8.0.0/gr-qtgui/lib/timedisplayform.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/timedisplayform.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/timedisplayform.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -376,7 +376,7 @@
      }
  
@@ -3829,7 +3921,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/timedisplayform.cc gnuradio-maint-3.8/gr
      emit signalReplot();
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/waterfall_sink_c_impl.cc gnuradio-maint-3.8/gr-qtgui/lib/waterfall_sink_c_impl.cc
 --- gnuradio-3.8.0.0/gr-qtgui/lib/waterfall_sink_c_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/waterfall_sink_c_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/waterfall_sink_c_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -1,6 +1,6 @@
  /* -*- c++ -*- */
  /*
@@ -3911,7 +4003,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/waterfall_sink_c_impl.cc gnuradio-maint-
              memcpy(
 diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/waterfall_sink_f_impl.cc gnuradio-maint-3.8/gr-qtgui/lib/waterfall_sink_f_impl.cc
 --- gnuradio-3.8.0.0/gr-qtgui/lib/waterfall_sink_f_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-qtgui/lib/waterfall_sink_f_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-qtgui/lib/waterfall_sink_f_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -181,7 +181,7 @@
      set_fft_size(d_fftsize);
      set_frequency_range(d_center_freq, d_bandwidth);
@@ -3932,7 +4024,7 @@ diff -uNr gnuradio-3.8.0.0/gr-qtgui/lib/waterfall_sink_f_impl.cc gnuradio-maint-
  
 diff -uNr gnuradio-3.8.0.0/gr-trellis/docs/gr-trellis.xml gnuradio-maint-3.8/gr-trellis/docs/gr-trellis.xml
 --- gnuradio-3.8.0.0/gr-trellis/docs/gr-trellis.xml	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-trellis/docs/gr-trellis.xml	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-trellis/docs/gr-trellis.xml	2020-01-05 09:47:33.000000000 +0700
 @@ -52,7 +52,7 @@
  code (CC), a trellis code (TC), an inter-symbol interference (ISI)
  channel, or any
@@ -3998,7 +4090,7 @@ diff -uNr gnuradio-3.8.0.0/gr-trellis/docs/gr-trellis.xml gnuradio-maint-3.8/gr-
  Still need to document them...
 diff -uNr gnuradio-3.8.0.0/gr-uhd/apps/uhd_fft gnuradio-maint-3.8/gr-uhd/apps/uhd_fft
 --- gnuradio-3.8.0.0/gr-uhd/apps/uhd_fft	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-uhd/apps/uhd_fft	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-uhd/apps/uhd_fft	2020-01-05 09:47:33.000000000 +0700
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env python2
 +#!/usr/bin/env python
@@ -4033,7 +4125,7 @@ diff -uNr gnuradio-3.8.0.0/gr-uhd/apps/uhd_fft gnuradio-maint-3.8/gr-uhd/apps/uh
 -
 diff -uNr gnuradio-3.8.0.0/gr-uhd/apps/uhd_rx_cfile gnuradio-maint-3.8/gr-uhd/apps/uhd_rx_cfile
 --- gnuradio-3.8.0.0/gr-uhd/apps/uhd_rx_cfile	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-uhd/apps/uhd_rx_cfile	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-uhd/apps/uhd_rx_cfile	2020-01-05 09:47:33.000000000 +0700
 @@ -26,6 +26,7 @@
  (interleaved 16 bit signed short integers).
  """
@@ -4062,7 +4154,7 @@ diff -uNr gnuradio-3.8.0.0/gr-uhd/apps/uhd_rx_cfile gnuradio-maint-3.8/gr-uhd/ap
              print("[UHD_RX] Rx frequency:          {freq}".format(freq=freq))
 diff -uNr gnuradio-3.8.0.0/gr-uhd/apps/uhd_rx_nogui gnuradio-maint-3.8/gr-uhd/apps/uhd_rx_nogui
 --- gnuradio-3.8.0.0/gr-uhd/apps/uhd_rx_nogui	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-uhd/apps/uhd_rx_nogui	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-uhd/apps/uhd_rx_nogui	2020-01-05 09:47:33.000000000 +0700
 @@ -32,7 +32,7 @@
  AGC   - Automatic gain control leveling signal at [-1.0, +1.0]
  DEMOD - Demodulation block appropriate to selected signal type.
@@ -4179,7 +4271,7 @@ diff -uNr gnuradio-3.8.0.0/gr-uhd/apps/uhd_rx_nogui gnuradio-maint-3.8/gr-uhd/ap
              tail = rsamp
 diff -uNr gnuradio-3.8.0.0/gr-uhd/examples/c++/tag_source_demo.h gnuradio-maint-3.8/gr-uhd/examples/c++/tag_source_demo.h
 --- gnuradio-3.8.0.0/gr-uhd/examples/c++/tag_source_demo.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-uhd/examples/c++/tag_source_demo.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-uhd/examples/c++/tag_source_demo.h	2020-01-05 09:47:33.000000000 +0700
 @@ -109,10 +109,11 @@
              _do_new_burst = false;
              _samps_left_in_burst = _samps_per_burst;
@@ -4204,7 +4296,7 @@ diff -uNr gnuradio-3.8.0.0/gr-uhd/examples/c++/tag_source_demo.h gnuradio-maint-
              _time_fracs += _cycle_duration;
 diff -uNr gnuradio-3.8.0.0/gr-uhd/grc/gen_uhd_usrp_blocks.py gnuradio-maint-3.8/gr-uhd/grc/gen_uhd_usrp_blocks.py
 --- gnuradio-3.8.0.0/gr-uhd/grc/gen_uhd_usrp_blocks.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-uhd/grc/gen_uhd_usrp_blocks.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-uhd/grc/gen_uhd_usrp_blocks.py	2020-01-05 09:47:33.000000000 +0700
 @@ -144,10 +144,10 @@
                  ${'%'} if stream_args:
                  args=${'$'}{stream_args},
@@ -4233,7 +4325,7 @@ diff -uNr gnuradio-3.8.0.0/gr-uhd/grc/gen_uhd_usrp_blocks.py gnuradio-maint-3.8/
      % endif
 diff -uNr gnuradio-3.8.0.0/gr-uhd/lib/usrp_block_impl.cc gnuradio-maint-3.8/gr-uhd/lib/usrp_block_impl.cc
 --- gnuradio-3.8.0.0/gr-uhd/lib/usrp_block_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-uhd/lib/usrp_block_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-uhd/lib/usrp_block_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -238,7 +238,7 @@
          } else {
              return false;
@@ -4245,7 +4337,7 @@ diff -uNr gnuradio-3.8.0.0/gr-uhd/lib/usrp_block_impl.cc gnuradio-maint-3.8/gr-u
      return true;
 diff -uNr gnuradio-3.8.0.0/gr-utils/octave/write_complex_binary.m gnuradio-maint-3.8/gr-utils/octave/write_complex_binary.m
 --- gnuradio-3.8.0.0/gr-utils/octave/write_complex_binary.m	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-utils/octave/write_complex_binary.m	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-utils/octave/write_complex_binary.m	2020-01-05 09:47:33.000000000 +0700
 @@ -26,7 +26,7 @@
    %%  open filename and write data to it
    %%  Format is interleaved float IQ e.g. each
@@ -4257,7 +4349,7 @@ diff -uNr gnuradio-3.8.0.0/gr-utils/octave/write_complex_binary.m gnuradio-maint
    m = nargchk (2,2,nargin);
 diff -uNr gnuradio-3.8.0.0/gr-utils/python/modtool/cli/add.py gnuradio-maint-3.8/gr-utils/python/modtool/cli/add.py
 --- gnuradio-3.8.0.0/gr-utils/python/modtool/cli/add.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-utils/python/modtool/cli/add.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-utils/python/modtool/cli/add.py	2020-01-05 09:47:33.000000000 +0700
 @@ -124,10 +124,17 @@
          click.secho("For GNU Radio components the FSF is added as copyright holder",
                      fg='cyan')
@@ -4279,7 +4371,7 @@ diff -uNr gnuradio-3.8.0.0/gr-utils/python/modtool/cli/add.py gnuradio-maint-3.8
      """ Get a boolean value for addition of py_qa """
 diff -uNr gnuradio-3.8.0.0/gr-utils/python/modtool/cli/base.py gnuradio-maint-3.8/gr-utils/python/modtool/cli/base.py
 --- gnuradio-3.8.0.0/gr-utils/python/modtool/cli/base.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-utils/python/modtool/cli/base.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-utils/python/modtool/cli/base.py	2020-01-05 09:47:33.000000000 +0700
 @@ -122,7 +122,11 @@
  
  def cli_input(msg):
@@ -4293,9 +4385,36 @@ diff -uNr gnuradio-3.8.0.0/gr-utils/python/modtool/cli/base.py gnuradio-maint-3.
  
  
  def common_params(func):
+diff -uNr gnuradio-3.8.0.0/gr-utils/python/modtool/core/add.py gnuradio-maint-3.8/gr-utils/python/modtool/core/add.py
+--- gnuradio-3.8.0.0/gr-utils/python/modtool/core/add.py	2019-08-10 04:15:36.000000000 +0700
++++ gnuradio-maint-3.8/gr-utils/python/modtool/core/add.py	2020-01-05 09:47:33.000000000 +0700
+@@ -67,6 +67,8 @@
+             raise ModToolException('Programming language not specified.')
+         if self.info['lang'] not in self.language_candidates:
+             raise ModToolException('Invalid programming language.')
++        if self.info['blocktype'] == 'tagged_stream' and self.info['lang'] == 'python':
++            raise ModToolException('Tagged Stream Blocks for Python currently unsupported')            
+         if self.info['blockname'] is None:
+             raise ModToolException('Blockname not specified.')
+         if not re.match('[a-zA-Z0-9_]+', self.info['blockname']):
+@@ -127,10 +129,10 @@
+ 
+     def run(self):
+         """ Go, go, go. """
+-        # This portion will be covered by the CLI
+-        if not self.cli:
+-            self.validate()
+-            self.assign()
++
++        # Some validation covered by the CLI - validate all parameters here
++        self.validate()
++        self.assign()
+ 
+         has_swig = (
+                 self.info['lang'] == 'cpp'
 diff -uNr gnuradio-3.8.0.0/gr-utils/python/modtool/core/rename.py gnuradio-maint-3.8/gr-utils/python/modtool/core/rename.py
 --- gnuradio-3.8.0.0/gr-utils/python/modtool/core/rename.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-utils/python/modtool/core/rename.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-utils/python/modtool/core/rename.py	2020-01-05 09:47:33.000000000 +0700
 @@ -175,7 +175,7 @@
          if not os.path.isfile(filename):
              return False
@@ -4307,7 +4426,7 @@ diff -uNr gnuradio-3.8.0.0/gr-utils/python/modtool/core/rename.py gnuradio-maint
              cfile = f.read()
 diff -uNr gnuradio-3.8.0.0/gr-utils/python/modtool/templates/templates.py gnuradio-maint-3.8/gr-utils/python/modtool/templates/templates.py
 --- gnuradio-3.8.0.0/gr-utils/python/modtool/templates/templates.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-utils/python/modtool/templates/templates.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-utils/python/modtool/templates/templates.py	2020-01-05 09:47:33.000000000 +0700
 @@ -453,11 +453,16 @@
  #include <gnuradio/attributes.h>
  #include <boost/test/unit_test.hpp>
@@ -4388,7 +4507,7 @@ diff -uNr gnuradio-3.8.0.0/gr-utils/python/modtool/templates/templates.py gnurad
  
 diff -uNr gnuradio-3.8.0.0/gr-utils/python/modtool/tools/util_functions.py gnuradio-maint-3.8/gr-utils/python/modtool/tools/util_functions.py
 --- gnuradio-3.8.0.0/gr-utils/python/modtool/tools/util_functions.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-utils/python/modtool/tools/util_functions.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-utils/python/modtool/tools/util_functions.py	2020-01-05 09:47:33.000000000 +0700
 @@ -143,8 +143,12 @@
  def ask_yes_no(question, default):
      """ Asks a binary question. Returns True for yes, False for no.
@@ -4405,7 +4524,7 @@ diff -uNr gnuradio-3.8.0.0/gr-utils/python/modtool/tools/util_functions.py gnura
          return not default
 diff -uNr gnuradio-3.8.0.0/gr-vocoder/examples/cvsd_audio_loopback.py gnuradio-maint-3.8/gr-vocoder/examples/cvsd_audio_loopback.py
 --- gnuradio-3.8.0.0/gr-vocoder/examples/cvsd_audio_loopback.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-vocoder/examples/cvsd_audio_loopback.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-vocoder/examples/cvsd_audio_loopback.py	2020-01-05 09:47:33.000000000 +0700
 @@ -52,15 +52,15 @@
      tb.connect(enc, dec, s2f, decim, sink_scale, sink)
  
@@ -4433,7 +4552,7 @@ diff -uNr gnuradio-3.8.0.0/gr-vocoder/examples/cvsd_audio_loopback.py gnuradio-m
  
 diff -uNr gnuradio-3.8.0.0/gr-vocoder/include/gnuradio/vocoder/freedv_api.h gnuradio-maint-3.8/gr-vocoder/include/gnuradio/vocoder/freedv_api.h
 --- gnuradio-3.8.0.0/gr-vocoder/include/gnuradio/vocoder/freedv_api.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-vocoder/include/gnuradio/vocoder/freedv_api.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-vocoder/include/gnuradio/vocoder/freedv_api.h	2020-01-05 09:47:33.000000000 +0700
 @@ -25,11 +25,17 @@
  
  #include <gnuradio/vocoder/api.h>
@@ -4454,7 +4573,7 @@ diff -uNr gnuradio-3.8.0.0/gr-vocoder/include/gnuradio/vocoder/freedv_api.h gnur
  namespace vocoder {
 diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/pub_msg_sink_impl.cc gnuradio-maint-3.8/gr-zeromq/lib/pub_msg_sink_impl.cc
 --- gnuradio-3.8.0.0/gr-zeromq/lib/pub_msg_sink_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-zeromq/lib/pub_msg_sink_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-zeromq/lib/pub_msg_sink_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -73,7 +73,11 @@
      zmq::message_t zmsg(s.size());
  
@@ -4469,7 +4588,7 @@ diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/pub_msg_sink_impl.cc gnuradio-maint-3.8
  } /* namespace zeromq */
 diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/pub_msg_sink_impl.h gnuradio-maint-3.8/gr-zeromq/lib/pub_msg_sink_impl.h
 --- gnuradio-3.8.0.0/gr-zeromq/lib/pub_msg_sink_impl.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-zeromq/lib/pub_msg_sink_impl.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-zeromq/lib/pub_msg_sink_impl.h	2020-01-05 09:47:33.000000000 +0700
 @@ -23,8 +23,8 @@
  #ifndef INCLUDED_ZEROMQ_PUB_MSG_SINK_IMPL_H
  #define INCLUDED_ZEROMQ_PUB_MSG_SINK_IMPL_H
@@ -4482,7 +4601,7 @@ diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/pub_msg_sink_impl.h gnuradio-maint-3.8/
  namespace zeromq {
 diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/pub_sink_impl.h gnuradio-maint-3.8/gr-zeromq/lib/pub_sink_impl.h
 --- gnuradio-3.8.0.0/gr-zeromq/lib/pub_sink_impl.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-zeromq/lib/pub_sink_impl.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-zeromq/lib/pub_sink_impl.h	2020-01-05 09:47:33.000000000 +0700
 @@ -24,7 +24,6 @@
  #define INCLUDED_ZEROMQ_PUB_SINK_IMPL_H
  
@@ -4493,7 +4612,7 @@ diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/pub_sink_impl.h gnuradio-maint-3.8/gr-z
  
 diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/pull_source_impl.h gnuradio-maint-3.8/gr-zeromq/lib/pull_source_impl.h
 --- gnuradio-3.8.0.0/gr-zeromq/lib/pull_source_impl.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-zeromq/lib/pull_source_impl.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-zeromq/lib/pull_source_impl.h	2020-01-05 09:47:33.000000000 +0700
 @@ -24,7 +24,6 @@
  #define INCLUDED_ZEROMQ_PULL_SOURCE_IMPL_H
  
@@ -4504,7 +4623,7 @@ diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/pull_source_impl.h gnuradio-maint-3.8/g
  
 diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/push_msg_sink_impl.cc gnuradio-maint-3.8/gr-zeromq/lib/push_msg_sink_impl.cc
 --- gnuradio-3.8.0.0/gr-zeromq/lib/push_msg_sink_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-zeromq/lib/push_msg_sink_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-zeromq/lib/push_msg_sink_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -75,7 +75,11 @@
      zmq::message_t zmsg(s.size());
  
@@ -4519,7 +4638,7 @@ diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/push_msg_sink_impl.cc gnuradio-maint-3.
  } /* namespace zeromq */
 diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/push_msg_sink_impl.h gnuradio-maint-3.8/gr-zeromq/lib/push_msg_sink_impl.h
 --- gnuradio-3.8.0.0/gr-zeromq/lib/push_msg_sink_impl.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-zeromq/lib/push_msg_sink_impl.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-zeromq/lib/push_msg_sink_impl.h	2020-01-05 09:47:33.000000000 +0700
 @@ -23,8 +23,8 @@
  #ifndef INCLUDED_ZEROMQ_PUSH_MSG_SINK_IMPL_H
  #define INCLUDED_ZEROMQ_PUSH_MSG_SINK_IMPL_H
@@ -4532,7 +4651,7 @@ diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/push_msg_sink_impl.h gnuradio-maint-3.8
  namespace zeromq {
 diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/push_sink_impl.h gnuradio-maint-3.8/gr-zeromq/lib/push_sink_impl.h
 --- gnuradio-3.8.0.0/gr-zeromq/lib/push_sink_impl.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-zeromq/lib/push_sink_impl.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-zeromq/lib/push_sink_impl.h	2020-01-05 09:47:33.000000000 +0700
 @@ -24,7 +24,6 @@
  #define INCLUDED_ZEROMQ_PUSH_SINK_IMPL_H
  
@@ -4543,7 +4662,7 @@ diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/push_sink_impl.h gnuradio-maint-3.8/gr-
  
 diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/rep_msg_sink_impl.cc gnuradio-maint-3.8/gr-zeromq/lib/rep_msg_sink_impl.cc
 --- gnuradio-3.8.0.0/gr-zeromq/lib/rep_msg_sink_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-zeromq/lib/rep_msg_sink_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-zeromq/lib/rep_msg_sink_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -117,7 +117,11 @@
                  std::string s = sb.str();
                  zmq::message_t zmsg(s.size());
@@ -4558,7 +4677,7 @@ diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/rep_msg_sink_impl.cc gnuradio-maint-3.8
  
 diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/req_source_impl.cc gnuradio-maint-3.8/gr-zeromq/lib/req_source_impl.cc
 --- gnuradio-3.8.0.0/gr-zeromq/lib/req_source_impl.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-zeromq/lib/req_source_impl.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-zeromq/lib/req_source_impl.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -77,7 +77,11 @@
                  uint32_t req_len = noutput_items - done;
                  zmq::message_t request(sizeof(uint32_t));
@@ -4573,7 +4692,7 @@ diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/req_source_impl.cc gnuradio-maint-3.8/g
              }
 diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/req_source_impl.h gnuradio-maint-3.8/gr-zeromq/lib/req_source_impl.h
 --- gnuradio-3.8.0.0/gr-zeromq/lib/req_source_impl.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-zeromq/lib/req_source_impl.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-zeromq/lib/req_source_impl.h	2020-01-05 09:47:33.000000000 +0700
 @@ -24,7 +24,6 @@
  #define INCLUDED_ZEROMQ_REQ_SOURCE_IMPL_H
  
@@ -4584,7 +4703,7 @@ diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/req_source_impl.h gnuradio-maint-3.8/gr
  
 diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/sub_source_impl.h gnuradio-maint-3.8/gr-zeromq/lib/sub_source_impl.h
 --- gnuradio-3.8.0.0/gr-zeromq/lib/sub_source_impl.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-zeromq/lib/sub_source_impl.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-zeromq/lib/sub_source_impl.h	2020-01-05 09:47:33.000000000 +0700
 @@ -24,7 +24,6 @@
  #define INCLUDED_ZEROMQ_SUB_SOURCE_IMPL_H
  
@@ -4595,7 +4714,7 @@ diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/sub_source_impl.h gnuradio-maint-3.8/gr
  
 diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/tag_headers.cc gnuradio-maint-3.8/gr-zeromq/lib/tag_headers.cc
 --- gnuradio-3.8.0.0/gr-zeromq/lib/tag_headers.cc	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-zeromq/lib/tag_headers.cc	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-zeromq/lib/tag_headers.cc	2020-01-05 09:47:33.000000000 +0700
 @@ -20,9 +20,9 @@
   * Boston, MA 02110-1301, USA.
   */
@@ -4609,7 +4728,7 @@ diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/tag_headers.cc gnuradio-maint-3.8/gr-ze
  
 diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/tag_headers.h gnuradio-maint-3.8/gr-zeromq/lib/tag_headers.h
 --- gnuradio-3.8.0.0/gr-zeromq/lib/tag_headers.h	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/gr-zeromq/lib/tag_headers.h	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/gr-zeromq/lib/tag_headers.h	2020-01-05 09:47:33.000000000 +0700
 @@ -23,9 +23,9 @@
  #ifndef ZEROMQ_TAG_HEADERS_H
  #define ZEROMQ_TAG_HEADERS_H
@@ -4623,7 +4742,7 @@ diff -uNr gnuradio-3.8.0.0/gr-zeromq/lib/tag_headers.h gnuradio-maint-3.8/gr-zer
  
 diff -uNr gnuradio-3.8.0.0/grc/core/FlowGraph.py gnuradio-maint-3.8/grc/core/FlowGraph.py
 --- gnuradio-3.8.0.0/grc/core/FlowGraph.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/grc/core/FlowGraph.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/grc/core/FlowGraph.py	2020-01-05 09:47:33.000000000 +0700
 @@ -226,6 +226,7 @@
                  variable_block.rewrite()
                  value = eval(variable_block.value, namespace, variable_block.namespace)
@@ -4644,7 +4763,7 @@ diff -uNr gnuradio-3.8.0.0/grc/core/FlowGraph.py gnuradio-maint-3.8/grc/core/Flo
          def verify_and_get_port(key, block, dir):
 diff -uNr gnuradio-3.8.0.0/grc/core/blocks/block.py gnuradio-maint-3.8/grc/core/blocks/block.py
 --- gnuradio-3.8.0.0/grc/core/blocks/block.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/grc/core/blocks/block.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/grc/core/blocks/block.py	2020-01-05 09:47:33.000000000 +0700
 @@ -207,6 +207,7 @@
      def _rewrite_nports(self, ports):
          for port in ports:
@@ -4655,7 +4774,7 @@ diff -uNr gnuradio-3.8.0.0/grc/core/blocks/block.py gnuradio-maint-3.8/grc/core/
              for clone in port.clones[nports-1:]:
 diff -uNr gnuradio-3.8.0.0/grc/core/blocks/embedded_python.py gnuradio-maint-3.8/grc/core/blocks/embedded_python.py
 --- gnuradio-3.8.0.0/grc/core/blocks/embedded_python.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/grc/core/blocks/embedded_python.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/grc/core/blocks/embedded_python.py	2020-01-05 09:47:33.000000000 +0700
 @@ -149,10 +149,10 @@
      def _update_params(self, params_in_src):
          param_factory = self.parent_platform.make_param
@@ -4673,7 +4792,7 @@ diff -uNr gnuradio-3.8.0.0/grc/core/blocks/embedded_python.py gnuradio-maint-3.8
              try:
 diff -uNr gnuradio-3.8.0.0/grc/core/generator/cpp_templates/flow_graph.hpp.mako gnuradio-maint-3.8/grc/core/generator/cpp_templates/flow_graph.hpp.mako
 --- gnuradio-3.8.0.0/grc/core/generator/cpp_templates/flow_graph.hpp.mako	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/grc/core/generator/cpp_templates/flow_graph.hpp.mako	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/grc/core/generator/cpp_templates/flow_graph.hpp.mako	2020-01-05 09:47:33.000000000 +0700
 @@ -92,8 +92,8 @@
  % if not generate_options.startswith('hb'):
      top_block_sptr tb;
@@ -4687,7 +4806,7 @@ diff -uNr gnuradio-3.8.0.0/grc/core/generator/cpp_templates/flow_graph.hpp.mako 
      ${var.vtype} get_${var.name} () const;
 diff -uNr gnuradio-3.8.0.0/grc/core/generator/flow_graph.py.mako gnuradio-maint-3.8/grc/core/generator/flow_graph.py.mako
 --- gnuradio-3.8.0.0/grc/core/generator/flow_graph.py.mako	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/grc/core/generator/flow_graph.py.mako	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/grc/core/generator/flow_graph.py.mako	2020-01-05 09:47:33.000000000 +0700
 @@ -190,18 +190,18 @@
          % if blk_make:
          ${ indent(blk_make.strip('\n')) }
@@ -4721,7 +4840,7 @@ diff -uNr gnuradio-3.8.0.0/grc/core/generator/flow_graph.py.mako gnuradio-maint-
  ##########################################################
 diff -uNr gnuradio-3.8.0.0/grc/core/utils/extract_docs.py gnuradio-maint-3.8/grc/core/utils/extract_docs.py
 --- gnuradio-3.8.0.0/grc/core/utils/extract_docs.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/grc/core/utils/extract_docs.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/grc/core/utils/extract_docs.py	2020-01-05 09:47:33.000000000 +0700
 @@ -198,7 +198,7 @@
          """ Receive response from worker's stdout """
          for line in iter(self._worker.stdout.readline, ''):
@@ -4742,7 +4861,7 @@ diff -uNr gnuradio-3.8.0.0/grc/core/utils/extract_docs.py gnuradio-maint-3.8/grc
                  key, imports, make = args
 diff -uNr gnuradio-3.8.0.0/grc/gui/Application.py gnuradio-maint-3.8/grc/gui/Application.py
 --- gnuradio-3.8.0.0/grc/gui/Application.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/grc/gui/Application.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/grc/gui/Application.py	2020-01-05 09:47:33.000000000 +0700
 @@ -686,6 +686,7 @@
              # Import the old data and mark the current as not saved
              new_flow_graph.import_data(previous.export_data())
@@ -4753,7 +4872,7 @@ diff -uNr gnuradio-3.8.0.0/grc/gui/Application.py gnuradio-maint-3.8/grc/gui/App
              file_path, background_transparent = FileDialogs.SaveScreenShot(main, page.file_path).run()
 diff -uNr gnuradio-3.8.0.0/grc/gui/PropsDialog.py gnuradio-maint-3.8/grc/gui/PropsDialog.py
 --- gnuradio-3.8.0.0/grc/gui/PropsDialog.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/grc/gui/PropsDialog.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/grc/gui/PropsDialog.py	2020-01-05 09:47:33.000000000 +0700
 @@ -212,11 +212,12 @@
          buf.delete(buf.get_start_iter(), buf.get_end_iter())
          pos = buf.get_end_iter()
@@ -4774,7 +4893,7 @@ diff -uNr gnuradio-3.8.0.0/grc/gui/PropsDialog.py gnuradio-maint-3.8/grc/gui/Pro
          if not docstrings:
 diff -uNr gnuradio-3.8.0.0/grc/gui/canvas/block.py gnuradio-maint-3.8/grc/gui/canvas/block.py
 --- gnuradio-3.8.0.0/grc/gui/canvas/block.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/grc/gui/canvas/block.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/grc/gui/canvas/block.py	2020-01-05 09:47:33.000000000 +0700
 @@ -327,6 +327,17 @@
              ))
          return tuple(extent)
@@ -4795,7 +4914,25 @@ diff -uNr gnuradio-3.8.0.0/grc/gui/canvas/block.py gnuradio-maint-3.8/grc/gui/ca
      ##############################################
 diff -uNr gnuradio-3.8.0.0/grc/gui/canvas/flowgraph.py gnuradio-maint-3.8/grc/gui/canvas/flowgraph.py
 --- gnuradio-3.8.0.0/grc/gui/canvas/flowgraph.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/grc/gui/canvas/flowgraph.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/grc/gui/canvas/flowgraph.py	2020-01-05 09:47:33.000000000 +0700
+@@ -755,8 +755,6 @@
+ 
+     def _handle_mouse_motion_move(self, coordinate):
+         # only continue if mouse-over stuff is enabled (just the auto-hide port label stuff for now)
+-        if not Actions.TOGGLE_AUTO_HIDE_PORT_LABELS.get_active():
+-            return
+         redraw = False
+         for element in self._elements_to_draw:
+             over_element = element.what_is_selected(coordinate)
+@@ -772,6 +770,8 @@
+             if self.element_under_mouse:
+                 redraw |= self.element_under_mouse.mouse_out() or False
+                 self.element_under_mouse = None
++        if not Actions.TOGGLE_AUTO_HIDE_PORT_LABELS.get_active():
++            return
+         if redraw:
+             # self.create_labels()
+             self.create_shapes()
 @@ -804,9 +804,15 @@
          return redraw
  
@@ -4819,7 +4956,7 @@ diff -uNr gnuradio-3.8.0.0/grc/gui/canvas/flowgraph.py gnuradio-maint-3.8/grc/gu
          return tuple(extent)
 diff -uNr gnuradio-3.8.0.0/grc/tests/test_block_flags.py gnuradio-maint-3.8/grc/tests/test_block_flags.py
 --- gnuradio-3.8.0.0/grc/tests/test_block_flags.py	2019-08-10 04:15:36.000000000 +0700
-+++ gnuradio-maint-3.8/grc/tests/test_block_flags.py	2020-01-04 13:32:13.000000000 +0700
++++ gnuradio-maint-3.8/grc/tests/test_block_flags.py	2020-01-05 09:47:33.000000000 +0700
 @@ -26,4 +26,4 @@
      f.set(u'b')
      assert isinstance(f, Flags)
