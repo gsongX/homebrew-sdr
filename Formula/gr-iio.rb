@@ -33,7 +33,6 @@ class GrIio < Formula
     python = Formulary.factory 'python'
     libad9361 = Formulary.factory 'gsong2014/sdr/libad9361'
     libiio = Formulary.factory 'gsong2014/sdr/libiio'
-    boost = Formulary.factory 'boost'
     pyver = 'python3.7'
 
 
@@ -50,8 +49,6 @@ class GrIio < Formula
       -DAD9361_LIBRARIES=#{libad9361.prefix}/ad9361.framework
       -DIIO_INCLUDE_DIRS=#{libiio.prefix}/iio.framework/Headers
       -DIIO_LIBRARIES=#{libiio.prefix}/iio.framework
-      -DBoost_INCLUDE_DIR=#{boost.prefix}/include
-      -DBoost_LIBRARY_DIRS=#{boost.prefix}/lib
       -DENABLE_DOXYGEN:bool=false
     ]
 
