@@ -7,6 +7,7 @@ class Libiio < Formula
 
   depends_on "cmake" => :build
   depends_on "ninja" => :build
+  depends_on "boost"
 
   patch do
     # use find_library to locate Framework library
@@ -32,7 +33,7 @@ class Libiio < Formula
       system "cmake", "-G", "Ninja", buildpath, "-DOSX_PACKAGE=OFF",
              *std_cmake_args
       system "ninja"
-      system "ninja", "install"
+      system "cmake", "--build", ".", "--target", "install"
     end
   end
 

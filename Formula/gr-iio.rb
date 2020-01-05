@@ -32,6 +32,8 @@ class GrIio < Formula
   def install
     python = Formulary.factory 'python'
     libad9361 = Formulary.factory 'gsong2014/sdr/libad9361'
+    libiio = Formulary.factory 'gsong2014/sdr/libiio'
+    boost = Formulary.factory 'boost'
     pyver = 'python3.7'
 
 
@@ -46,6 +48,10 @@ class GrIio < Formula
       -DPYTHON_EXECUTABLE=#{python.bin}/python3
       -DAD9361_INCLUDE_DIRS=#{libad9361.prefix}/ad9361.framework/Headers
       -DAD9361_LIBRARIES=#{libad9361.prefix}/ad9361.framework
+      -DIIO_INCLUDE_DIRS=#{libiio.prefix}/iio.framework/Headers
+      -DIIO_LIBRARIES=#{libiio.prefix}/iio.framework
+      -DBoost_INCLUDE_DIR=#{boost.prefix}/include
+      -DBoost_LIBRARY_DIRS=#{boost.prefix}/lib
       -DENABLE_DOXYGEN:bool=false
     ]
 
