@@ -2,7 +2,9 @@ class GrOsmosdr < Formula
   desc "Osmocom GNU Radio Blocks"
   homepage "https://osmocom.org/projects/sdr/wiki/GrOsmoSDR"
   # pristine tarballs are too old
-  head "https://github.com/eblot/gr-osmosdr.git", :branch => "python3-gqrx"
+  url "https://github.com/osmocom/gr-osmosdr/archive/v0.1.5.tar.gz"
+  sha256 "a5820e80465d895a9b4b73e0ff01924d6b612a9a390bbd3488177379a9539d00"
+  head "https://github.com/osmocom/gr-osmosdr.git", :branch => "gr3.8"
 
   depends_on "cmake" => :build
   depends_on "swig" => :build
@@ -18,8 +20,8 @@ class GrOsmosdr < Formula
   depends_on "gsong2014/sdr/gnuradio@3.8"
   depends_on "gsong2014/sdr/gr-iio"
   depends_on "librtlsdr"
+  depends_on "hackrf"
   depends_on "log4cpp"
-  depends_on "swig"
 
   patch do
     url "https://gist.githubusercontent.com/eblot/4ac69e4d72fdbab36906f7c086289b63/raw/30a33a9f2a16159053e560e0be0771175dffd28a/gr-osmosdr-clang.patch"
