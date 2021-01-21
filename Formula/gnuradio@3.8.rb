@@ -1,8 +1,8 @@
 class GnuradioAT38 < Formula
   desc "SDK providing the signal processing runtime and processing blocks"
   homepage "https://gnuradio.org/"
-  url "https://github.com/gnuradio/gnuradio/releases/download/v3.8.0.0/gnuradio-3.8.0.0.tar.xz"
-  sha256 "1980b4b5c29679b1c8d0804032e412c9a9cae8dd27362cbe032b9152dc2b852b"
+  url "https://github.com/gnuradio/gnuradio/releases/download/v3.8.2.0/gnuradio-3.8.2.0.tar.xz"
+  sha256 "3e293541a9ac8d78660762bae8b80c0f6195b3494e1c50c01a9fd79cc60bb624"
   head "https://github.com/gnuradio/gnuradio.git", :branch => "maint-3.8"
 
   depends_on "cmake" => :build
@@ -19,7 +19,7 @@ class GnuradioAT38 < Formula
   depends_on "portaudio"
   depends_on "libyaml"
   depends_on "mpir"
-  depends_on "python"
+  depends_on "python@3.9"
   depends_on "pygobject3"
   depends_on "gtk+3"
   depends_on "uhd"
@@ -66,46 +66,14 @@ class GnuradioAT38 < Formula
 
   patch :DATA
 
-  # cheetah starts here
-  resource "Markdown" do
-    url "https://files.pythonhosted.org/packages/ac/df/0ae25a9fd5bb528fe3c65af7143708160aa3b47970d5272003a1ad5c03c6/Markdown-3.1.1.tar.gz"
-    sha256 "2e50876bcdd74517e7b71f3e7a76102050edec255b3983403f1a63e7c8a41e7a"
-  end
-
-  resource "Cheetah3" do
-    url "https://files.pythonhosted.org/packages/4e/72/e6a7d92279e3551db1b68fd336fd7a6e3d2f2ec742bf486486e6150d77d2/Cheetah3-3.2.4.tar.gz"
-    sha256 "caabb9c22961a3413ac85cd1e5525ec9ca80daeba6555f4f60802b6c256e252b"
-  end
-  # cheetah ends here
-
-  resource "lxml" do
-    url "https://files.pythonhosted.org/packages/e4/19/8dfeef50623892577dc05245093e090bb2bab4c8aed5cad5b03208959563/lxml-4.4.2.tar.gz"
-    sha256 "eff69ddbf3ad86375c344339371168640951c302450c5d3e9936e98d6459db06"
-  end
-
-  resource "MarkupSafe" do
-    url "https://files.pythonhosted.org/packages/b9/2e/64db92e53b86efccfaea71321f597fa2e1b2bd3853d8ce658568f7a13094/MarkupSafe-1.1.1.tar.gz"
-    sha256 "29872e92839765e546828bb7754a68c418d927cd064fd4708fab9fe9c8bb116b"
-  end
-
-  resource "Mako" do
-    url "https://files.pythonhosted.org/packages/b0/3c/8dcd6883d009f7cae0f3157fb53e9afb05a0d3d33b3db1268ec2e6f4a56b/Mako-1.1.0.tar.gz"
-    sha256 "a36919599a9b7dc5d86a7a8988f23a9a3a3d083070023bab23d64f7f1d1e0a4b"
-  end
-
-  resource "six" do
-    url "https://files.pythonhosted.org/packages/94/3e/edcf6fef41d89187df7e38e868b2dd2182677922b600e880baad7749c865/six-1.13.0.tar.gz"
-    sha256 "30f610279e8b2578cab6db20741130331735c781b56053c59c4076da27f06b66"
-  end
-
-  resource "pyyaml" do
-    url "https://files.pythonhosted.org/packages/8d/c9/e5be955a117a1ac548cdd31e37e8fd7b02ce987f9655f5c7563c656d5dcb/PyYAML-5.2.tar.gz"
-    sha256 "c0ee8eca2c582d29c3c2ec6e2c4f703d1b7f1fb10bc72317355a746057e7346c"
+  resource "Cheetah" do
+    url "https://files.pythonhosted.org/packages/50/d5/34b30f650e889d0d48e6ea9337f7dcd6045c828b9abaac71da26b6bdc543/Cheetah3-3.2.5.tar.gz"
+    sha256 "ececc9ca7c58b9a86ce71eb95594c4619949e2a058d2a1af74c7ae8222515eb1"
   end
 
   resource "click" do
-    url "https://files.pythonhosted.org/packages/f8/5c/f60e9d8a1e77005f664b76ff8aeaee5bc05d0a91798afd7f53fc998dbc47/Click-7.0.tar.gz"
-    sha256 "5b94b49521f6456670fdb30cd82a4eca9412788a93fa6dd6df72c94d5a8ff2d7"
+    url "https://files.pythonhosted.org/packages/27/6f/be940c8b1f1d69daceeb0032fee6c34d7bd70e3e649ccac0951500b4720e/click-7.1.2.tar.gz"
+    sha256 "d2b5255c7c6349bc1bd1e59e08cd12acbbd63ce649f2588755783aa94dfb6b1a"
   end
 
   resource "click-plugins" do
@@ -113,22 +81,52 @@ class GnuradioAT38 < Formula
     sha256 "46ab999744a9d831159c3411bb0c79346d94a444df9a3a3742e9ed63645f264b"
   end
 
+  resource "Mako" do
+    url "https://files.pythonhosted.org/packages/72/89/402d2b4589e120ca76a6aed8fee906a0f5ae204b50e455edd36eda6e778d/Mako-1.1.3.tar.gz"
+    sha256 "8195c8c1400ceb53496064314c6736719c6f25e7479cd24c77be3d9361cddc27"
+  end
+
+  resource "six" do
+    url "https://files.pythonhosted.org/packages/6b/34/415834bfdafca3c5f451532e8a8d9ba89a21c9743a0c59fbd0205c7f9426/six-1.15.0.tar.gz"
+    sha256 "30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259"
+  end
+
+  resource "PyYAML" do
+    url "https://files.pythonhosted.org/packages/64/c2/b80047c7ac2478f9501676c988a5411ed5572f35d1beff9cae07d321512c/PyYAML-5.3.1.tar.gz"
+    sha256 "b8eac752c5e14d3eca0e6dd9199cd627518cb5ec06add0de9d32baeee6fe645d"
+  end
+
   resource "cppzmq" do
     url "https://raw.githubusercontent.com/zeromq/cppzmq/46fc0572c5e9f09a32a23d6f22fd79b841f77e00/zmq.hpp"
     sha256 "964031c0944f913933f55ad1610938105a6657a69d1ac5a6dd50e16a679104d5"
   end
 
+
     # fix
+  patch :p0 do
+    url "https://raw.githubusercontent.com/gsongx/homebrew-sdr/master/patch/gnuradio-maint-3.8-c51f5ba.diff"
+    sha256 "be99ffc8551f25bbc683222d27d03f00271b34154476500ba9ddb214fccc7c29"
+  end
+
+  # patch for boost 1.73.0, remove after next release
+  # https://github.com/gnuradio/gnuradio/pull/3566
   patch do
-    url "https://raw.githubusercontent.com/gsongx/homebrew-sdr/master/patch/gnuradio-maint-3.8-00-9142c1e.patch"
-    sha256 "250be25b7773482acda91191f1fa4907286a086f3ddd1ccc962ac379657294f0"
+    url "https://raw.githubusercontent.com/Homebrew/formula-patches/0d2af1812716a874d1e49268e999ea1a8ca9fc3c/gnuradio/boost-1.73.0.patch"
+    sha256 "7e4abd08210d242d65807b7e2419f163a58b4630027a3beaff0e325d044266d7"
+  end
+
+  # Add -undefined dynamic_lookup linker flag back for macOS
+  # https://github.com/gnuradio/gnuradio/pull/3674
+  patch do
+    url "https://github.com/gnuradio/gnuradio/commit/80ba62cb11cf604495e87a5e302e68eaf441eea9.patch?full_index=1"
+    sha256 "d12640f62b266b244950d84f2deb1544f41574229106a525e693159fb3fc80eb"
   end
 
 
   def install
     python = Formulary.factory 'python'
     # python3 -c 'from sys import version_info; print("python%d.%d" % version_info[0:2])'
-    pyver = "python3.7"
+    pyver = "python3.9"
 
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/#{pyver}/site-packages"
 
