@@ -8,12 +8,12 @@ class Soapyplutosdr < Formula
   depends_on "soapysdr"
   depends_on "cmake" => :build
   depends_on "ninja" => :build
-  depends_on "gsong2014/sdr/libiio"
-  depends_on "gsong2014/sdr/libad9361"
+  depends_on "gsongx/sdr/libiio"
+  depends_on "gsongx/sdr/libad9361"
 
   def install
-    libiio = Formulary.factory 'gsong2014/sdr/libiio'
-    libad9361 = Formulary.factory 'gsong2014/sdr/libad9361'
+    libiio = Formulary.factory 'gsongx/sdr/libiio'
+    libad9361 = Formulary.factory 'gsongx/sdr/libad9361'
 
     mktemp do
       system "cmake", "-G", "Ninja", buildpath,

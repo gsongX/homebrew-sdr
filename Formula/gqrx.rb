@@ -9,8 +9,8 @@ class Gqrx < Formula
   depends_on "qt5"
   depends_on "python"
   depends_on "portaudio"
-  depends_on "gsong2014/sdr/gnuradio"
-  depends_on "gsong2014/sdr/gr-osmosdr"
+  depends_on "gsongx/sdr/gnuradio"
+  depends_on "gsongx/sdr/gr-osmosdr"
 
   def install
     python = Formulary.factory 'python'

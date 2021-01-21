@@ -14,9 +14,9 @@ class GrIio < Formula
   depends_on "python"
   depends_on "gmp"
   depends_on "mpir"
-  depends_on "gsong2014/sdr/gnuradio@3.8"
-  depends_on "gsong2014/sdr/libiio"
-  depends_on "gsong2014/sdr/libad9361"
+  depends_on "gsongx/sdr/gnuradio@3.8"
+  depends_on "gsongx/sdr/libiio"
+  depends_on "gsongx/sdr/libad9361"
   depends_on "log4cpp"
   depends_on "swig"
 
@@ -31,8 +31,8 @@ class GrIio < Formula
 
   def install
     python = Formulary.factory 'python'
-    libad9361 = Formulary.factory 'gsong2014/sdr/libad9361'
-    libiio = Formulary.factory 'gsong2014/sdr/libiio'
+    libad9361 = Formulary.factory 'gsongx/sdr/libad9361'
+    libiio = Formulary.factory 'gsongx/sdr/libiio'
     pyver = 'python3.7'
 
 

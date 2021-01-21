@@ -6,7 +6,7 @@ class GrBaz < Formula
 
   depends_on 'cmake' => :build
   depends_on "ninja" => :build
-  depends_on 'gsong2014/sdr/gnuradio'
+  depends_on 'gsongx/sdr/gnuradio'
 
   def install
     mkdir 'build' do

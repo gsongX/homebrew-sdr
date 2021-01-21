@@ -50,17 +50,17 @@ class GnuradioAT38 < Formula
   end
 
   patch :p0 do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-C_CXX_STANDARD.next.diff"
+    url "https://raw.githubusercontent.com/gsongx/homebrew-sdr/master/patch/patch-C_CXX_STANDARD.next.diff"
     sha256 "71e0fb7bc5e5f5a96d5e827bf5e2beed9f528b953686cf0d6b4eb7ed95445390"
   end
 
   patch :p0 do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-fixes_for-thrift.next.diff"
+    url "https://raw.githubusercontent.com/gsongx/homebrew-sdr/master/patch/patch-fixes_for-thrift.next.diff"
     sha256 "626b59ee948f14cb5a1152280532b1b2a5aa885d90fa62b1addba81f2dc8158b"
   end
 
   patch :p0 do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/patch-fix-GNURadioControlPortClient-usage.next.diff"
+    url "https://raw.githubusercontent.com/gsongx/homebrew-sdr/master/patch/patch-fix-GNURadioControlPortClient-usage.next.diff"
     sha256 "fff82661a7643a2520b806b2e24d10a3d3fe7ff41d2afbd99a81d82e5c8228ef"
   end
 
@@ -120,7 +120,7 @@ class GnuradioAT38 < Formula
 
     # fix
   patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gnuradio-maint-3.8-00-9142c1e.patch"
+    url "https://raw.githubusercontent.com/gsongx/homebrew-sdr/master/patch/gnuradio-maint-3.8-00-9142c1e.patch"
     sha256 "250be25b7773482acda91191f1fa4907286a086f3ddd1ccc962ac379657294f0"
   end
 

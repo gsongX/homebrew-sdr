@@ -17,8 +17,8 @@ class GrOsmosdr < Formula
   depends_on "python"
   depends_on "gmp"
   depends_on "mpir"
-  depends_on "gsong2014/sdr/gnuradio@3.8"
-  depends_on "gsong2014/sdr/gr-iio"
+  depends_on "gsongx/sdr/gnuradio@3.8"
+  depends_on "gsongx/sdr/gr-iio"
   depends_on "librtlsdr"
   depends_on "hackrf"
   depends_on "log4cpp"
@@ -35,7 +35,7 @@ class GrOsmosdr < Formula
 
   def install
     python = Formulary.factory 'python'
-    gnuradio = Formulary.factory 'gsong2014/sdr/gnuradio@3.8'
+    gnuradio = Formulary.factory 'gsongx/sdr/gnuradio@3.8'
     pyver = 'python3.7'
 
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/#{pyver}/site-packages"

@@ -10,12 +10,12 @@ class GrLimesdr < Formula
   depends_on "python"
   depends_on "gmp"
   depends_on "swig"
-  depends_on "gsong2014/sdr/limesuite"
-  depends_on "gsong2014/sdr/gnuradio@3.8"
+  depends_on "gsongx/sdr/limesuite"
+  depends_on "gsongx/sdr/gnuradio@3.8"
 
    # fix
   patch do
-    url "https://raw.githubusercontent.com/gsong2014/homebrew-sdr/master/patch/gr-limesdr-python3+gnuradio3.8.patch"
+    url "https://raw.githubusercontent.com/gsongx/homebrew-sdr/master/patch/gr-limesdr-python3+gnuradio3.8.patch"
     sha256 "4aa968825c60d152c7f2a07125aa0aba0adbe156eb5420c9afca6582eb6f01ae"
   end
 
